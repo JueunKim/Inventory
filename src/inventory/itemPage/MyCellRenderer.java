@@ -34,28 +34,34 @@ public class MyCellRenderer extends DefaultListCellRenderer{
         
         setBackground(myColor);
         
-        if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< oneWeekAfter.getTime().getTime()){
-            //in 1 month
-            setBackground(Color.red);  
+        if(((java.sql.Date)list.getModel().getElementAt(index)).getTime() < now.getTime().getTime()){
+            myColor = Color.GRAY;
+            setBackground(myColor);
+        }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< oneWeekAfter.getTime().getTime()){
+            myColor = Color.red;
+            setBackground(myColor);  
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< twoWeekAfter.getTime().getTime()){
-            setBackground(Color.ORANGE);  
+            myColor = Color.ORANGE;
+            setBackground(myColor);  
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< fourWeekAfter.getTime().getTime()){
-            setBackground(new java.awt.Color(255, 255, 120));  
+            myColor = new java.awt.Color(255, 255, 120);
+            setBackground(myColor);  
         }
         if(isSelected){
-            int red = this.getBackground().getRed();
-            int green = this.getBackground().getGreen();
-            int blue = this.getBackground().getBlue();
+            Color selectionBackground = list.getSelectionBackground();
             
-            double back = 0.25;
-            double select = 0.75;
+            double rate = 0.3;
             
-            red = (int)(red*back+list.getSelectionBackground().getRed()*select);
-            green = (int)(green*back+list.getSelectionBackground().getGreen()*select);
-            blue = (int)(blue*back+list.getSelectionBackground().getBlue()*select);
-                    
-            setBackground(new Color(red,green,blue));
-        }    
+            int r = (int)(selectionBackground.getRed()*rate + myColor.getRed()*(1-rate));
+            int g = (int)(selectionBackground.getGreen()*rate + myColor.getGreen()*(1-rate));
+            int b = (int)(selectionBackground.getBlue()*rate + myColor.getBlue()*(1-rate));
+            
+            setBackground(new Color(r,g,b));
+            this.setBorder(new javax.swing.border.CompoundBorder(null, new javax.swing.border.LineBorder(Color.blue)));
+        }else{
+            this.setBorder(new javax.swing.border.CompoundBorder(null, new javax.swing.border.LineBorder(myColor)));
+        }
+                
         setText(list.getModel().getElementAt(index).toString());  
         setOpaque(true);  
         return this;  
