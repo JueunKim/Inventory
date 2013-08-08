@@ -16,8 +16,9 @@ public class ProjectBOMStockMain {
     public static ArrayList<String> PageList = null;
     
     private ProjectBOMStockMain(){
-        DBConnection.setConnection("root", "RLAqkdnf1125!");
-    
+        DBConnection.setWriteConnection("root", "gcw1234!");
+        DBConnection.setReadConnection("root", "gcw1234!");
+        
         f = new MainFrame();
         PageList = new ArrayList<String>();
         
