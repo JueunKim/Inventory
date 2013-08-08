@@ -12,20 +12,38 @@ import java.util.logging.Logger;
  * @author Kind
  */
 public class DBConnection {
-    private static Connection con = null;
+    private static Connection read = null;
+    private static Connection write = null;
     
     private DBConnection(){}
     
     public static Connection getConnection(){
-        return con;
+        return read;
     }
     
-    public static boolean setConnection(String userName, String password) {
+    public static boolean setReadConnection(String userName, String password) {
         try {
-            String ip = "54.214.19.198";
-            con = null;
-            con = DriverManager.getConnection("jdbc:mysql://"+ip,userName, password);
-            System.out.println("Database Connection Success");
+            String readIP = "54.214.19.198";
+            read = null;
+            read = DriverManager.getConnection("jdbc:mysql://"+readIP,userName, password);
+            System.out.println("Read Database Connection Success");
+            return true;
+        } catch (SQLException sqex) {
+            System.out.println("SQLException: " + sqex.getMessage());
+            System.out.println("SQLState: " + sqex.getSQLState());
+        }
+        return false;
+    }
+    /*
+            
+     */
+    
+    public static boolean setWriteConnection(String userName, String password) {
+        try {
+            String writeIP = "54.214.19.198";
+            write = null;
+            write = DriverManager.getConnection("jdbc:mysql://"+writeIP,userName, password);
+            System.out.println("Write Database Connection Success");
             return true;
         } catch (SQLException sqex) {
             System.out.println("SQLException: " + sqex.getMessage());
@@ -35,10 +53,10 @@ public class DBConnection {
     }
     
     public static void updateQuery(String sql){
-        if(con != null){
+        if(write != null){
             try {
                 Statement s = null;
-                s = con.createStatement();
+                s = write.createStatement();
                 
                 s.executeUpdate(sql);
             } catch (SQLException ex) {
@@ -61,10 +79,10 @@ public class DBConnection {
     
     public static ResultSet excuteQuery(String sql){
         ResultSet rs = null;
-        if(con != null){
+        if(read != null){
             try {
                 Statement s = null;
-                s = con.createStatement();
+                s = read.createStatement();
                 
                 rs = s.executeQuery(sql);
             } catch (SQLException ex) {
