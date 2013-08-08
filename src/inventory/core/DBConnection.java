@@ -22,8 +22,9 @@ public class DBConnection {
     
     public static boolean setConnection(String userName, String password) {
         try {
+            String ip = "54.214.19.198";
             con = null;
-            con = DriverManager.getConnection("jdbc:mysql://localhost",userName, password);
+            con = DriverManager.getConnection("jdbc:mysql://"+ip,userName, password);
             System.out.println("Database Connection Success");
             return true;
         } catch (SQLException sqex) {
