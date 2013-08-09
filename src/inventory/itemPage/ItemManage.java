@@ -198,6 +198,11 @@ public class ItemManage extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        nameList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nameListMouseClicked(evt);
+            }
+        });
         nameList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 nameListValueChanged(evt);
@@ -269,6 +274,11 @@ public class ItemManage extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        priceList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                priceListMouseClicked(evt);
+            }
+        });
         priceList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 priceListValueChanged(evt);
@@ -291,6 +301,11 @@ public class ItemManage extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        currentList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                currentListMouseClicked(evt);
+            }
+        });
         currentList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 currentListValueChanged(evt);
@@ -312,6 +327,11 @@ public class ItemManage extends javax.swing.JPanel {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        totalPriceList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                totalPriceListMouseClicked(evt);
+            }
         });
         totalPriceList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -385,6 +405,11 @@ public class ItemManage extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        expireDateList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                expireDateListMouseClicked(evt);
+            }
+        });
         expireDateList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 expireDateListValueChanged(evt);
@@ -399,6 +424,11 @@ public class ItemManage extends javax.swing.JPanel {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        descriptionList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descriptionListMouseClicked(evt);
+            }
         });
         descriptionList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -482,7 +512,7 @@ public class ItemManage extends javax.swing.JPanel {
                         .addComponent(modelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -494,17 +524,18 @@ public class ItemManage extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(priceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(totalPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1))
+                        .addComponent(currentLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(totalPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(totalPriceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1))
+                    .addComponent(totalPriceScrollPane))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(expireDateScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
@@ -516,7 +547,7 @@ public class ItemManage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchByNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(deductButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -692,12 +723,16 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
+        editPerform();
+    }//GEN-LAST:event_editButtonActionPerformed
+    
+    private void editPerform(){
         if(this.nameList.getSelectedIndex() >= 0){
             ((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
         }
-    }//GEN-LAST:event_editButtonActionPerformed
-
+    }
+    
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
         //this.id.get(this.nameList.getSelectedIndex())
@@ -846,6 +881,60 @@ public class ItemManage extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_categoryListMouseClicked
+
+    private void nameListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                editPerform();
+            }
+        }
+    }//GEN-LAST:event_nameListMouseClicked
+
+    private void priceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_priceListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                editPerform();
+            }
+        }
+    }//GEN-LAST:event_priceListMouseClicked
+
+    private void currentListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                editPerform();
+            }
+        }
+    }//GEN-LAST:event_currentListMouseClicked
+
+    private void totalPriceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalPriceListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                editPerform();
+            }
+        }
+    }//GEN-LAST:event_totalPriceListMouseClicked
+
+    private void expireDateListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_expireDateListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                editPerform();
+            }
+        }
+    }//GEN-LAST:event_expireDateListMouseClicked
+
+    private void descriptionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descriptionListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                editPerform();
+            }
+        }
+    }//GEN-LAST:event_descriptionListMouseClicked
     
     public void setSelectedListItem(String name){
         //System.out.println(this.nameList.getNextMatch(name, 0, Position.Bias.Forward));
