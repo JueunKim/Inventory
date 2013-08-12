@@ -283,23 +283,40 @@ public class ItemChange extends javax.swing.JPanel {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
         ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
         if(this.originalName != null && !this.originalName.trim().equals("")){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
         }
-        this.clearElements();    
+        inventory.core.ProjectBOMStockMain.display.dispose();
+        //this.clearElements();    
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void changeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtonActionPerformed
         // TODO add your handling code here:
         //Integer type = 0;
-        if(JOptionPane.showConfirmDialog(this, "This will be saved. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
+        if(JOptionPane.showConfirmDialog(this, "This will be saved. \""+((javax.swing.JButton)evt.getSource()).getLabel()+"\" Number is \n\n\"\""+this.changeTextField.getText()+"\"\"\n\n Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             return;
         }
         
         Integer type = 0;
         if(((javax.swing.JButton)evt.getSource()).getText().equals("Deduct")){
-            type = 2;
+            try {
+                String sql = "SELECT current-"+this.changeTextField.getText()+" FROM inventory.item where id = "+this.id+";";
+                
+                ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);
+                
+                if(rs.next()){
+                    int remainder = rs.getInt(1);
+                    if(remainder < 0){
+                        JOptionPane.showMessageDialog(this, "Remainder will be under 0, please retype the value","Alert",JOptionPane.OK_OPTION);
+                        return;
+                    }
+                }
+                
+                type = 2;
+            } catch (SQLException ex) {
+                Logger.getLogger(ItemChange.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else if(((javax.swing.JButton)evt.getSource()).getText().equals("Add")){
             type = 1;
         }
@@ -322,13 +339,19 @@ public class ItemChange extends javax.swing.JPanel {
         }
         clearElements();
         
+        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
+        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(this.nameTextField.getText());
+        
+        inventory.core.ProjectBOMStockMain.display.dispose();
+        
+        /*
         if(!(JOptionPane.showConfirmDialog(this, "Save was Done. Do you want to Continue?!","Alert",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
             if(this.originalName != null && !this.originalName.trim().equals("")){
                 ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
             }
-        }
+        }*/
         
     }//GEN-LAST:event_changeButtonActionPerformed
 
