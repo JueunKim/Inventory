@@ -11,18 +11,43 @@ import javax.swing.*;
  * @author Kind
  */
 public class ProjectBOMStockMain {
+    public static ArrayList<String> roles;
+    public static ArrayList<String> table_type = null;
+    
     private static JFrame f = null;
+    public static JFrame display = null;
     
     public static ArrayList<String> PageList = null;
     
     private ProjectBOMStockMain(){
-        DBConnection.setWriteConnection("root", "gcw1234!");
-        DBConnection.setReadConnection("root", "gcw1234!");
+        //DBConnection.setWriteConnection("root", "gcw1234!");
+        //DBConnection.setReadConnection("root", "gcw1234!");
+        DBConnection.setWriteConnection("root", "RLAqkdnf1125!");
+        DBConnection.setReadConnection("root", "RLAqkdnf1125!");
         
         f = new MainFrame();
         PageList = new ArrayList<String>();
         
+        setMetaData();
+        
         initPage();
+    }
+    
+    private void setMetaData(){
+        roles = new ArrayList<String>();
+        roles.add("Dumy");
+        roles.add("Admin");
+        roles.add("User");
+        roles.add("Test");
+        roles.add("Waiting Permision");
+        
+        table_type = new ArrayList<String>();
+        table_type.add("Dumy");
+        table_type.add("None");
+        table_type.add("Category");
+        table_type.add("Model");
+        table_type.add("Nation");
+        table_type.add("Item");
     }
     
     private void initPage(){
