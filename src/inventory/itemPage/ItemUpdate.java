@@ -362,11 +362,12 @@ public class ItemUpdate extends javax.swing.JPanel {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
         ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
         if(this.originalName != null && !this.originalName.trim().equals("")){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
         }
-        this.clearElements();    
+        inventory.core.ProjectBOMStockMain.display.dispose();
+        //this.clearElements();    
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void currentTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_currentTextFieldKeyTyped
@@ -412,14 +413,15 @@ public class ItemUpdate extends javax.swing.JPanel {
             }
         }
         
-        if(JOptionPane.showConfirmDialog(this, "Save was done!, Continue to Update?","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
+        //if(JOptionPane.showConfirmDialog(this, "Save was done!, Continue to Update?","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
-            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
+            //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
             this.originalName = this.nameTextField.getText();
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(this.originalName);
-        }
-        if(id == 0)
-            this.clearElements();
+        //}
+        inventory.core.ProjectBOMStockMain.display.dispose();
+        //if(id == 0)
+            //this.clearElements();
     }//GEN-LAST:event_updateButtonActionPerformed
     
     private boolean edit() throws SQLException{
