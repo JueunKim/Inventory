@@ -92,12 +92,15 @@ public class ItemManage extends javax.swing.JPanel {
         try {
             ResultSet rs = null;
             
-            String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by "+order_by+" "+order+";";
+            String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by "+order_by+" "+order+";";
             
             rs = inventory.core.DBConnection.excuteQuery(sql);  
             
             if(rs != null){
                 while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
                     this.id.add(rs.getInt("id"));
                     this.itemNameArrayList.add(rs.getString("itemname"));
                     this.categoryNameArrayList.add(rs.getString("categoryname"));
@@ -251,6 +254,11 @@ public class ItemManage extends javax.swing.JPanel {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        packageList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                packageListMouseClicked(evt);
+            }
         });
         packageList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -735,12 +743,30 @@ public class ItemManage extends javax.swing.JPanel {
     
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
-        //this.id.get(this.nameList.getSelectedIndex())
         if(this.nameList.getSelectedIndex()>=0){
             String name = null;
             if(JOptionPane.showConfirmDialog(this, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
                 name = this.nameList.getSelectedValue().toString();
-                inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`item` WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';");
+                
+                String s = null;
+                s = JOptionPane.showInputDialog(this, "Please Type a Reason", "Drop",JOptionPane.OK_CANCEL_OPTION);
+                
+                if(s != null && !s.trim().equals("")){
+                    try {
+                        //INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('desc', 'user_id', 'tabld_id', 'table_type');
+                        String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+this.id.get(this.nameList.getSelectedIndex())+"', '"+inventory.core.ProjectBOMStockMain.table_type.indexOf("Item")+"');";
+                        ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
+                        
+                        if(rs.next()){
+                            sql = "UPDATE `inventory`.`item` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';";
+                            inventory.core.DBConnection.updateQuery(sql);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`item` WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';");
                 this.loadDataByName("");
                 JOptionPane.showMessageDialog(this, name + " was Deleted.","Alert",JOptionPane.OK_OPTION);
             }
@@ -749,12 +775,19 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void deductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deductButtonActionPerformed
         // TODO add your handling code here:
-        if(this.nameList.getSelectedIndex() >= 0){
-            ((inventory.itemPage.ItemChange)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemChange"))).setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
-            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemChange"));
-        }
+        deductPerformed();
     }//GEN-LAST:event_deductButtonActionPerformed
-
+    
+    private void deductPerformed(){
+        if(this.nameList.getSelectedIndex() >= 0){
+            inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
+            p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
+                    
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Deduct");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+    }
+    
     private void expireDateListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_expireDateListValueChanged
         // TODO add your handling code here:
         if(evt.getSource() instanceof javax.swing.JList)
@@ -855,8 +888,11 @@ public class ItemManage extends javax.swing.JPanel {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
         if(this.nameList.getSelectedIndex() >= 0){
-            ((inventory.itemPage.ItemChange)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemChange"))).setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Add");
-            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemChange"));
+            inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
+            p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Add");
+                    
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Add");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -884,57 +920,50 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void nameListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
-            if(this.nameList.getSelectedIndex()>=0){
-                editPerform();
-            }
-        }
+        doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_nameListMouseClicked
 
-    private void priceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_priceListMouseClicked
-        // TODO add your handling code here:
+    private void doubleClickOnListExceptModelAndCategory(java.awt.event.MouseEvent evt){
         if(evt.getClickCount()==2){
             if(this.nameList.getSelectedIndex()>=0){
-                editPerform();
+                if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("Admin")){
+                    editPerform();
+                }else if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("User")){
+                    deductPerformed();
+                }
             }
         }
+    }
+    
+    private void priceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_priceListMouseClicked
+        // TODO add your handling code here:
+        doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_priceListMouseClicked
 
     private void currentListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
-            if(this.nameList.getSelectedIndex()>=0){
-                editPerform();
-            }
-        }
+        doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_currentListMouseClicked
 
     private void totalPriceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_totalPriceListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
-            if(this.nameList.getSelectedIndex()>=0){
-                editPerform();
-            }
-        }
+        doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_totalPriceListMouseClicked
 
     private void expireDateListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_expireDateListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
-            if(this.nameList.getSelectedIndex()>=0){
-                editPerform();
-            }
-        }
+        doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_expireDateListMouseClicked
 
     private void descriptionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descriptionListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
-            if(this.nameList.getSelectedIndex()>=0){
-                editPerform();
-            }
-        }
+        doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_descriptionListMouseClicked
+
+    private void packageListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_packageListMouseClicked
+        // TODO add your handling code here:
+        doubleClickOnListExceptModelAndCategory(evt);
+    }//GEN-LAST:event_packageListMouseClicked
     
     public void setSelectedListItem(String name){
         //System.out.println(this.nameList.getNextMatch(name, 0, Position.Bias.Forward));
