@@ -64,6 +64,12 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
+        idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idTextFieldKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,6 +156,13 @@ public class Login extends javax.swing.JPanel {
             loginEvent();
         }
     }//GEN-LAST:event_passwordTextFieldKeyTyped
+
+    private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
+        // TODO add your handling code here:
+        if(evt.getKeyChar() == '\n'){
+            this.passwordTextField.grabFocus();
+        }
+    }//GEN-LAST:event_idTextFieldKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel idLabel;
