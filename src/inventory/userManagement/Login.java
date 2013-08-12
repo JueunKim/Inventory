@@ -124,9 +124,11 @@ public class Login extends javax.swing.JPanel {
                 
                 switch(inventory.core.MainFrame.role){
                     case 1:
+                        ((inventory.userPage.UserMain)ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"))).loadDataByName("");
                         ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
                         break;
                     case 2:
+                        ((inventory.userPage.UserMain)ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"))).loadDataByName("");
                         ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"));
                         break;
                     case 4:
