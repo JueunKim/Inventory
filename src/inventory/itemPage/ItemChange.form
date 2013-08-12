@@ -93,7 +93,7 @@
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="currentTextField" pref="27" max="32767" attributes="0"/>
+                              <Component id="currentTextField" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
