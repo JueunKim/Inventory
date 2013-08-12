@@ -386,20 +386,30 @@ public class ItemUpdate extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
         if(id == 0){
-            if(!register()){
-                JOptionPane.showMessageDialog(this, "Register Fail","Warning",JOptionPane.OK_OPTION);
-                return;
+            try {
+                if(!register()){
+                    JOptionPane.showMessageDialog(this, "Register Fail","Warning",JOptionPane.OK_OPTION);
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            if(!edit()){
-                JOptionPane.showMessageDialog(this, "Edit Fail","Warning",JOptionPane.OK_OPTION);
-                return;
+            try {
+                if(!edit()){
+                    JOptionPane.showMessageDialog(this, "Edit Fail","Warning",JOptionPane.OK_OPTION);
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
         if(this.originalCurrent != Integer.parseInt(this.currentTextField.getText())){
-            String sql = "INSERT INTO `inventory`.`change` (`item_id`, `amount`, `changetype_id`, `editor_id`, `date`) VALUES ('"+this.id+"', '"+this.currentTextField.getText()+"', '3', '"+inventory.core.MainFrame.user_id+"', now());";
-            inventory.core.DBConnection.updateQuery(sql);
+            if(this.id != 0){
+                String sql = "INSERT INTO `inventory`.`change` (`item_id`, `amount`, `changetype_id`, `editor_id`, `date`) VALUES ('"+this.id+"', '"+this.currentTextField.getText()+"', '3', '"+inventory.core.MainFrame.user_id+"', now());";
+                inventory.core.DBConnection.updateQuery(sql);
+            }
         }
         
         if(JOptionPane.showConfirmDialog(this, "Save was done!, Continue to Update?","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
@@ -412,7 +422,7 @@ public class ItemUpdate extends javax.swing.JPanel {
             this.clearElements();
     }//GEN-LAST:event_updateButtonActionPerformed
     
-    private boolean edit(){
+    private boolean edit() throws SQLException{
         boolean validation = false;
         
         if(JOptionPane.showConfirmDialog(this, "This will be saved. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
@@ -512,7 +522,7 @@ public class ItemUpdate extends javax.swing.JPanel {
         return validatation;
     }
     
-    private boolean register(){
+    private boolean register() throws SQLException{
         boolean validation = false;
         if(JOptionPane.showConfirmDialog(this, "This will be saved. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             return validation;
@@ -543,7 +553,12 @@ public class ItemUpdate extends javax.swing.JPanel {
                 "', '"+this.category_id+"', '"+Float.parseFloat(this.priceTextField.getText())+"', '"+this.nation_id+"', '"+this.currentTextField.getText()+"', '"+inventory.core.MainFrame.user_id+
                 "', '1', '"+this.expiredate.toString()+"');";
         
-        inventory.core.DBConnection.updateQuery(sql);
+        ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
+        
+        if(rs.next()){
+            this.id = (int)rs.getLong(1);
+            System.out.println(this.id + "in edit");
+        }
         
         validation = true;
         return validation;
