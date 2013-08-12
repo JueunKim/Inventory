@@ -710,8 +710,15 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        ((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(0,"","","","");
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
+        if(this.nameList.getSelectedIndex() >= 0){
+            inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
+            p.setElements(0,"","","","");
+                    
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "ItemUpdate");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+        //((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(0,"","","","");
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
         //((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setChangeConfig(null,"",null,"Register");
     }//GEN-LAST:event_registerButtonActionPerformed
 
@@ -739,7 +746,7 @@ public class ItemManage extends javax.swing.JPanel {
             inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
                     
-            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Deduct");
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Edit");
             inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
         
