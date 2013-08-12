@@ -592,7 +592,7 @@ public class ItemManage extends javax.swing.JPanel {
                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(190, 190, 190)
+                        .addGap(208, 208, 208)
                         .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -713,7 +713,9 @@ public class ItemManage extends javax.swing.JPanel {
         if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
             p.setElements(0,"","","","");
-                    
+            
+            if(inventory.core.ProjectBOMStockMain.display != null)
+                inventory.core.ProjectBOMStockMain.display.dispose();
             inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "ItemUpdate");
             inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
@@ -724,10 +726,17 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
+        
         if(inventory.core.MainFrame.role == 1){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
         }else{
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("Login"));
+        }
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
         }
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -745,7 +754,10 @@ public class ItemManage extends javax.swing.JPanel {
         if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
-                    
+            
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }
             inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Edit");
             inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
@@ -799,7 +811,9 @@ public class ItemManage extends javax.swing.JPanel {
         if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
-                    
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }        
             inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Deduct");
             inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
@@ -907,7 +921,9 @@ public class ItemManage extends javax.swing.JPanel {
         if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Add");
-                    
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }        
             inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Add");
             inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
