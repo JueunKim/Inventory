@@ -736,9 +736,19 @@ public class ItemManage extends javax.swing.JPanel {
     
     private void editPerform(){
         if(this.nameList.getSelectedIndex() >= 0){
+            inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
+            p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
+                    
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Deduct");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+        
+        /*
+        if(this.nameList.getSelectedIndex() >= 0){
             ((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
         }
+        */
     }
     
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
