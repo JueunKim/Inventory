@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
 import javax.swing.text.Position;
 
 /**
@@ -699,8 +700,8 @@ public class ItemManage extends javax.swing.JPanel {
                     p.setChangeConfig(0, rs.getString("name"), rs.getInt("contact"), "");
                     p.showMode(true);
                     
-                    javax.swing.JFrame f = new inventory.core.ShowingFrame(p, "Model");
-                    f.setVisible(true);
+                    inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Model");
+                    inventory.core.ProjectBOMStockMain.display.setVisible(true);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
@@ -710,15 +711,13 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        if(this.nameList.getSelectedIndex() >= 0){
-            inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
-            p.setElements(0,"","","","");
-            
-            if(inventory.core.ProjectBOMStockMain.display != null)
-                inventory.core.ProjectBOMStockMain.display.dispose();
-            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "ItemUpdate");
-            inventory.core.ProjectBOMStockMain.display.setVisible(true);
-        }
+        inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
+        p.setElements(0,"","","","");
+
+        if(inventory.core.ProjectBOMStockMain.display != null)
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "ItemUpdate");
+        inventory.core.ProjectBOMStockMain.display.setVisible(true);
         //((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(0,"","","","");
         //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
         //((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setChangeConfig(null,"",null,"Register");
@@ -942,8 +941,8 @@ public class ItemManage extends javax.swing.JPanel {
                     p.setEditConfig(0, rs.getString("name"), rs.getString("description"));
                     p.showMode(true);
 
-                    javax.swing.JFrame f = new inventory.core.ShowingFrame(p, "Category");
-                    f.setVisible(true);
+                    inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Category");
+                    inventory.core.ProjectBOMStockMain.display.setVisible(true);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
