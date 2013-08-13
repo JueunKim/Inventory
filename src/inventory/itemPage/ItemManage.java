@@ -4,23 +4,13 @@
  */
 package inventory.itemPage;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
 import javax.swing.text.Position;
 
 /**
@@ -50,7 +40,7 @@ public class ItemManage extends javax.swing.JPanel {
         this.loadDataByName(this.searchByNameTextField.getText());
     }
 
-    public void loadDataByName(String name) {
+    public final void loadDataByName(String name) {
         if(inventory.core.MainFrame.role == 1){
             this.registerButton.setVisible(true);
             this.dropButton.setVisible(true);
@@ -69,21 +59,21 @@ public class ItemManage extends javax.swing.JPanel {
             this.addButton.setVisible(false);
         }
         
-        this.id = new ArrayList<Integer>();
-        this.itemNameArrayList = new ArrayList<String>();
-        this.categoryNameArrayList = new ArrayList<String>();
-        this.modelNameArrayList =  new ArrayList<String>();
-        this.packageArrayList =  new ArrayList<Integer>();
-        this.priceArrayList = new ArrayList<Float>();
-        this.currentArrayList =  new ArrayList<Integer>();
-        this.totalPriceArrayList = new ArrayList<Float>();
-        this.expireDateArrayList = new ArrayList<Date>();
-        this.descriptionArrayList = new ArrayList<String>();
-        this.nationArrayList = new ArrayList<String>();
+        this.id = new ArrayList<>();
+        this.itemNameArrayList = new ArrayList<>();
+        this.categoryNameArrayList = new ArrayList<>();
+        this.modelNameArrayList =  new ArrayList<>();
+        this.packageArrayList =  new ArrayList<>();
+        this.priceArrayList = new ArrayList<>();
+        this.currentArrayList =  new ArrayList<>();
+        this.totalPriceArrayList = new ArrayList<>();
+        this.expireDateArrayList = new ArrayList<>();
+        this.descriptionArrayList = new ArrayList<>();
+        this.nationArrayList = new ArrayList<>();
         //this.modelTextPane.setText("");
         
-        ArrayList<String> priceOnListArrayList = new ArrayList<String>();
-        ArrayList<String> totalPriceOnListArrayList = new ArrayList<String>();
+        ArrayList<String> priceOnListArrayList = new ArrayList<>();
+        ArrayList<String> totalPriceOnListArrayList = new ArrayList<>();
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description 
         //FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category 
@@ -91,11 +81,9 @@ public class ItemManage extends javax.swing.JPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         try {
-            ResultSet rs = null;
-            
             String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by "+order_by+" "+order+";";
             
-            rs = inventory.core.DBConnection.excuteQuery(sql);  
+            ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);  
             
             if(rs != null){
                 while(rs.next()){
@@ -112,12 +100,15 @@ public class ItemManage extends javax.swing.JPanel {
                     this.totalPriceArrayList.add(rs.getFloat("total"));
                     String priceAndNation = null;
                     String totalPriceAndNation = null;
-                    if(this.nationArrayList.get(this.nationArrayList.size()-1).equals("South Korea")){
-                        priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
-                        totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
-                    }else if(this.nationArrayList.get(this.nationArrayList.size()-1).equals("Malawi")){
-                        priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
-                        totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
+                    switch (this.nationArrayList.get(this.nationArrayList.size()-1)) {
+                        case "South Korea":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
+                            break;
+                        case "Malawi":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
+                            break;
                     }
                     priceOnListArrayList.add(priceAndNation);
                     totalPriceOnListArrayList.add(totalPriceAndNation);
@@ -772,12 +763,10 @@ public class ItemManage extends javax.swing.JPanel {
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
         if(this.nameList.getSelectedIndex()>=0){
-            String name = null;
             if(JOptionPane.showConfirmDialog(this, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
-                name = this.nameList.getSelectedValue().toString();
+                String name = this.nameList.getSelectedValue().toString();
                 
-                String s = null;
-                s = JOptionPane.showInputDialog(this, "Please Type a Reason", "Drop",JOptionPane.OK_CANCEL_OPTION);
+                String s = JOptionPane.showInputDialog(this, "Please Type a Reason", "Drop",JOptionPane.OK_CANCEL_OPTION);
                 
                 if(s != null && !s.trim().equals("")){
                     try {
