@@ -104,7 +104,10 @@ public class CategoryRegister extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.MainFrame.myPanelPast));
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.MainFrame.myPanelPast));
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
@@ -117,10 +120,12 @@ public class CategoryRegister extends javax.swing.JPanel {
                     if(dialogResult == JOptionPane.YES_OPTION){
                         inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`category` (`name`, `description`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");
                         this.clear();
-                        
+                        ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manager\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
-                            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));
-                            ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
+                            //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));
+                            if(inventory.core.ProjectBOMStockMain.display != null){
+                                inventory.core.ProjectBOMStockMain.display.dispose();
+                            }
                         }
                     }
                 }else{
