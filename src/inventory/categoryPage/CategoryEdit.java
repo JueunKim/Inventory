@@ -102,7 +102,10 @@ public class CategoryEdit extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.MainFrame.myPanelPast));
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.MainFrame.myPanelPast));
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
     }//GEN-LAST:event_backButtonActionPerformed
 
     public void showMode(boolean show){
@@ -137,10 +140,13 @@ public class CategoryEdit extends javax.swing.JPanel {
                     }
                     
                     if(saved){
+                        ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manage\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
-                            this.clear();
-                            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));
-                             ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
+                            //this.clear();
+                            //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));
+                            if(inventory.core.ProjectBOMStockMain.display != null){
+                                inventory.core.ProjectBOMStockMain.display.dispose();
+                            }
                         }
                     }
                 }
