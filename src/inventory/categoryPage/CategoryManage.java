@@ -46,6 +46,9 @@ public class CategoryManage extends javax.swing.JPanel {
             
             if(rs != null){
                 while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
                     list.add(rs.getString("name"));
                     pane.add(rs.getString("description"));
                     id.add(rs.getInt("id"));
@@ -155,31 +158,101 @@ public class CategoryManage extends javax.swing.JPanel {
         // TODO add your handling code here:
         //System.out.println(this.categoryNameList.getSelectedIndex());
         this.descriptionTextPane.setText(this.pane.get(this.categoryNameList.getSelectedIndex()));
+        if(this.categoryNameList.getSelectedIndex() >= 0 && evt.getClickCount() == 2){
+            inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();
+            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()));
+            
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryEdit");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
     }//GEN-LAST:event_categoryNameListMouseClicked
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
         inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
+        /*
         if(this.categoryNameList.getSelectedIndex()>=0 && this.categoryNameList.getSelectedIndex() < list.size()){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryEdit"));
             ((inventory.categoryPage.CategoryEdit)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryEdit"))).setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()));
+        }f1
+        */
+        if(this.categoryNameList.getSelectedIndex() >= 0){
+            inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();
+            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()));
+            
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryEdit");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
+        /*
         int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Delete? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
         
         if(dialogResult == JOptionPane.YES_OPTION){
             inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`category` WHERE `id`='"+id.get(this.categoryNameList.getSelectedIndex())+"';");
             this.LoadData();
         }
+        */
+        dropAndDisable(this.id, this.categoryNameList, 2, this);
     }//GEN-LAST:event_dropButtonActionPerformed
 
+    public void dropAndDisable(ArrayList<Integer> ids, javax.swing.JList list, int table_type, Object obj){
+        if(list.getSelectedIndex()>=0){
+            String name = null;
+            if(JOptionPane.showConfirmDialog(this, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
+                name = list.getSelectedValue().toString();
+                
+                String s = null;
+                s = JOptionPane.showInputDialog(this, "Please Type a Reason", "Drop",JOptionPane.OK_CANCEL_OPTION);
+                
+                if(s != null && !s.trim().equals("")){
+                    try {
+                        //INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('desc', 'user_id', 'tabld_id', 'table_type');
+                        String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+ids.get(list.getSelectedIndex())+"', '"+table_type+"');";
+                        
+                        
+                        ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
+                        
+                        if(rs.next()){
+                            String table = null;
+                            
+                            table = inventory.core.ProjectBOMStockMain.table_type.get(table_type).toLowerCase();
+                            sql = "UPDATE `inventory`.`"+table+"` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+ids.get(list.getSelectedIndex())+"';";
+                            
+                            inventory.core.DBConnection.updateQuery(sql);
+                        }
+                    } catch (SQLException ex) {
+                        //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Please Type a Reason.","Alert",JOptionPane.OK_OPTION);
+                    return;
+                }
+                
+                //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`item` WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';");
+                if(obj instanceof CategoryManage){
+                    ((CategoryManage)obj).LoadData();
+                }
+                JOptionPane.showMessageDialog(this, name + " was Deleted.","Alert",JOptionPane.OK_OPTION);
+            }
+        }
+    }
+    
     private void categoryNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_categoryNameListValueChanged
         // TODO add your handling code here:
         if(this.categoryNameList.getSelectedIndex()>=0 && this.categoryNameList.getSelectedIndex() < pane.size())
@@ -188,7 +261,13 @@ public class CategoryManage extends javax.swing.JPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryRegister"));
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryRegister"));
+        inventory.categoryPage.CategoryRegister p = new inventory.categoryPage.CategoryRegister();
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
+        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryRegister");
+        inventory.core.ProjectBOMStockMain.display.setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private ArrayList<String> list = null;
