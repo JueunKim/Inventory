@@ -366,7 +366,9 @@ public class ItemUpdate extends javax.swing.JPanel {
         if(this.originalName != null && !this.originalName.trim().equals("")){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
         }
-        inventory.core.ProjectBOMStockMain.display.dispose();
+        if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+           ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+        }
         //this.clearElements();    
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -419,7 +421,9 @@ public class ItemUpdate extends javax.swing.JPanel {
             this.originalName = this.nameTextField.getText();
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(this.originalName);
         //}
-        inventory.core.ProjectBOMStockMain.display.dispose();
+        if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+           ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+        }
         //if(id == 0)
             //this.clearElements();
     }//GEN-LAST:event_updateButtonActionPerformed

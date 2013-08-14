@@ -716,10 +716,6 @@ public class ItemManage extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        if(inventory.core.ProjectBOMStockMain.display != null){
-            inventory.core.ProjectBOMStockMain.display.dispose();
-        }
-        
         if(inventory.core.MainFrame.role == 1){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
         }else{

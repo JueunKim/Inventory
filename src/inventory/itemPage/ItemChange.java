@@ -287,7 +287,12 @@ public class ItemChange extends javax.swing.JPanel {
         if(this.originalName != null && !this.originalName.trim().equals("")){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
         }
-        inventory.core.ProjectBOMStockMain.display.dispose();
+        
+        if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+           ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+        }
+        
+        //inventory.core.ProjectBOMStockMain.display.dispose();
         //this.clearElements();    
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -342,8 +347,9 @@ public class ItemChange extends javax.swing.JPanel {
         ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
         ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(this.nameTextField.getText());
         
-        inventory.core.ProjectBOMStockMain.display.dispose();
-        
+        if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+           ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+        }
         /*
         if(!(JOptionPane.showConfirmDialog(this, "Save was Done. Do you want to Continue?!","Alert",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");

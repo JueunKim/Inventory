@@ -103,8 +103,8 @@ public class CategoryEdit extends javax.swing.JPanel {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
         //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.MainFrame.myPanelPast));
-        if(inventory.core.ProjectBOMStockMain.display != null){
-            inventory.core.ProjectBOMStockMain.display.dispose();
+        if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+           ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
         }
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -144,9 +144,9 @@ public class CategoryEdit extends javax.swing.JPanel {
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manage\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
                             //this.clear();
                             //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));
-                            if(inventory.core.ProjectBOMStockMain.display != null){
-                                inventory.core.ProjectBOMStockMain.display.dispose();
-                            }
+                            if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+                                ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+                             }
                         }
                     }
                 }
