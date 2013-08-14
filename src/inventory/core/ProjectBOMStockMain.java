@@ -92,6 +92,10 @@ public class ProjectBOMStockMain {
         return ((inventory.core.MainFrame)f).getPage(i);
     }
     
+    public static javax.swing.JFrame getMainFrame(){
+        return f;
+    }
+    
     public static void main(String[] args){
         new ProjectBOMStockMain().setPage(PageList.indexOf("Login"));
     }

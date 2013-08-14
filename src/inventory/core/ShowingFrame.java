@@ -4,6 +4,9 @@
  */
 package inventory.core;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author Kind
@@ -37,7 +40,17 @@ public class ShowingFrame extends javax.swing.JFrame {
     private void myInitComponents() {
         //jPanel1 = new javax.swing.JPanel();
         getContentPane().removeAll();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if(inventory.core.ProjectBOMStockMain.getMainFrame() != null){
+                   inventory.core.ProjectBOMStockMain.getMainFrame().setEnabled(true);
+                }
+                ShowingFrame.this.dispose();
+            }
+        }
+                );
 /*        
         mainMenuBar = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
@@ -64,10 +77,16 @@ public class ShowingFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         
-        this.setLocation(100, 100);
+        this.setLocation(50, 50);
         //this.setLocation(-1600, 100);
         
         pack();
+    }
+    
+    @Override
+    public void dispose(){
+        inventory.core.ProjectBOMStockMain.getMainFrame().setEnabled(true);
+        super.dispose();
     }
     
     public void setPage(){
@@ -75,6 +94,7 @@ public class ShowingFrame extends javax.swing.JFrame {
             if(myPanel != null)
                 myInitComponents();
             this.setTitle(title);
+            inventory.core.ProjectBOMStockMain.getMainFrame().setEnabled(false);
         }else{
             /*
              todo
@@ -93,7 +113,7 @@ public class ShowingFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
