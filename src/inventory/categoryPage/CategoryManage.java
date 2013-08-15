@@ -208,7 +208,7 @@ public class CategoryManage extends javax.swing.JPanel {
             this.LoadData();
         }
         */
-        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.categoryNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Category"), this);
+        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.categoryNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Category"));
     }//GEN-LAST:event_dropButtonActionPerformed
 
     private void categoryNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_categoryNameListValueChanged

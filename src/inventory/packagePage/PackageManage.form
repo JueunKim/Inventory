@@ -149,6 +149,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="packageRegisterValueTextField">
       <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="packageRegisterValueTextFieldKeyReleased"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="packageRegisterValueTextFieldKeyTyped"/>
       </Events>
     </Component>

@@ -232,7 +232,7 @@ public class ModelManage extends javax.swing.JPanel {
             this.LoadData();
         }
         */
-        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.modelNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Model"), this);
+        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.modelNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Model"));
         this.loadDataByName(this.nameSearchTextField.getText());
     }//GEN-LAST:event_dropButtonActionPerformed
 

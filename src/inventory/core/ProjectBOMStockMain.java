@@ -4,6 +4,10 @@
  */
 package inventory.core;
 import inventory.categoryPage.CategoryManage;
+import inventory.itemPage.ItemManage;
+import inventory.modelPage.ModelManage;
+import inventory.nationPage.NationManage;
+import inventory.packagePage.PackageManage;
 import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,6 +56,7 @@ public class ProjectBOMStockMain {
         table_type.add("Model");
         table_type.add("Nation");
         table_type.add("Item");
+        table_type.add("Package");
     }
     
     private void initPage(){
@@ -104,7 +109,7 @@ public class ProjectBOMStockMain {
         new ProjectBOMStockMain().setPage(PageList.indexOf("Login"));
     }
     
-    public static void dropAndDisable(Component com, ArrayList<Integer> ids, javax.swing.JList list, int table_type, Object obj){
+    public static void dropAndDisable(Component com, ArrayList<Integer> ids, javax.swing.JList list, int table_type){
         if(list.getSelectedIndex()>=0){
             String name = null;
             if(JOptionPane.showConfirmDialog(com, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
@@ -138,8 +143,16 @@ public class ProjectBOMStockMain {
                 }
                 
                 //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`item` WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';");
-                if(obj instanceof CategoryManage){
-                    ((CategoryManage)obj).LoadData();
+                if(com instanceof CategoryManage){
+                    ((CategoryManage)com).LoadData();
+                }else if(com instanceof ModelManage){
+                    ((ModelManage)com).loadDataByName("");
+                }else if(com instanceof PackageManage){
+                    ((PackageManage)com).loadDataByName("");
+                }else if(com instanceof ItemManage){
+                    ((ItemManage)com).loadDataByName("");
+                }else if(com instanceof NationManage){
+                    ((NationManage)com).LoadData();
                 }
                 JOptionPane.showMessageDialog(com, name + " was Deleted.","Alert",JOptionPane.OK_OPTION);
             }

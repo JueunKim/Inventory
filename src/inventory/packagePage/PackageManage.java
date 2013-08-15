@@ -83,6 +83,9 @@ public class PackageManage extends javax.swing.JPanel {
         packageRegisterValueLabel.setText("RegisterValue");
 
         packageRegisterValueTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                packageRegisterValueTextFieldKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 packageRegisterValueTextFieldKeyTyped(evt);
             }
@@ -156,12 +159,16 @@ public class PackageManage extends javax.swing.JPanel {
 
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
+        /*
         int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Delete? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
 
         if(dialogResult == JOptionPane.YES_OPTION){
             inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`package` WHERE `id`='"+id.get(this.packageNameList.getSelectedIndex())+"';");
             this.loadDataByName(this.packageSearchTextField.getText());
         }
+        */
+        
+        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.packageNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Package"));
     }//GEN-LAST:event_dropButtonActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
@@ -210,6 +217,13 @@ public class PackageManage extends javax.swing.JPanel {
         typingInt(evt);
     }//GEN-LAST:event_packageRegisterValueTextFieldKeyTyped
 
+    private void packageRegisterValueTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_packageRegisterValueTextFieldKeyReleased
+        // TODO add your handling code here:
+        if(evt.getComponent() instanceof javax.swing.JTextField){
+            loadDataByName(((javax.swing.JTextField)evt.getComponent()).getText());
+        }
+    }//GEN-LAST:event_packageRegisterValueTextFieldKeyReleased
+
     private void typingInt(java.awt.event.KeyEvent evt){
         char c = evt.getKeyChar();
   
@@ -237,7 +251,7 @@ public class PackageManage extends javax.swing.JPanel {
     private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
 
-    private void loadDataByName(String name) {
+    public void loadDataByName(String name) {
         list = new ArrayList<Integer>();
         //pane = new ArrayList<Integer>();
         id = new ArrayList<Integer>();
@@ -251,6 +265,9 @@ public class PackageManage extends javax.swing.JPanel {
             
             if(rs != null){
                 while(rs.next()){
+                    if(rs.getInt("disable_id")!=1){
+                        continue;
+                    }
                     list.add(rs.getInt("count"));
                     id.add(rs.getInt("id"));
                 }
