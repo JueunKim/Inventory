@@ -173,6 +173,9 @@ public class ModelManage extends javax.swing.JPanel {
         if(this.modelNameList.getSelectedIndex()>=0)
             settingPane();
             //this.modelTextPane.setText(this.pane.get(this.modelNameList.getSelectedIndex()).toString());
+        if(evt.getClickCount() == 2){
+            editEvent();
+        }
     }//GEN-LAST:event_modelNameListMouseClicked
 
     private void modelNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_modelNameListValueChanged
@@ -206,15 +209,7 @@ public class ModelManage extends javax.swing.JPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-        if(this.modelNameList.getSelectedIndex()>=0 && this.modelNameList.getSelectedIndex() < list.size()){
-            inventory.modelPage.ModelChange p = new inventory.modelPage.ModelChange();
-            p.setChangeConfig(id.get(this.modelNameList.getSelectedIndex()), list.get(this.modelNameList.getSelectedIndex()), pane.get(this.modelNameList.getSelectedIndex()), "Edit");
-            if(inventory.core.ProjectBOMStockMain.display != null){
-                inventory.core.ProjectBOMStockMain.display.dispose();
-            }
-            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Edit");
-            inventory.core.ProjectBOMStockMain.display.setVisible(true);
-        }
+        editEvent();
         /*
         if(this.modelNameList.getSelectedIndex()>=0 && this.modelNameList.getSelectedIndex() < list.size()){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"));
@@ -222,6 +217,14 @@ public class ModelManage extends javax.swing.JPanel {
         }*/
     }//GEN-LAST:event_editButtonActionPerformed
 
+    private void editEvent(){
+        if(this.modelNameList.getSelectedIndex()>=0 && this.modelNameList.getSelectedIndex() < list.size()){
+            inventory.modelPage.ModelChange p = new inventory.modelPage.ModelChange();
+            p.setChangeConfig(id.get(this.modelNameList.getSelectedIndex()), list.get(this.modelNameList.getSelectedIndex()), pane.get(this.modelNameList.getSelectedIndex()), "Edit");
+            inventory.core.ProjectBOMStockMain.showingFrameDisplay(p);
+        }
+    }
+    
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
         /*

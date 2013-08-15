@@ -103,7 +103,7 @@ public class NationEdit extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.MainFrame.myPanelPast));
+        inventory.core.ProjectBOMStockMain.showingFrameDispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -130,10 +130,12 @@ public class NationEdit extends javax.swing.JPanel {
                     }
                     
                     if(saved){
+                        ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).LoadData();
+                        ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).findAndSetSelectedItem(this.categoryNameTextField.getText());
+                        this.clear();
+                            
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Nation Manage\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
-                            this.clear();
-                            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"));
-                             ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).LoadData();
+                            inventory.core.ProjectBOMStockMain.showingFrameDispose();   
                         }
                     }
                 }

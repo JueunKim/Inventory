@@ -119,8 +119,9 @@ public class CategoryRegister extends javax.swing.JPanel {
                     int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION){
                         inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`category` (`name`, `description`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");
-                        this.clear();
                         ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
+                        ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).findAndSetSelectedItem(this.categoryNameTextField.getText());
+                        this.clear();
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manager\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
                             //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));
                             if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){

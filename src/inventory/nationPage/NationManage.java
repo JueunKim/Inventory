@@ -155,7 +155,12 @@ public class NationManage extends javax.swing.JPanel {
     private void nationNameListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nationNameListMouseClicked
         // TODO add your handling code here:
         //System.out.println(this.categoryNameList.getSelectedIndex());
-        this.descriptionTextPane.setText(this.pane.get(this.nationNameList.getSelectedIndex()));
+        if(this.nationNameList.getSelectedIndex() >= 0){
+            this.descriptionTextPane.setText(this.pane.get(this.nationNameList.getSelectedIndex()));
+        }
+        if(evt.getClickCount() == 2){
+            editEvent();
+        }
     }//GEN-LAST:event_nationNameListMouseClicked
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -165,20 +170,26 @@ public class NationManage extends javax.swing.JPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-        if(this.nationNameList.getSelectedIndex()>=0 && this.nationNameList.getSelectedIndex() < list.size()){
-            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationEdit"));
-            ((inventory.nationPage.NationEdit)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationEdit"))).setEditConfig(id.get(this.nationNameList.getSelectedIndex()), list.get(this.nationNameList.getSelectedIndex()), pane.get(this.nationNameList.getSelectedIndex()));
-        }
+        editEvent();
     }//GEN-LAST:event_editButtonActionPerformed
 
+    private void editEvent(){
+        if(this.nationNameList.getSelectedIndex()>=0 && this.nationNameList.getSelectedIndex() < list.size()){
+            inventory.nationPage.NationEdit p = new inventory.nationPage.NationEdit();
+            p.setEditConfig(id.get(this.nationNameList.getSelectedIndex()), list.get(this.nationNameList.getSelectedIndex()), pane.get(this.nationNameList.getSelectedIndex()));
+            inventory.core.ProjectBOMStockMain.showingFrameDisplay(p);
+        }
+    }
+    
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
-        int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Delete? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
+        /*int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Delete? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
         
         if(dialogResult == JOptionPane.YES_OPTION){
             inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`nation` WHERE `id`='"+id.get(this.nationNameList.getSelectedIndex())+"';");
             this.LoadData();
-        }
+        }*/
+        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.nationNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Nation"));
     }//GEN-LAST:event_dropButtonActionPerformed
 
     private void nationNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_nationNameListValueChanged
@@ -189,9 +200,15 @@ public class NationManage extends javax.swing.JPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationRegister"));
+        
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationRegister"));
+        inventory.core.ProjectBOMStockMain.showingFrameDisplay(new inventory.nationPage.NationRegister());
     }//GEN-LAST:event_registerButtonActionPerformed
 
+    public void findAndSetSelectedItem(String name){
+        this.nationNameList.setSelectedIndex(this.list.indexOf(name));
+    }
+    
     private ArrayList<String> list = null;
     private ArrayList<String> pane = null;
     private ArrayList<Integer> id = null;

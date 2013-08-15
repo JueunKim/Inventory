@@ -158,4 +158,18 @@ public class ProjectBOMStockMain {
             }
         }
     }
+    
+    public static void showingFrameDisplay(javax.swing.JPanel p){
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
+        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryRegister");
+        inventory.core.ProjectBOMStockMain.display.setVisible(true);
+    }
+    
+    public static void showingFrameDispose(){
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
+    }
 }

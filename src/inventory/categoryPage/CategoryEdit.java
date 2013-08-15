@@ -141,6 +141,7 @@ public class CategoryEdit extends javax.swing.JPanel {
                     
                     if(saved){
                         ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
+                        ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).findAndSetSelectedItem(this.categoryNameTextField.getText());
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manage\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
                             //this.clear();
                             //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"));

@@ -227,7 +227,11 @@ public class CategoryManage extends javax.swing.JPanel {
         inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryRegister");
         inventory.core.ProjectBOMStockMain.display.setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
-
+    
+    public void findAndSetSelectedItem(String name){
+        this.categoryNameList.setSelectedIndex(this.list.indexOf(name));
+    }
+    
     private ArrayList<String> list = null;
     private ArrayList<String> pane = null;
     private ArrayList<Integer> id = null;

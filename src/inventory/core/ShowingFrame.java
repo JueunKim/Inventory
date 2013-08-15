@@ -17,9 +17,8 @@ public class ShowingFrame extends javax.swing.JFrame {
      * Creates new form ShowingFrame
      */
     public ShowingFrame(javax.swing.JPanel p, String title) {
-        if(inventory.core.ProjectBOMStockMain.display != null){
-           inventory.core.ProjectBOMStockMain.display.dispose();
-        }
+        inventory.core.ProjectBOMStockMain.showingFrameDispose();
+        
         this.title = title;
         this.myPanel = p;
         setPage();
