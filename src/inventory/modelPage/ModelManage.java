@@ -23,7 +23,7 @@ public class ModelManage extends javax.swing.JPanel {
      */
     public ModelManage() {
         initComponents();
-        this.LoadData();
+        this.loadDataByName("");
     }
 
     /**
@@ -192,26 +192,48 @@ public class ModelManage extends javax.swing.JPanel {
     
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"));
-        ((inventory.modelPage.ModelChange)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"))).setChangeConfig(null,"",null,"Register");
+        inventory.modelPage.ModelChange p = new inventory.modelPage.ModelChange();
+        p.setChangeConfig(null,"",null,"Register");
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
+        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Register");
+        inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"));
+        //((inventory.modelPage.ModelChange)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"))).setChangeConfig(null,"",null,"Register");
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
         if(this.modelNameList.getSelectedIndex()>=0 && this.modelNameList.getSelectedIndex() < list.size()){
+            inventory.modelPage.ModelChange p = new inventory.modelPage.ModelChange();
+            p.setChangeConfig(id.get(this.modelNameList.getSelectedIndex()), list.get(this.modelNameList.getSelectedIndex()), pane.get(this.modelNameList.getSelectedIndex()), "Edit");
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Edit");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+        /*
+        if(this.modelNameList.getSelectedIndex()>=0 && this.modelNameList.getSelectedIndex() < list.size()){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"));
             ((inventory.modelPage.ModelChange)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelChange"))).setChangeConfig(id.get(this.modelNameList.getSelectedIndex()), list.get(this.modelNameList.getSelectedIndex()), pane.get(this.modelNameList.getSelectedIndex()), "Edit");
-        }
+        }*/
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
+        /*
         int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Delete? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
 
         if(dialogResult == JOptionPane.YES_OPTION){
             inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`model` WHERE `id`='"+id.get(this.modelNameList.getSelectedIndex())+"';");
             this.LoadData();
         }
+        */
+        inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.modelNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Model"), this);
+        this.loadDataByName(this.nameSearchTextField.getText());
     }//GEN-LAST:event_dropButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -225,6 +247,10 @@ public class ModelManage extends javax.swing.JPanel {
             loadDataByName(((javax.swing.JTextField)evt.getComponent()).getText());
         }
     }//GEN-LAST:event_nameSearchTextFieldKeyReleased
+    
+    public void findAndSetSelectedItem(String name){
+        this.modelNameList.setSelectedIndex(this.list.indexOf(name));
+    }
     
     private ArrayList<String> list = null;
     private ArrayList<Integer> pane = null;
@@ -249,32 +275,6 @@ public class ModelManage extends javax.swing.JPanel {
     private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
 
-    public void LoadData() {
-        list = new ArrayList<String>();
-        pane = new ArrayList<Integer>();
-        id = new ArrayList<Integer>();
-        
-        this.modelTextPane.setText("");
-        
-        try {
-            ResultSet rs = null;
-            
-            rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.model where name like '%"+this.nameSearchTextField.getText()+"%' order by name;");
-            
-            if(rs != null){
-                while(rs.next()){
-                    list.add(rs.getString("name"));
-                    pane.add(rs.getInt("contact"));
-                    id.add(rs.getInt("id"));
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.modelNameList.setListData(list.toArray());
-    }
-    
     public void loadDataByName(String name) {
         list = new ArrayList<String>();
         pane = new ArrayList<Integer>();
@@ -289,6 +289,9 @@ public class ModelManage extends javax.swing.JPanel {
             
             if(rs != null){
                 while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
                     list.add(rs.getString("name"));
                     pane.add(rs.getInt("contact"));
                     id.add(rs.getInt("id"));

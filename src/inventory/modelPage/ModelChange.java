@@ -111,15 +111,29 @@ public class ModelChange extends javax.swing.JPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"));
-        ((inventory.modelPage.ModelManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"))).LoadData();
+        ((inventory.modelPage.ModelManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"))).loadDataByName("");
+        if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+           ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+        }
+        //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"));    
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void changeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtonActionPerformed
+        boolean saved = false;
+        
         if(this.changeButton.getText().equals("Register")){
-            registerDataEvent(evt);
+            saved = registerDataEvent(evt);
         }else if(this.changeButton.getText().equals("Edit")){
-            editDataEvent(evt);
+            saved = editDataEvent(evt);
+        }
+        
+        if(saved){
+            ((inventory.modelPage.ModelManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"))).loadDataByName("");
+            ((inventory.modelPage.ModelManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"))).findAndSetSelectedItem(this.modelNameTextField.getText());
+            if(this.changeButton.getText().equals("Register")){
+                this.clear();
+            }
+            goToOriginalPage();
         }
     }//GEN-LAST:event_changeButtonActionPerformed
 
@@ -137,7 +151,17 @@ public class ModelChange extends javax.swing.JPanel {
         }
     }
     
-    private void registerDataEvent(java.awt.event.ActionEvent evt){
+    private void goToOriginalPage(){
+        if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manager\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
+            if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
+                ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
+            }
+        }
+    }
+    
+    private boolean registerDataEvent(java.awt.event.ActionEvent evt){
+        boolean saved = false;
+                
         try {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
@@ -150,12 +174,8 @@ public class ModelChange extends javax.swing.JPanel {
                         }else{
                             inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`model` (`name`) VALUES ('"+this.modelNameTextField.getText()+"');");
                         }
-                        this.clear();
                         
-                        if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Category Manager\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
-                            ((inventory.modelPage.ModelManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"))).LoadData();
-                            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"));
-                        }
+                        saved = true;
                     }
                 }else{
                     JOptionPane.showConfirmDialog(this, "Name is duplicated","Warning",JOptionPane.OK_CANCEL_OPTION);
@@ -174,15 +194,17 @@ public class ModelChange extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(ModelChange.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return saved;
     }
     
-    private void editDataEvent(java.awt.event.ActionEvent evt){
+    private boolean editDataEvent(java.awt.event.ActionEvent evt){
+        boolean saved = false;
+                
         try {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
             if(!this.modelNameTextField.getText().trim().equals("")){
                 int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
-                boolean saved = false;
                 if(dialogResult == JOptionPane.YES_OPTION){
                     if(this.name.equals(this.modelNameTextField.getText())){
                         if(!this.contactTextPane.getText().trim().equals("")){
@@ -205,13 +227,7 @@ public class ModelChange extends javax.swing.JPanel {
                         }
                     }
                     
-                    if(saved){
-                        if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"ModelManage\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
-                            this.clear();
-                            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"));
-                             ((inventory.modelPage.ModelManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ModelManage"))).LoadData();
-                        }
-                    }
+                    return saved;
                 }
             }else{
                 /*
@@ -224,6 +240,8 @@ public class ModelChange extends javax.swing.JPanel {
         } catch (Exception ex) {
             
         }
+        
+        return saved;
     }
     
     Integer id = null;

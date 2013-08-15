@@ -3,6 +3,10 @@
  * and open the template in the editor.
  */
 package inventory.core;
+import inventory.categoryPage.CategoryManage;
+import java.awt.Component;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -98,5 +102,47 @@ public class ProjectBOMStockMain {
     
     public static void main(String[] args){
         new ProjectBOMStockMain().setPage(PageList.indexOf("Login"));
+    }
+    
+    public static void dropAndDisable(Component com, ArrayList<Integer> ids, javax.swing.JList list, int table_type, Object obj){
+        if(list.getSelectedIndex()>=0){
+            String name = null;
+            if(JOptionPane.showConfirmDialog(com, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
+                name = list.getSelectedValue().toString();
+                
+                String s = null;
+                s = JOptionPane.showInputDialog(com, "Please Type a Reason", "Drop",JOptionPane.OK_CANCEL_OPTION);
+                
+                if(s != null && !s.trim().equals("")){
+                    try {
+                        //INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('desc', 'user_id', 'tabld_id', 'table_type');
+                        String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+ids.get(list.getSelectedIndex())+"', '"+table_type+"');";
+                        
+                        
+                        ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
+                        
+                        if(rs.next()){
+                            String table = null;
+                            
+                            table = inventory.core.ProjectBOMStockMain.table_type.get(table_type).toLowerCase();
+                            sql = "UPDATE `inventory`.`"+table+"` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+ids.get(list.getSelectedIndex())+"';";
+                            
+                            inventory.core.DBConnection.updateQuery(sql);
+                        }
+                    } catch (SQLException ex) {
+                        //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(com, "Please Type a Reason.","Alert",JOptionPane.OK_OPTION);
+                    return;
+                }
+                
+                //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`item` WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';");
+                if(obj instanceof CategoryManage){
+                    ((CategoryManage)obj).LoadData();
+                }
+                JOptionPane.showMessageDialog(com, name + " was Deleted.","Alert",JOptionPane.OK_OPTION);
+            }
+        }
     }
 }
