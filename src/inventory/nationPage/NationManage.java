@@ -5,6 +5,7 @@
 package inventory.nationPage;
 
 import inventory.categoryPage.*;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ import javax.swing.event.ListSelectionEvent;
  *
  * @author Kind
  */
-public class NationManage extends javax.swing.JPanel {
+public class NationManage extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form NationManage
      */
     public NationManage() {
-        initComponents();
-        LoadData();
+        super();
+        this.LoadData();
     }
 
     /**
@@ -66,11 +67,11 @@ public class NationManage extends javax.swing.JPanel {
         nationNameScrollPane = new javax.swing.JScrollPane();
         nationNameList = new javax.swing.JList();
         descriptionScrollPane = new javax.swing.JScrollPane();
-        descriptionTextPane = new javax.swing.JTextPane();
-        backButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
-        dropButton = new javax.swing.JButton();
-        registerButton = new javax.swing.JButton();
+        descriptionTextPane = new inventory.myClasses.MyTextPane();
+        backButton = new inventory.myClasses.MyButton();
+        editButton = new inventory.myClasses.MyButton();
+        dropButton = new inventory.myClasses.MyButton();
+        registerButton = new inventory.myClasses.MyButton();
 
         nationNameList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -194,8 +195,10 @@ public class NationManage extends javax.swing.JPanel {
 
     private void nationNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_nationNameListValueChanged
         // TODO add your handling code here:
-        if(this.nationNameList.getSelectedIndex()>=0 && this.nationNameList.getSelectedIndex() < pane.size())
+        if(this.nationNameList.getSelectedIndex()>=0 && this.nationNameList.getSelectedIndex() < pane.size()){
             this.descriptionTextPane.setText(this.pane.get(this.nationNameList.getSelectedIndex()));
+        }
+        this.updateUI();
     }//GEN-LAST:event_nationNameListValueChanged
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
@@ -223,4 +226,23 @@ public class NationManage extends javax.swing.JPanel {
     private javax.swing.JScrollPane nationNameScrollPane;
     private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.descriptionTextPane.setBackground(transparent);
+        this.dropButton.setBackground(transparent);
+        this.editButton.setBackground(transparent);
+        this.nationNameList.setBackground(transparent);
+        this.nationNameScrollPane.setBackground(transparent);
+        this.registerButton.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

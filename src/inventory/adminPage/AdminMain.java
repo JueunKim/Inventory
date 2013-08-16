@@ -5,18 +5,27 @@
 package inventory.adminPage;
 
 import inventory.core.ProjectBOMStockMain;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Kind
  */
-public class AdminMain extends javax.swing.JPanel {
-
+public class AdminMain extends inventory.myClasses.MyJPanel {
     /**
      * Creates new form AdminPage
      */
     public AdminMain() {
-        initComponents();
+        super();
     }
 
     /**
@@ -28,22 +37,22 @@ public class AdminMain extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        logoutButton = new javax.swing.JButton();
-        categoryButton = new javax.swing.JButton();
+        logoutButton = new inventory.myClasses.MyButton();
+        categoryButton = new inventory.myClasses.MyButton();
         metadataLabel = new javax.swing.JLabel();
         manageSeperator = new javax.swing.JSeparator();
-        modelButton = new javax.swing.JButton();
-        nationButton = new javax.swing.JButton();
-        packageButton = new javax.swing.JButton();
+        modelButton = new inventory.myClasses.MyButton();
+        nationButton = new inventory.myClasses.MyButton();
+        packageButton = new inventory.myClasses.MyButton();
         jSeparator1 = new javax.swing.JSeparator();
-        ItemButton = new javax.swing.JButton();
+        itemButton = new inventory.myClasses.MyButton();
         jSeparator2 = new javax.swing.JSeparator();
         itemLabel = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         userLabel = new javax.swing.JLabel();
-        userButton = new javax.swing.JButton();
+        userButton = new inventory.myClasses.MyButton();
 
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -82,10 +91,10 @@ public class AdminMain extends javax.swing.JPanel {
             }
         });
 
-        ItemButton.setText("Item");
-        ItemButton.addActionListener(new java.awt.event.ActionListener() {
+        itemButton.setText("Item");
+        itemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ItemButtonActionPerformed(evt);
+                itemButtonActionPerformed(evt);
             }
         });
 
@@ -131,7 +140,7 @@ public class AdminMain extends javax.swing.JPanel {
                                 .addComponent(packageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(itemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(itemLabel))
                                 .addGap(35, 35, 35)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -171,7 +180,7 @@ public class AdminMain extends javax.swing.JPanel {
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(itemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(userButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -213,11 +222,11 @@ public class AdminMain extends javax.swing.JPanel {
         manageButtonHandler(evt);
     }//GEN-LAST:event_packageButtonActionPerformed
 
-    private void ItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemButtonActionPerformed
+    private void itemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemButtonActionPerformed
         // TODO add your handling code here:
         ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
         manageButtonHandler(evt);
-    }//GEN-LAST:event_ItemButtonActionPerformed
+    }//GEN-LAST:event_itemButtonActionPerformed
 
     private void userButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userButtonActionPerformed
         // TODO add your handling code here:
@@ -230,8 +239,8 @@ public class AdminMain extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ItemButton;
     private javax.swing.JButton categoryButton;
+    private javax.swing.JButton itemButton;
     private javax.swing.JLabel itemLabel;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -247,4 +256,26 @@ public class AdminMain extends javax.swing.JPanel {
     private javax.swing.JButton userButton;
     private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
+
+    public void setComponetsColor(Color color) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.categoryButton.setBackground(color);
+        this.modelButton.setBackground(color);
+        this.nationButton.setBackground(color);
+        this.packageButton.setBackground(color);
+        this.itemButton.setBackground(color);
+        this.userButton.setBackground(color);
+        this.logoutButton.setBackground(color);
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void myInitComponents() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.initComponents();
+    }
 }

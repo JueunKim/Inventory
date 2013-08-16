@@ -57,7 +57,6 @@ public class DBConnection {
     }
     
     public static ResultSet updateQueryGetID(String sql){
-        System.out.println(sql);
         if(write != null){
             try {
                 PreparedStatement ps = write.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -73,6 +72,7 @@ public class DBConnection {
                 */
                 ex.printStackTrace();
                 System.out.println("SQL Update Exception in Update Query");
+                System.out.println(sql);
                 return null;
             }
         }else{
@@ -86,7 +86,6 @@ public class DBConnection {
     }
     
     public static void updateQuery(String sql){
-        System.out.println(sql);
         if(write != null){
             try {
                 Statement s = write.createStatement();
@@ -100,6 +99,7 @@ public class DBConnection {
                 */
                 ex.printStackTrace();
                 System.out.println("SQL Update Exception in Update Query");
+                System.out.println(sql);
             }
         }else{
             /*
@@ -125,6 +125,7 @@ public class DBConnection {
              
                 */
                 System.out.println("SQL Excute Exception in Excute Query");
+                System.out.println(sql);
                 return rs = null;
             }
         }else{
@@ -132,7 +133,9 @@ public class DBConnection {
              todo Error Message
              
              */
+            
             System.out.println("Connection Error in Excute Query");
+            return rs = null;
         }
         return rs;
     }

@@ -5,6 +5,7 @@
 package inventory.modelPage;
 
 import inventory.categoryPage.CategoryManage;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class ModelManage extends javax.swing.JPanel {
+public class ModelManage extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form ModelManage
      */
     public ModelManage() {
-        initComponents();
+        super();
         this.loadDataByName("");
     }
 
@@ -38,15 +39,15 @@ public class ModelManage extends javax.swing.JPanel {
         modelNameScrollPane = new javax.swing.JScrollPane();
         modelNameList = new javax.swing.JList();
         modelScrollPane = new javax.swing.JScrollPane();
-        modelTextPane = new javax.swing.JTextPane();
-        registerButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
-        dropButton = new javax.swing.JButton();
-        backButton = new javax.swing.JButton();
-        nameSearchTextField = new javax.swing.JTextField();
+        modelTextPane = new inventory.myClasses.MyTextPane();
+        registerButton = new inventory.myClasses.MyButton();
+        editButton = new inventory.myClasses.MyButton();
+        dropButton = new inventory.myClasses.MyButton();
+        backButton = new inventory.myClasses.MyButton();
+        nameSearchTextField = new inventory.myClasses.MyTextField();
         nameSearchLabel = new javax.swing.JLabel();
         contactSearchLabel = new javax.swing.JLabel();
-        contactSearchTextField = new javax.swing.JTextField();
+        contactSearchTextField = new inventory.myClasses.MyTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
@@ -305,5 +306,32 @@ public class ModelManage extends javax.swing.JPanel {
         }
         
         this.modelNameList.setListData(list.toArray());
+    }
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        this.loadDataByName("");
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.contactSearchTextField.setBackground(transparent);
+        this.dropButton.setBackground(transparent);
+        this.editButton.setBackground(transparent);
+        this.modelNameList.setBackground(transparent);
+        this.modelNameScrollPane.setBackground(transparent);
+        this.modelTextPane.setBackground(transparent);
+        this.modelScrollPane.setBackground(transparent);
+        this.nameSearchTextField.setBackground(transparent);
+        this.registerButton.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

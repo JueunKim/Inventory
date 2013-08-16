@@ -89,6 +89,9 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextPane()"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -99,6 +102,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton();"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="editButton">
       <Properties>
@@ -107,6 +113,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton();"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="dropButton">
       <Properties>
@@ -115,6 +124,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dropButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton();"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="registerButton">
       <Properties>
@@ -123,6 +135,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

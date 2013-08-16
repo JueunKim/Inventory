@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package inventory.itemPage;
+package inventory.myClasses;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,7 +14,7 @@ import javax.swing.JList;
  *
  * @author paul
  */
-public class MyCellRenderer extends DefaultListCellRenderer{  
+public class MyExpireDateCellRenderer extends DefaultListCellRenderer{  
     @Override  
     public Component getListCellRendererComponent(JList list,   
                                                   Object value,  
@@ -66,5 +66,4 @@ public class MyCellRenderer extends DefaultListCellRenderer{
         setOpaque(true);  
         return this;  
     }  
-}  
-
+}

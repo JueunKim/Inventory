@@ -5,6 +5,7 @@
 package inventory.nationPage;
 
 import inventory.categoryPage.*;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -15,13 +16,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class NationEdit extends javax.swing.JPanel {
+public class NationEdit extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form NationEdit
      */
     public NationEdit() {
-        initComponents();
+        super();
     }
 
     /**
@@ -34,12 +35,12 @@ public class NationEdit extends javax.swing.JPanel {
     private void initComponents() {
 
         categoryNameLabel = new javax.swing.JLabel();
-        categoryNameTextField = new javax.swing.JTextField();
+        categoryNameTextField = new inventory.myClasses.MyTextField();
         descriptionScrollPane = new javax.swing.JScrollPane();
-        descriptionTextPane = new javax.swing.JTextPane();
+        descriptionTextPane = new inventory.myClasses.MyTextPane();
         DescriptionLabel = new javax.swing.JLabel();
-        backButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
+        backButton = new inventory.myClasses.MyButton();
+        editButton = new inventory.myClasses.MyButton();
 
         categoryNameLabel.setText("Category Name");
 
@@ -181,4 +182,25 @@ public class NationEdit extends javax.swing.JPanel {
     protected javax.swing.JTextPane descriptionTextPane;
     protected javax.swing.JButton editButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.categoryNameTextField.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.descriptionTextPane.setBackground(transparent);
+        this.editButton.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

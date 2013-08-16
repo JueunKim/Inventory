@@ -178,41 +178,65 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nameTextField">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="categoryTextField">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="modelTextField">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="packageTextField">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="priceTextField">
       <Events>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="priceTextFieldKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="nationTextField">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="currentTextField">
       <Events>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="currentTextFieldKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="expiredateTextField">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="descriptionScrollPane">
       <AuxValues>
@@ -226,6 +250,9 @@
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextArea()"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -236,6 +263,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="updateButton">
       <Properties>
@@ -244,6 +274,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
@@ -257,6 +290,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="categoryButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="modelButton">
       <Properties>
@@ -266,6 +302,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modelButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="modelButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="packageButton">
       <Properties>
@@ -275,6 +314,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="packageButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="packageButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="nationButton">
       <Properties>
@@ -284,6 +326,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nationButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nationButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="expireDateButton">
       <Properties>
@@ -293,6 +338,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="expireDateButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="expireDateButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

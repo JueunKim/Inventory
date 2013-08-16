@@ -4,6 +4,7 @@
  */
 package inventory.itemPage;
 
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -14,14 +15,14 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class ItemChange extends javax.swing.JPanel {
+public class ItemChange extends inventory.myClasses.MyJPanel {
     private Integer id = 0;
     private String originalName = null;
     /**
      * Creates new form ItemChange
      */
     public ItemChange() {
-        initComponents();
+        super();
     }
     
     public void setElements(Integer id, String categoryName, String modelName, String nationName, String packageNumber, String buttonType){
@@ -82,13 +83,13 @@ public class ItemChange extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        backButton = new javax.swing.JButton();
+        backButton = new inventory.myClasses.MyButton();
         descriptionScrollPane = new javax.swing.JScrollPane();
-        descriptionTextArea = new javax.swing.JTextArea();
-        expiredateTextField = new javax.swing.JTextField();
-        currentTextField = new javax.swing.JTextField();
-        nationTextField = new javax.swing.JTextField();
-        priceTextField = new javax.swing.JTextField();
+        descriptionTextArea = new inventory.myClasses.MyTextArea();
+        expiredateTextField = new inventory.myClasses.MyTextField();
+        currentTextField = new inventory.myClasses.MyTextField();
+        nationTextField = new inventory.myClasses.MyTextField();
+        priceTextField = new inventory.myClasses.MyTextField();
         categoryLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         expiredateLabel = new javax.swing.JLabel();
@@ -97,13 +98,13 @@ public class ItemChange extends javax.swing.JPanel {
         modelLabel = new javax.swing.JLabel();
         nationLabel = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
-        nameTextField = new javax.swing.JTextField();
-        categoryTextField = new javax.swing.JTextField();
-        modelTextField = new javax.swing.JTextField();
-        packageTextField = new javax.swing.JTextField();
+        nameTextField = new inventory.myClasses.MyTextField();
+        categoryTextField = new inventory.myClasses.MyTextField();
+        modelTextField = new inventory.myClasses.MyTextField();
+        packageTextField = new inventory.myClasses.MyTextField();
         descriptionLabel = new javax.swing.JLabel();
-        changeButton = new javax.swing.JButton();
-        changeTextField = new javax.swing.JTextField();
+        changeButton = new inventory.myClasses.MyButton();
+        changeTextField = new inventory.myClasses.MyTextField();
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +246,7 @@ public class ItemChange extends javax.swing.JPanel {
                                 .addComponent(currentLabel)
                                 .addGap(15, 15, 15))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(currentTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                                .addComponent(currentTextField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(expiredateLabel)
@@ -392,4 +393,33 @@ public class ItemChange extends javax.swing.JPanel {
     private javax.swing.JLabel priceLabel;
     private javax.swing.JTextField priceTextField;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.categoryTextField.setBackground(transparent);
+        this.changeButton.setBackground(transparent);
+        this.changeTextField.setBackground(transparent);
+        this.currentTextField.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.descriptionTextArea.setBackground(transparent);
+        this.expiredateTextField.setBackground(transparent);
+        this.modelTextField.setBackground(transparent);
+        this.nameTextField.setBackground(transparent);
+        this.nationTextField.setBackground(transparent);
+        this.packageTextField.setBackground(transparent);
+        this.priceTextField.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

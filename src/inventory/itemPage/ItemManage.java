@@ -4,6 +4,8 @@
  */
 package inventory.itemPage;
 
+import inventory.myClasses.MyExpireDateCellRenderer;
+import java.awt.Color;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +19,7 @@ import javax.swing.text.Position;
  *
  * @author Kind
  */
-public class ItemManage extends javax.swing.JPanel {
+public class ItemManage extends inventory.myClasses.MyJPanel {
     private ArrayList<Integer> id;
     private ArrayList<String> itemNameArrayList;
     private ArrayList<String> categoryNameArrayList;
@@ -36,8 +38,8 @@ public class ItemManage extends javax.swing.JPanel {
      * Creates new form ItemManage
      */
     public ItemManage() {
-        initComponents();
-        this.loadDataByName(this.searchByNameTextField.getText());
+        super();
+        //loadDataByName("");
     }
 
     public final void loadDataByName(String name) {
@@ -82,6 +84,10 @@ public class ItemManage extends javax.swing.JPanel {
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         try {
             String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by "+order_by+" "+order+";";
+            
+            if(sql.toString().contains("null")){
+                sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by itemname DESC;";
+            }
             
             ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);  
             
@@ -132,7 +138,7 @@ public class ItemManage extends javax.swing.JPanel {
         this.expireDateList.setListData(this.expireDateArrayList.toArray());
         this.descriptionList.setListData(this.descriptionArrayList.toArray());
         
-        this.expireDateList.setCellRenderer(new MyCellRenderer());
+        this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
     }
     
     /**
@@ -163,9 +169,9 @@ public class ItemManage extends javax.swing.JPanel {
         totalPriceList = new javax.swing.JList();
         totalPriceLabel = new javax.swing.JLabel();
         backButton = new javax.swing.JButton();
-        dropButton = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
-        registerButton = new javax.swing.JButton();
+        dropButton = new inventory.myClasses.MyButton();
+        editButton = new inventory.myClasses.MyButton();
+        registerButton = new inventory.myClasses.MyButton();
         searchByNameLabel = new javax.swing.JLabel();
         expireDateScrollPane = new javax.swing.JScrollPane();
         expireDateList = new javax.swing.JList();
@@ -173,15 +179,15 @@ public class ItemManage extends javax.swing.JPanel {
         descriptionList = new javax.swing.JList();
         descriptionLabel = new javax.swing.JLabel();
         expireDateLabel = new javax.swing.JLabel();
-        searchByNameTextField = new javax.swing.JTextField();
+        searchByNameTextField = new inventory.myClasses.MyTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         categoryScrollPane = new javax.swing.JScrollPane();
         categoryList = new javax.swing.JList();
         categoryLabel = new javax.swing.JLabel();
-        addButton = new javax.swing.JButton();
-        deductButton = new javax.swing.JButton();
+        addButton = new inventory.myClasses.MyButton();
+        deductButton = new inventory.myClasses.MyButton();
         jLabel1 = new javax.swing.JLabel();
 
         nameScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -532,17 +538,17 @@ public class ItemManage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(totalPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                        .addComponent(totalPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1))
-                    .addComponent(totalPriceScrollPane))
+                    .addComponent(totalPriceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(expireDateScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(expireDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(descriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,15 +622,15 @@ public class ItemManage extends javax.swing.JPanel {
                                 .addComponent(totalPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(totalPriceScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
-                            .addComponent(currentScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(priceScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(packageScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(modelScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(expireDateScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(categoryScrollPane))))
+                            .addComponent(totalPriceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(currentScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(priceScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(packageScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modelScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(expireDateScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(categoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1009,6 +1015,8 @@ public class ItemManage extends javax.swing.JPanel {
         this.totalPriceList.ensureIndexIsVisible(this.totalPriceList.getSelectedIndex());
         this.expireDateList.ensureIndexIsVisible(this.expireDateList.getSelectedIndex());
         this.descriptionList.ensureIndexIsVisible(this.descriptionList.getSelectedIndex());
+        
+        this.updateUI();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1052,4 +1060,48 @@ public class ItemManage extends javax.swing.JPanel {
     private javax.swing.JList totalPriceList;
     private javax.swing.JScrollPane totalPriceScrollPane;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.loadDataByName("");
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.addButton.setBackground(transparent);
+        this.backButton.setBackground(transparent);
+        this.categoryList.setBackground(transparent);
+        this.categoryScrollPane.setBackground(transparent);
+        this.currentList.setBackground(transparent);
+        this.currentScrollPane.setBackground(transparent);
+        this.deductButton.setBackground(transparent);
+        this.descriptionList.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.dropButton.setBackground(transparent);
+        this.editButton.setBackground(transparent);
+        this.expireDateList.setBackground(transparent);
+        this.expireDateScrollPane.setBackground(transparent);
+        this.modelList.setBackground(transparent);
+        this.modelScrollPane.setBackground(transparent);
+        this.nameList.setBackground(transparent);
+        this.nameScrollPane.setBackground(transparent);
+        this.packageList.setBackground(transparent);
+        this.packageScrollPane.setBackground(transparent);
+        this.priceList.setBackground(transparent);
+        this.packageScrollPane.setBackground(transparent);
+        this.priceList.setBackground(transparent);
+        this.priceScrollPane.setBackground(transparent);
+        this.registerButton.setBackground(transparent);
+        this.searchByNameTextField.setBackground(transparent);
+        this.totalPriceList.setBackground(transparent);
+        this.totalPriceScrollPane.setBackground(transparent);
+    }
 }

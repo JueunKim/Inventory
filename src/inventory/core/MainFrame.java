@@ -4,7 +4,16 @@
  */
 package inventory.core;
 
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -45,6 +54,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         setJMenuBar(mainMenuBar);
 */
+        
+        //setLayout(new BorderLayout());
+        //setContentPane(new JLabel(new ImageIcon("/home/paul/workspace/Java/netbeans/ProjectBOMStock/referencedData/Image.jpg")));
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,6 +84,9 @@ public class MainFrame extends javax.swing.JFrame {
             myPanel = myPanelList.get(i);
             myInitComponents();
             this.setTitle(inventory.core.ProjectBOMStockMain.PageList.get(i));
+            
+            this.setVisible(true);
+            this.setResizable(false);
         }else{
             /*
              todo

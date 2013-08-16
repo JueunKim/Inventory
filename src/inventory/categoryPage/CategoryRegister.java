@@ -6,6 +6,9 @@ package inventory.categoryPage;
  */
 
 
+import java.awt.Color;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,13 +18,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class CategoryRegister extends javax.swing.JPanel {
+public class CategoryRegister extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form CategoryRegister
      */
     public CategoryRegister() {
-        initComponents();
+        super();
     }
     
     /**
@@ -33,13 +36,13 @@ public class CategoryRegister extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        backButton = new javax.swing.JButton();
+        backButton = new inventory.myClasses.MyButton();
         categoryNameLabel = new javax.swing.JLabel();
         DescriptionLabel = new javax.swing.JLabel();
-        categoryNameTextField = new javax.swing.JTextField();
+        categoryNameTextField = new inventory.myClasses.MyTextField();
         descriptionScrollPane = new javax.swing.JScrollPane();
-        descriptionTextPane = new javax.swing.JTextPane();
-        RegisterButton = new javax.swing.JButton();
+        descriptionTextPane = new inventory.myClasses.MyTextPane();
+        RegisterButton = new inventory.myClasses.MyButton();
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -162,4 +165,24 @@ public class CategoryRegister extends javax.swing.JPanel {
     protected javax.swing.JScrollPane descriptionScrollPane;
     protected javax.swing.JTextPane descriptionTextPane;
     // End of variables declaration//GEN-END:variables
+
+    public void setComponetsColor(Color transparent) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.backButton.setBackground(transparent);
+        this.RegisterButton.setBackground(transparent);
+        this.categoryNameTextField.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.descriptionTextPane.setBackground(transparent);
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void myInitComponents() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.initComponents();
+    }
 }

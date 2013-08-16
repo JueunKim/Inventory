@@ -56,20 +56,20 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="totalPriceLabel" pref="79" max="32767" attributes="0"/>
+                      <Component id="totalPriceLabel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="totalPriceScrollPane" max="32767" attributes="0"/>
+                  <Component id="totalPriceScrollPane" min="-2" pref="162" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="expireDateScrollPane" pref="130" max="32767" attributes="0"/>
+                  <Component id="expireDateScrollPane" min="-2" pref="130" max="-2" attributes="0"/>
                   <Component id="expireDateLabel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="descriptionScrollPane" pref="160" max="32767" attributes="0"/>
+                  <Component id="descriptionScrollPane" min="-2" pref="160" max="-2" attributes="0"/>
                   <Component id="descriptionLabel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -160,15 +160,15 @@
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="totalPriceScrollPane" alignment="0" pref="510" max="32767" attributes="0"/>
-                          <Component id="currentScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="priceScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="packageScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="modelScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nameScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="expireDateScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="descriptionScrollPane" alignment="0" max="32767" attributes="0"/>
-                          <Component id="categoryScrollPane" max="32767" attributes="0"/>
+                          <Component id="totalPriceScrollPane" alignment="1" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="currentScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="priceScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="packageScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="modelScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="expireDateScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="descriptionScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="categoryScrollPane" min="-2" pref="510" max="-2" attributes="0"/>
+                          <Component id="nameScrollPane" alignment="1" min="-2" pref="510" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -424,6 +424,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dropButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dropButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="editButton">
       <Properties>
@@ -433,6 +436,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="editButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="registerButton">
       <Properties>
@@ -442,6 +448,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerButtonActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="registerButtonKeyTyped"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="searchByNameLabel">
       <Properties>
@@ -525,6 +534,9 @@
       <Events>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchByNameTextFieldKeyReleased"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
@@ -577,6 +589,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="deductButton">
       <Properties>
@@ -585,6 +600,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deductButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

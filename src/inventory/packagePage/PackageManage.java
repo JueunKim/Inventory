@@ -4,6 +4,7 @@
  */
 package inventory.packagePage;
 
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,14 +14,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class PackageManage extends javax.swing.JPanel {
+public class PackageManage extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form PackageManage
      */
     public PackageManage() {
-        initComponents();
-        this.loadDataByName(this.packageSearchTextField.getText());
+        super();
     }
 
     /**
@@ -35,16 +35,21 @@ public class PackageManage extends javax.swing.JPanel {
         packageNameScrollPane = new javax.swing.JScrollPane();
         packageNameList = new javax.swing.JList();
         packageSearchLabel = new javax.swing.JLabel();
-        packageSearchTextField = new javax.swing.JTextField();
-        registerButton = new javax.swing.JButton();
-        dropButton = new javax.swing.JButton();
-        backButton = new javax.swing.JButton();
+        packageSearchTextField = new inventory.myClasses.MyTextField();
+        registerButton = new inventory.myClasses.MyButton();
+        dropButton = new inventory.myClasses.MyButton();
+        backButton = new inventory.myClasses.MyButton();
         packageRegisterValueLabel = new javax.swing.JLabel();
-        packageRegisterValueTextField = new javax.swing.JTextField();
+        packageRegisterValueTextField = new inventory.myClasses.MyTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
 
+        packageNameList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                packageNameListValueChanged(evt);
+            }
+        });
         packageNameScrollPane.setViewportView(packageNameList);
 
         packageSearchLabel.setText("PackageSearch");
@@ -224,6 +229,11 @@ public class PackageManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_packageRegisterValueTextFieldKeyReleased
 
+    private void packageNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_packageNameListValueChanged
+        // TODO add your handling code here:
+        this.updateUI();
+    }//GEN-LAST:event_packageNameListValueChanged
+
     private void typingInt(java.awt.event.KeyEvent evt){
         char c = evt.getKeyChar();
   
@@ -277,5 +287,29 @@ public class PackageManage extends javax.swing.JPanel {
         }
         
         this.packageNameList.setListData(list.toArray());
+    }
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        this.loadDataByName("");
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.dropButton.setBackground(transparent);
+        this.packageNameList.setBackground(transparent);
+        this.packageRegisterValueTextField.setBackground(transparent);
+        this.packageSearchTextField.setBackground(transparent);
+        this.packageNameScrollPane.setBackground(transparent);
+        this.registerButton.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -7,6 +7,7 @@ package inventory.modelPage;
 
 
 import inventory.categoryPage.*;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -17,13 +18,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class ModelChange extends javax.swing.JPanel {
+public class ModelChange extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form ModelChange
      */
     public ModelChange() {
-        initComponents();
+        super();
     }
     
     /**
@@ -35,13 +36,13 @@ public class ModelChange extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        backButton = new javax.swing.JButton();
+        backButton = new inventory.myClasses.MyButton();
         modelNameLabel = new javax.swing.JLabel();
         contactLabel = new javax.swing.JLabel();
-        modelNameTextField = new javax.swing.JTextField();
+        modelNameTextField = new inventory.myClasses.MyTextField();
         contactScrollPane = new javax.swing.JScrollPane();
-        contactTextPane = new javax.swing.JTextPane();
-        changeButton = new javax.swing.JButton();
+        contactTextPane = new inventory.myClasses.MyTextPane();
+        changeButton = new inventory.myClasses.MyButton();
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -281,5 +282,26 @@ public class ModelChange extends javax.swing.JPanel {
         this.id = 0;
         this.name = "";
         this.contact = null;
+    }
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.changeButton.setBackground(transparent);
+        this.contactScrollPane.setBackground(transparent);
+        this.contactTextPane.setBackground(transparent);
+        this.modelNameTextField.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

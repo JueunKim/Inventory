@@ -7,6 +7,7 @@ package inventory.nationPage;
 
 
 import inventory.categoryPage.*;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,13 +17,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class NationRegister extends javax.swing.JPanel {
+public class NationRegister extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form NationRegister
      */
     public NationRegister() {
-        initComponents();
+        super();
     }
     
     /**
@@ -34,13 +35,13 @@ public class NationRegister extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        backButton = new javax.swing.JButton();
+        backButton = new inventory.myClasses.MyButton();
         categoryNameLabel = new javax.swing.JLabel();
         DescriptionLabel = new javax.swing.JLabel();
-        categoryNameTextField = new javax.swing.JTextField();
+        categoryNameTextField = new inventory.myClasses.MyTextField();
         descriptionScrollPane = new javax.swing.JScrollPane();
-        descriptionTextPane = new javax.swing.JTextPane();
-        RegisterButton = new javax.swing.JButton();
+        descriptionTextPane = new inventory.myClasses.MyTextPane();
+        RegisterButton = new inventory.myClasses.MyButton();
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -159,4 +160,25 @@ public class NationRegister extends javax.swing.JPanel {
     protected javax.swing.JScrollPane descriptionScrollPane;
     protected javax.swing.JTextPane descriptionTextPane;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.categoryNameTextField.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.descriptionTextPane.setBackground(transparent);
+        this.RegisterButton.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

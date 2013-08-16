@@ -5,6 +5,9 @@
 package inventory.userManagement;
 
 import inventory.core.ProjectBOMStockMain;
+import java.awt.Color;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -15,13 +18,13 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class Login extends javax.swing.JPanel {
+public class Login extends inventory.myClasses.MyJPanel {
 
     /**
      * Creates new form Login
      */
     public Login() {
-        initComponents();
+        super();
     }
 
     /**
@@ -35,10 +38,10 @@ public class Login extends javax.swing.JPanel {
 
         idLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
-        loginButton = new javax.swing.JButton();
-        registerButton = new javax.swing.JButton();
-        passwordTextField = new javax.swing.JPasswordField();
-        idTextField = new javax.swing.JTextField();
+        loginButton = new inventory.myClasses.MyButton();
+        registerButton = new inventory.myClasses.MyButton();
+        passwordTextField = new inventory.myClasses.MyPasswordTextField();
+        idTextField = new inventory.myClasses.MyTextField();
 
         idLabel.setText("ID");
 
@@ -58,12 +61,14 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
+        passwordTextField.setBackground(new java.awt.Color(255,255,255,152));
         passwordTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 passwordTextFieldKeyTyped(evt);
             }
         });
 
+        idTextField.setBackground(new java.awt.Color(255,255,255,152));
         idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 idTextFieldKeyTyped(evt);
@@ -141,6 +146,10 @@ public class Login extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "You need a Permission. Ask to Administrator","Warning",JOptionPane.OK_OPTION);
                         break;
                 }
+                if(inventory.core.MainFrame.role != 4){
+                    this.idTextField.setText("");
+                    this.passwordTextField.setText("");
+                }
             }else{
                 inventory.core.MainFrame.user_id = 0;
                 inventory.core.MainFrame.role = 0;
@@ -172,4 +181,23 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
+
+    public void setComponetsColor(Color color) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.loginButton.setBackground(color);
+        this.registerButton.setBackground(color);
+        this.idTextField.setBackground(color);
+        this.passwordTextField.setBackground(color);
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

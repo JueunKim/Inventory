@@ -4,6 +4,7 @@
  */
 package inventory.itemPage;
 
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class ItemUpdate extends javax.swing.JPanel {
+public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private String originalName = null;
     private Integer category_id = null;
     private Integer model_id = null;
@@ -101,7 +102,7 @@ public class ItemUpdate extends javax.swing.JPanel {
     }
     
     public ItemUpdate() {
-        initComponents();
+        super();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,25 +122,25 @@ public class ItemUpdate extends javax.swing.JPanel {
         currentLabel = new javax.swing.JLabel();
         expiredateLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
-        nameTextField = new javax.swing.JTextField();
-        categoryTextField = new javax.swing.JTextField();
-        modelTextField = new javax.swing.JTextField();
-        packageTextField = new javax.swing.JTextField();
-        priceTextField = new javax.swing.JTextField();
-        nationTextField = new javax.swing.JTextField();
-        currentTextField = new javax.swing.JTextField();
-        expiredateTextField = new javax.swing.JTextField();
+        nameTextField = new inventory.myClasses.MyTextField();
+        categoryTextField = new inventory.myClasses.MyTextField();
+        modelTextField = new inventory.myClasses.MyTextField();
+        packageTextField = new inventory.myClasses.MyTextField();
+        priceTextField = new inventory.myClasses.MyTextField();
+        nationTextField = new inventory.myClasses.MyTextField();
+        currentTextField = new inventory.myClasses.MyTextField();
+        expiredateTextField = new inventory.myClasses.MyTextField();
         descriptionScrollPane = new javax.swing.JScrollPane();
-        descriptionTextArea = new javax.swing.JTextArea();
-        backButton = new javax.swing.JButton();
-        updateButton = new javax.swing.JButton();
+        descriptionTextArea = new inventory.myClasses.MyTextArea();
+        backButton = new inventory.myClasses.MyButton();
+        updateButton = new inventory.myClasses.MyButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        categoryButton = new javax.swing.JButton();
-        modelButton = new javax.swing.JButton();
-        packageButton = new javax.swing.JButton();
-        nationButton = new javax.swing.JButton();
-        expireDateButton = new javax.swing.JButton();
+        categoryButton = new inventory.myClasses.MyButton();
+        modelButton = new inventory.myClasses.MyButton();
+        packageButton = new inventory.myClasses.MyButton();
+        nationButton = new inventory.myClasses.MyButton();
+        expireDateButton = new inventory.myClasses.MyButton();
 
         nameLabel.setText("Name");
 
@@ -445,8 +446,9 @@ public class ItemUpdate extends javax.swing.JPanel {
                 if(!this.nameTextField.getText().equals(originalName)){
                     ResultSet rs2 = inventory.core.DBConnection.excuteQuery("SELECT name FROM inventory.item where name = '"+this.nameTextField.getText()+"';");
                     if(rs2.next()){
-                        JOptionPane.showMessageDialog(this, "Name is duplicated.","Warning",JOptionPane.OK_OPTION);
-                        return validation;
+                        if(JOptionPane.showConfirmDialog(this, "Name : "+this.nameTextField.getText()+" is duplicated. Will you going on?!","Warning",JOptionPane.OK_OPTION) != JOptionPane.OK_OPTION){
+                            return validation;
+                        }
                     }
                 }
             }catch (SQLException ex) {
@@ -543,8 +545,9 @@ public class ItemUpdate extends javax.swing.JPanel {
                 //name should be unique
                 ResultSet rs2 = inventory.core.DBConnection.excuteQuery("SELECT name FROM inventory.item where name = '"+this.nameTextField.getText()+"';");
                 if(rs2.next()){
-                    JOptionPane.showMessageDialog(this, "Name is duplicated.","Warning",JOptionPane.OK_OPTION);
-                    return validation;
+                    if(JOptionPane.showConfirmDialog(this, "Name : "+this.nameTextField.getText()+" is duplicated. Will you going on?!","Warning",JOptionPane.OK_OPTION) != JOptionPane.OK_OPTION){
+                        return validation;
+                    }
                 }
             }catch (SQLException ex) {
                 Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
@@ -722,4 +725,37 @@ public class ItemUpdate extends javax.swing.JPanel {
     private javax.swing.JTextField priceTextField;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        this.initComponents();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        this.backButton.setBackground(transparent);
+        this.categoryButton.setBackground(transparent);
+        this.categoryTextField.setBackground(transparent);
+        this.currentTextField.setBackground(transparent);
+        this.descriptionScrollPane.setBackground(transparent);
+        this.descriptionTextArea.setBackground(transparent);
+        this.expiredateTextField.setBackground(transparent);
+        this.expireDateButton.setBackground(transparent);
+        this.modelButton.setBackground(transparent);
+        this.modelTextField.setBackground(transparent);
+        this.nameTextField.setBackground(transparent);
+        this.nationButton.setBackground(transparent);
+        this.nationTextField.setBackground(transparent);
+        this.packageButton.setBackground(transparent);
+        this.packageTextField.setBackground(transparent);
+        this.priceTextField.setBackground(transparent);
+        this.updateButton.setBackground(transparent);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -4,6 +4,7 @@
  */
 package inventory.userManagement;
 
+import java.awt.Color;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author Kind
  */
-public class UserManage extends javax.swing.JPanel {
+public class UserManage extends inventory.myClasses.MyJPanel {
 
     private String order_by = "user";
     private String order = "ASC";
@@ -29,8 +30,7 @@ public class UserManage extends javax.swing.JPanel {
      * Creates new form UserManage
      */
     public UserManage() {
-        initComponents();
-        loadDataByID(this.searchTextField.getText());
+        super();
     }
 
     /**
@@ -54,12 +54,12 @@ public class UserManage extends javax.swing.JPanel {
         contactList = new javax.swing.JList();
         roleLabel = new javax.swing.JLabel();
         contactLabel = new javax.swing.JLabel();
-        searchTextField = new javax.swing.JTextField();
+        searchTextField = new inventory.myClasses.MyTextField();
         searchLabel = new javax.swing.JLabel();
-        backButton = new javax.swing.JButton();
-        permitButton = new javax.swing.JButton();
+        backButton = new inventory.myClasses.MyButton();
+        permitButton = new inventory.myClasses.MyButton();
         jSeparator1 = new javax.swing.JSeparator();
-        dropButton = new javax.swing.JButton();
+        dropButton = new inventory.myClasses.MyButton();
 
         userLabel.setText("User List");
         userLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -271,6 +271,10 @@ public class UserManage extends javax.swing.JPanel {
             
             String sql = "SELECT user.id, user.user, user.name, role.name as role, user.contact FROM inventory.user as user inner join inventory.role as role on user.role_id = role.id where user like '%"+user+"%' order by "+order_by+" "+order+";";
             
+            if(sql.toString().contains("null")){
+                sql = "SELECT user.id, user.user, user.name, role.name as role, user.contact FROM inventory.user as user inner join inventory.role as role on user.role_id = role.id where user like '%"+user+"%' order by user DESC;";
+            }
+            
             rs = inventory.core.DBConnection.excuteQuery(sql);  
             
             if(rs != null){
@@ -364,6 +368,7 @@ public class UserManage extends javax.swing.JPanel {
     private void searchTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextFieldKeyReleased
         // TODO add your handling code here:
         this.loadDataByID(this.searchTextField.getText());
+        this.updateUI();
     }//GEN-LAST:event_searchTextFieldKeyReleased
 
     private void permitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permitButtonActionPerformed
@@ -401,7 +406,7 @@ public class UserManage extends javax.swing.JPanel {
         inventory.core.DBConnection.updateQuery(sql);
         
         String message = dropOrPermit.equals("Drop")?" was Dropped out.":" was Permitted.";
-        JOptionPane.showConfirmDialog(this, this.userList.getSelectedValue().toString()+message,"Confirm",JOptionPane.OK_OPTION);
+        JOptionPane.showMessageDialog(this, this.userList.getSelectedValue().toString()+message,"Confirm",JOptionPane.OK_OPTION);
         
         Integer id = this.ids.get(this.nameList.getSelectedIndex());
         
@@ -421,6 +426,8 @@ public class UserManage extends javax.swing.JPanel {
         this.nameList.ensureIndexIsVisible(this.nameList.getSelectedIndex());
         this.roleList.ensureIndexIsVisible(this.roleList.getSelectedIndex());
         this.contactList.ensureIndexIsVisible(this.contactList.getSelectedIndex());
+        
+        this.updateUI();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
@@ -442,4 +449,33 @@ public class UserManage extends javax.swing.JPanel {
     private javax.swing.JList userList;
     private javax.swing.JScrollPane userScrollPane;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected void myInitComponents() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.initComponents();
+    }
+
+    @Override
+    public void LoadData() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        loadDataByID("");
+    }
+
+    @Override
+    public void setComponetsColor(Color transparent) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.backButton.setBackground(transparent);
+        this.contactList.setBackground(transparent);
+        this.contactScrollPane.setBackground(transparent);
+        this.dropButton.setBackground(transparent);
+        this.nameList.setBackground(transparent);
+        this.nameScrollPane.setBackground(transparent);
+        this.permitButton.setBackground(transparent);
+        this.roleList.setBackground(transparent);
+        this.roleScrollPane.setBackground(transparent);
+        this.searchTextField.setBackground(transparent);
+        this.userList.setBackground(transparent);
+        this.userScrollPane.setBackground(transparent);
+    }
 }

@@ -93,8 +93,6 @@ public class ProjectBOMStockMain {
     
     public static void setPage(int i){
         ((MainFrame)f).setPage(i);
-        f.setVisible(true);
-        f.setResizable(false);
     }
     
     public static javax.swing.JPanel getPage(int i){
