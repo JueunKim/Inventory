@@ -345,8 +345,8 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
         }
         clearElements();
         
-        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
-        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(this.nameTextField.getText());
+        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.ProjectBOMStockMain.getMainFrame().getTitle()))).loadDataByName("");
+        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.ProjectBOMStockMain.getMainFrame().getTitle()))).setSelectedListItem(this.nameTextField.getText());
         
         if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
            ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();

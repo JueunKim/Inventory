@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
  */
 public abstract class MyJPanel extends javax.swing.JPanel implements MyPaneInterface{
     private BufferedImage img = null;
-    private String imgSource = "../Image4.jpg";
+    private String imgSource = "Image.jpg";
     
     public MyJPanel(){
         super();

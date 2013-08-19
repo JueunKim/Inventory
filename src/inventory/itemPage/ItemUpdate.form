@@ -16,42 +16,47 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="currentLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="nationLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="priceLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="packageLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="modelLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="categoryLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="nameLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="expiredateLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="descriptionLabel" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="modelTextField" max="32767" attributes="0"/>
-                  <Component id="packageTextField" max="32767" attributes="0"/>
-                  <Component id="priceTextField" max="32767" attributes="0"/>
-                  <Component id="nationTextField" max="32767" attributes="0"/>
-                  <Component id="currentTextField" max="32767" attributes="0"/>
-                  <Component id="expiredateTextField" max="32767" attributes="0"/>
-                  <Component id="descriptionScrollPane" max="32767" attributes="0"/>
-                  <Component id="nameTextField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="categoryTextField" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="backButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="updateButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jSeparator2" max="32767" attributes="0"/>
-                  <Component id="categoryButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="modelButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="packageButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="nationButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="expireDateButton" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="imageLabel" min="-2" pref="491" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="currentLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nationLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="priceLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="packageLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="modelLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="categoryLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nameLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="expiredateLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="descriptionLabel" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="modelTextField" max="32767" attributes="0"/>
+                          <Component id="packageTextField" max="32767" attributes="0"/>
+                          <Component id="priceTextField" max="32767" attributes="0"/>
+                          <Component id="nationTextField" max="32767" attributes="0"/>
+                          <Component id="currentTextField" max="32767" attributes="0"/>
+                          <Component id="expiredateTextField" max="32767" attributes="0"/>
+                          <Component id="descriptionScrollPane" max="32767" attributes="0"/>
+                          <Component id="nameTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="categoryTextField" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="backButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="updateButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jSeparator2" max="32767" attributes="0"/>
+                          <Component id="categoryButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="modelButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="packageButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nationButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="expireDateButton" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -113,19 +118,20 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace pref="12" max="32767" attributes="0"/>
-                      <Component id="updateButton" min="-2" pref="30" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="updateButton" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                       <Component id="backButton" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="descriptionLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="descriptionScrollPane" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="descriptionScrollPane" alignment="0" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="imageLabel" min="-2" pref="328" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -341,6 +347,8 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="imageLabel">
     </Component>
   </SubComponents>
 </Form>
