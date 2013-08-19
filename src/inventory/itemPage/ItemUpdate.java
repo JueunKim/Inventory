@@ -5,12 +5,19 @@
 package inventory.itemPage;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -27,6 +34,9 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private java.sql.Date expiredate = null;
     private Integer id = 0;
     private Integer originalCurrent = 0;
+    
+    private int imageWidth = 491;
+    private int imageHeight = 328;
     
     private ArrayList<String> possibilities = null;
     private ArrayList<Integer> ids = null;
@@ -76,6 +86,12 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                 Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        getItemImage(this.nameTextField.getText());
+        
+        this.imageLabel.updateUI();
+        this.imageLabel.repaint();
+        this.updateUI();
     }
     
     public void clearElements(){
@@ -104,6 +120,35 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     public ItemUpdate() {
         super();
     }
+    
+    protected ImageIcon getItemImage(String name){
+        String src = "../itemImange/"+name.substring(0, name.length()-1)+".jpg";
+        
+        System.out.println(src);
+        this.imageWidth = 491;
+        this.imageHeight = 328;
+        
+        try {
+            URL resource = getClass().getResource(src);
+            //URL resource = getClass().getResource("../itemImange/Image.jpg");
+            
+            this.imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT)));
+            
+            return new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+        } catch (Exception ex) {
+            try {
+                URL resource = getClass().getResource("../No_Image.jpg");
+                
+                this.imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT)));
+                
+                return new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+            } catch (    URISyntaxException | IOException ex1) {
+                Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+        return null;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -261,6 +306,9 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         });
 
+        imageLabel.setOpaque(true);
+        imageLabel.setPreferredSize(new java.awt.Dimension(491, 328));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -363,6 +411,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                 .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        imageLabel.getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
