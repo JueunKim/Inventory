@@ -89,7 +89,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                 sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by itemname DESC;";
             }
             
-            ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);  
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
             
             if(rs != null){
                 while(rs.next()){
@@ -690,7 +690,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             try {
                 //this.categoryList.getSelectedValue().toString()
                 String sql = "SELECT name, contact FROM inventory.model where name = '"+this.modelList.getSelectedValue().toString()+"';";
-                ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);
+                ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
                 if(rs.next()){
                     inventory.modelPage.ModelChange p = new inventory.modelPage.ModelChange();
@@ -925,7 +925,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             try {
                 //this.categoryList.getSelectedValue().toString()
                 String sql = "SELECT name, description FROM inventory.category where name = '"+this.categoryList.getSelectedValue().toString()+"';";
-                ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);
+                ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
                 if(rs.next()){
                     inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();

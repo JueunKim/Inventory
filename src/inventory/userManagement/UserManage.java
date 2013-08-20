@@ -275,7 +275,7 @@ public class UserManage extends inventory.myClasses.MyJPanel {
                 sql = "SELECT user.id, user.user, user.name, role.name as role, user.contact FROM inventory.user as user inner join inventory.role as role on user.role_id = role.id where user like '%"+user+"%' order by user DESC;";
             }
             
-            rs = inventory.core.DBConnection.excuteQuery(sql);  
+            rs = inventory.core.DBConnection.executeQuery(sql);  
             
             if(rs != null){
                 while(rs.next()){

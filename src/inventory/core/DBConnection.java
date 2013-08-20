@@ -110,7 +110,7 @@ public class DBConnection {
         }
     }
     
-    public static ResultSet excuteQuery(String sql){
+    public static ResultSet executeQuery(String sql){
         ResultSet rs = null;
         if(read != null){
             try {

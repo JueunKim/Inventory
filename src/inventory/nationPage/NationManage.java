@@ -44,7 +44,7 @@ public class NationManage extends inventory.myClasses.MyJPanel {
         try {
             ResultSet rs = null;
             
-            rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.nation order by name;");
+            rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.nation order by name;");
             
             if(rs != null){
                 while(rs.next()){

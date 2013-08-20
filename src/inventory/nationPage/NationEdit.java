@@ -120,7 +120,7 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
                         saved = true;
                     }else{
                         //SELECT name FROM inventory.category where name = 'eye';
-                        ResultSet rs = inventory.core.DBConnection.excuteQuery("SELECT name FROM inventory.nation where name = '"+this.categoryNameTextField.getText()+"';");
+                        ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT name FROM inventory.nation where name = '"+this.categoryNameTextField.getText()+"';");
                         if(!rs.next()){
                             //UPDATE `inventory`.`category` SET `name`='Knife&suture2', `description`='test45' WHERE `id`='4';
                             inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`nation` SET `name`='"+this.categoryNameTextField.getText()+"', `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");

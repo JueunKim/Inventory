@@ -16,8 +16,6 @@ public interface MyPaneInterface {
      *
      * @param address
      */
-    public abstract void setImage(URI address);
-    
     public abstract void setComponetsColor(Color transparent);
     
     

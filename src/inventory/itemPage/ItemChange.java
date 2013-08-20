@@ -5,10 +5,15 @@
 package inventory.itemPage;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +23,10 @@ import javax.swing.JOptionPane;
 public class ItemChange extends inventory.myClasses.MyJPanel {
     private Integer id = 0;
     private String originalName = null;
+    
+    int imageWidth = 0;
+    int imageHeight = 0;
+    
     /**
      * Creates new form ItemChange
      */
@@ -31,7 +40,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
         
         if(id > 0){
             try {
-                ResultSet rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.item WHERE id = "+id+";");
+                ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.item WHERE id = "+id+";");
                 if(rs.next()){
                     originalName = rs.getString("name");
                     this.nameTextField.setText(originalName);
@@ -56,6 +65,70 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
                 Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        this.imageLabel.setIcon(getItemImage(this.nameTextField.getText()));
+        
+        this.imageLabel.updateUI();
+        this.imageLabel.repaint();
+        this.repaint();
+        this.updateUI();
+    }
+    
+    protected ImageIcon getItemImage(String name){
+        try {
+            String src = null;
+            if(name.length()>1){
+                src = name.substring(0, name.length()-1);
+            }
+            
+            this.imageWidth = 368;
+            this.imageHeight = 328;
+            
+            String sql = "SELECT * FROM inventory.item_image WHERE name = '"+src+"';";
+            
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
+            
+            InputStream is = null;
+            
+            if(rs.next()){
+                this.imageLabel.setIcon(null);
+                is = rs.getBinaryStream("image");
+                ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                is.close();
+                return ii;
+            }else{
+                this.imageLabel.setIcon(null);
+                is = this.getClass().getResourceAsStream("itemImange/No_Image.jpg");
+                ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                is.close();
+                return ii;
+            }
+            /*
+            try {
+                this.imageLabel.setIcon(null);
+                is = this.getClass().getResourceAsStream(src);
+                ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                is.close();
+                return ii;
+            } catch (Exception ex) {
+                try {
+                    this.imageLabel.setIcon(null);
+                    is = this.getClass().getResourceAsStream("itemImange/No_Image.jpg");
+                    ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                    is.close();
+                    return ii;
+                } catch (IOException ex1) {
+                    Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+            return null;
+            */
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public void clearElements(){
@@ -105,6 +178,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
         descriptionLabel = new javax.swing.JLabel();
         changeButton = new inventory.myClasses.MyButton();
         changeTextField = new inventory.myClasses.MyTextField();
+        imageLabel = new javax.swing.JLabel();
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -183,28 +257,31 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(currentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(packageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(modelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(expiredateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(packageTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(priceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(nationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(currentTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(expiredateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(categoryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(modelTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(currentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(packageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(modelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(expiredateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(packageTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(priceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(nationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(currentTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(expiredateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(categoryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(modelTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(descriptionScrollPane))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(changeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
@@ -239,30 +316,30 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
                     .addComponent(nationLabel)
                     .addComponent(nationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(currentLabel)
                                 .addGap(15, 15, 15))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(currentTextField)
+                                .addComponent(currentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(expiredateLabel)
                             .addComponent(expiredateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(descriptionLabel)
-                                .addGap(0, 163, Short.MAX_VALUE))
-                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(descriptionLabel)
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(changeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
                         .addComponent(changeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -309,7 +386,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
             try {
                 String sql = "SELECT current-"+this.changeTextField.getText()+" FROM inventory.item where id = "+this.id+";";
                 
-                ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);
+                ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
                 if(rs.next()){
                     int remainder = rs.getInt(1);
@@ -382,6 +459,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JLabel expiredateLabel;
     private javax.swing.JTextField expiredateTextField;
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel modelLabel;
     private javax.swing.JTextField modelTextField;
     private javax.swing.JLabel nameLabel;

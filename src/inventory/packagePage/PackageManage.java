@@ -271,7 +271,7 @@ public class PackageManage extends inventory.myClasses.MyJPanel {
         try {
             ResultSet rs = null;
             
-            rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.package where count like '%"+name+"%' order by count;");
+            rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.package where count like '%"+name+"%' order by count;");
             
             if(rs != null){
                 while(rs.next()){

@@ -7,9 +7,16 @@ package inventory.itemPage;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,6 +48,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private ArrayList<String> possibilities = null;
     private ArrayList<Integer> ids = null;
     
+    private String imgSource = null;
     /**
      * Creates new form ItemUpdate
      */
@@ -48,13 +56,15 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         //set this values
         this.id = id;
         
+        this.imageLabel.setIcon(null);
+        
         if(id == 0){
             this.clearElements();
             this.updateButton.setText("Register");
         }else if(id > 0){
             this.updateButton.setText("Edit");
             try {
-                ResultSet rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.item WHERE id = "+id+";");
+                ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.item WHERE id = "+id+";");
                 if(rs.next()){
                     originalName = rs.getString("name");
                     category_id = rs.getInt("category_id");
@@ -87,10 +97,11 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         }
         
-        getItemImage(this.nameTextField.getText());
+        this.imageLabel.setIcon(getItemImage(this.nameTextField.getText()));
         
         this.imageLabel.updateUI();
         this.imageLabel.repaint();
+        this.repaint();
         this.updateUI();
     }
     
@@ -102,6 +113,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         nation_id = null;
         expiredate = null;
         id = 0;
+        this.imgSource = null;
         
         possibilities = null;
         ids = null;
@@ -115,6 +127,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         this.nationTextField.setText("");
         this.packageTextField.setText("");
         this.priceTextField.setText("");
+        this.imageLabel.setIcon(null);
     }
     
     public ItemUpdate() {
@@ -122,29 +135,58 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     }
     
     protected ImageIcon getItemImage(String name){
-        String src = "../itemImange/"+name.substring(0, name.length()-1)+".jpg";
-        
-        System.out.println(src);
-        this.imageWidth = 491;
-        this.imageHeight = 328;
-        
         try {
-            URL resource = getClass().getResource(src);
-            //URL resource = getClass().getResource("../itemImange/Image.jpg");
-            
-            this.imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT)));
-            
-            return new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
-        } catch (Exception ex) {
-            try {
-                URL resource = getClass().getResource("../No_Image.jpg");
-                
-                this.imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT)));
-                
-                return new ImageIcon(ImageIO.read(new File(resource.toURI())).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
-            } catch (    URISyntaxException | IOException ex1) {
-                Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex1);
+            String src = null;
+            if(name.length()>1){
+                src = name.substring(0, name.length()-1);
             }
+            
+            this.imageWidth = 368;
+            this.imageHeight = 328;
+            
+            String sql = "SELECT * FROM inventory.item_image WHERE name = '"+src+"';";
+            
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
+            
+            InputStream is = null;
+            
+            if(rs.next()){
+                this.imageLabel.setIcon(null);
+                is = rs.getBinaryStream("image");
+                ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                is.close();
+                return ii;
+            }else{
+                this.imageLabel.setIcon(null);
+                is = this.getClass().getResourceAsStream("itemImange/No_Image.jpg");
+                ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                is.close();
+                return ii;
+            }
+            /*
+            try {
+                this.imageLabel.setIcon(null);
+                is = this.getClass().getResourceAsStream(src);
+                ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                is.close();
+                return ii;
+            } catch (Exception ex) {
+                try {
+                    this.imageLabel.setIcon(null);
+                    is = this.getClass().getResourceAsStream("itemImange/No_Image.jpg");
+                    ImageIcon ii = new ImageIcon(ImageIO.read(is).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT));
+                    is.close();
+                    return ii;
+                } catch (IOException ex1) {
+                    Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+            return null;
+            */
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -179,14 +221,13 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         descriptionTextArea = new inventory.myClasses.MyTextArea();
         backButton = new inventory.myClasses.MyButton();
         updateButton = new inventory.myClasses.MyButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
         categoryButton = new inventory.myClasses.MyButton();
         modelButton = new inventory.myClasses.MyButton();
         packageButton = new inventory.myClasses.MyButton();
         nationButton = new inventory.myClasses.MyButton();
         expireDateButton = new inventory.myClasses.MyButton();
         imageLabel = new javax.swing.JLabel();
+        imageEditButton = new inventory.myClasses.MyButton();
 
         nameLabel.setText("Name");
 
@@ -306,8 +347,16 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         });
 
+        imageLabel.setIcon(null);
         imageLabel.setOpaque(true);
-        imageLabel.setPreferredSize(new java.awt.Dimension(491, 328));
+        imageLabel.setPreferredSize(new java.awt.Dimension(368, 328));
+
+        imageEditButton.setText("Image Edit");
+        imageEditButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imageEditButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -315,8 +364,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(currentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -330,26 +378,26 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                             .addComponent(descriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(modelTextField)
-                            .addComponent(packageTextField)
-                            .addComponent(priceTextField)
-                            .addComponent(nationTextField)
-                            .addComponent(currentTextField)
-                            .addComponent(expiredateTextField)
-                            .addComponent(descriptionScrollPane)
-                            .addComponent(nameTextField)
-                            .addComponent(categoryTextField))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1)
-                            .addComponent(jSeparator2)
-                            .addComponent(categoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(modelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(packageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(expireDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(modelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(packageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(currentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(categoryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(expiredateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(categoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(modelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(packageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(expireDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(imageEditButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -396,19 +444,19 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                         .addComponent(expireDateButton)))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
+                        .addGap(159, 159, 159)
+                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(imageEditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -471,6 +519,22 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         }
         
+        if(this.imgSource != null){
+            updateItemImage();
+        }
+        
+        /*
+        String src = "inventory/itemPage/itemImange/"+nameTextField.getText().substring(0, nameTextField.getText().length()-1)+".jpg";
+        System.out.println(src);
+        
+        String dest = "";
+        //dest = this.getClass().getResource("/").getPath();
+        //System.out.println(dest);
+        
+        if(this.imgSource != null){
+            inventory.core.ProjectBOMStockMain.itemImagefileCopy(imgSource, dest+src);
+        }
+        */
         //if(JOptionPane.showConfirmDialog(this, "Save was done!, Continue to Update?","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
             //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
@@ -483,6 +547,61 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         //if(id == 0)
             //this.clearElements();
     }//GEN-LAST:event_updateButtonActionPerformed
+    
+    private void updateItemImage(){
+        String sql = "SELECT id,name FROM inventory.item_image WHERE name = '"+this.nameTextField.getText().substring(0, this.nameTextField.getText().length()-1)+"';";
+            
+        ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
+        
+        String INSERT_PICTURE = null;
+        String UPDATE_PICTURE = null;
+        //`name`='1', `description`='1' 
+        
+        boolean isInsert = false;
+        
+        try {
+            if(rs.next()){
+                UPDATE_PICTURE = "UPDATE `inventory`.`item_image` SET `name`=?, `image`=? WHERE `id`='"+rs.getInt("id")+"';";
+            }else{
+                INSERT_PICTURE = "INSERT INTO `inventory`.`item_image` (`name`,`image`) VALUES (?,?);";
+                isInsert = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        FileInputStream fis = null;
+        PreparedStatement ps = null;
+        try {
+            Connection conn = inventory.core.DBConnection.getWriteConnection();
+            conn.setAutoCommit(false);
+            
+            File file = new File(this.imgSource);
+            
+            fis = new FileInputStream(file);
+            if(isInsert){
+                ps = conn.prepareStatement(INSERT_PICTURE);
+            }else{
+                ps = conn.prepareStatement(UPDATE_PICTURE);
+            }
+            ps.setString(1, this.nameTextField.getText().substring(0, this.nameTextField.getText().length()-1));
+            ps.setBinaryStream(2, fis, (int) file.length());
+
+            ps.executeUpdate();
+            conn.commit();
+        } catch (SQLException | FileNotFoundException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if(ps!=null&&fis!=null){
+                    ps.close();
+                    fis.close();
+                }
+            } catch (    SQLException | IOException ex) {
+                Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     
     private boolean edit() throws SQLException{
         boolean validation = false;
@@ -499,7 +618,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             try {
                 //name should be unique
                 if(!this.nameTextField.getText().equals(originalName)){
-                    ResultSet rs2 = inventory.core.DBConnection.excuteQuery("SELECT name FROM inventory.item where name = '"+this.nameTextField.getText()+"';");
+                    ResultSet rs2 = inventory.core.DBConnection.executeQuery("SELECT name FROM inventory.item where name = '"+this.nameTextField.getText()+"';");
                     if(rs2.next()){
                         if(JOptionPane.showConfirmDialog(this, "Name : "+this.nameTextField.getText()+" is duplicated. Will you going on?!","Warning",JOptionPane.OK_OPTION) != JOptionPane.OK_OPTION){
                             return validation;
@@ -535,7 +654,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         if(this.model_id == null || this.model_id == 0){
             if(JOptionPane.showConfirmDialog(this, "Model is empty. Would you set this attribute \"NONE\"?","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
                 try {
-                    ResultSet rs = inventory.core.DBConnection.excuteQuery("SELECT id FROM inventory.model where name = 'none';");
+                    ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT id FROM inventory.model where name = 'none';");
                     if(rs.next()){
                         model_id = rs.getInt("id");
                         this.modelTextField.setText("None");
@@ -598,7 +717,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         }else{
             try {
                 //name should be unique
-                ResultSet rs2 = inventory.core.DBConnection.excuteQuery("SELECT name FROM inventory.item where name = '"+this.nameTextField.getText()+"';");
+                ResultSet rs2 = inventory.core.DBConnection.executeQuery("SELECT name FROM inventory.item where name = '"+this.nameTextField.getText()+"';");
                 if(rs2.next()){
                     if(JOptionPane.showConfirmDialog(this, "Name : "+this.nameTextField.getText()+" is duplicated. Will you going on?!","Warning",JOptionPane.OK_OPTION) != JOptionPane.OK_OPTION){
                         return validation;
@@ -721,9 +840,27 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             this.expireDateButtonActionPerformed(null);
     }//GEN-LAST:event_expireDateButtonKeyTyped
 
+    private void imageEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageEditButtonActionPerformed
+        try {
+            // TODO add your handling code here:
+            File a = null;
+            a = inventory.core.ProjectBOMStockMain.openImageFile();
+            
+            if(a != null){
+                this.imgSource = a.getAbsolutePath();
+            }else{
+                return;
+            }
+            
+            this.imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(this.imgSource)).getScaledInstance(this.imageWidth, this.imageHeight, Image.SCALE_DEFAULT)));
+        } catch (IOException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_imageEditButtonActionPerformed
+
     private String selectDialog(String Title, String Message, String sql, String possibleTarget){
         try {
-            ResultSet rs = inventory.core.DBConnection.excuteQuery(sql);
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
             
             possibilities = new ArrayList<String>();
             ids = new ArrayList<Integer>();
@@ -763,9 +900,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private javax.swing.JButton expireDateButton;
     private javax.swing.JLabel expiredateLabel;
     private javax.swing.JTextField expiredateTextField;
+    private javax.swing.JButton imageEditButton;
     private javax.swing.JLabel imageLabel;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton modelButton;
     private javax.swing.JLabel modelLabel;
     private javax.swing.JTextField modelTextField;

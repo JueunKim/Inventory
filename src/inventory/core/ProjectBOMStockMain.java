@@ -13,6 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.*;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -169,5 +174,69 @@ public class ProjectBOMStockMain {
         if(inventory.core.ProjectBOMStockMain.display != null){
             inventory.core.ProjectBOMStockMain.display.dispose();
         }
+    }
+    
+    public static void itemImagefileCopy(String inputSrc, String DestSrc){
+        InputStream inStream = null;
+	OutputStream outStream = null;
+ 
+    	try{
+            //File afile =new File("/home/paul/workspace/Java/netbeans/ProjectBOMStock/src/inventory/Image2.jpg");
+            
+            //File bfile =new File("src/inventory/core/Image.jpg");
+            File afile = new File(inputSrc);
+            
+            System.out.println(ProjectBOMStockMain.class.getResource("/"));
+            File bfile = new File(DestSrc);
+            
+            System.out.println(inputSrc);
+            System.out.println(DestSrc);
+            
+            //bfile.createNewFile();
+            
+            //aaa
+            
+    	    inStream = new FileInputStream(afile);
+            outStream = new FileOutputStream(bfile);
+ 
+    	    byte[] buffer = new byte[1024];
+ 
+    	    int length;
+    	    //copy the file content in bytes 
+    	    while ((length = inStream.read(buffer)) > 0){
+ 
+    	    	outStream.write(buffer, 0, length);
+ 
+    	    }
+            
+            outStream.flush();
+            inStream.close();
+    	    outStream.close();
+ 
+    	    System.out.println("File is copied successful!");
+ 
+    	}catch(IOException e){
+    		e.printStackTrace();
+    	}
+    }
+    
+    private static File openFile(String fileFilters [][]){
+        javax.swing.JFileChooser jfc = new JFileChooser();
+        
+        if(fileFilters != null){
+            for(int i = 0; i < fileFilters.length; i++){
+                jfc.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(fileFilters[i][0],fileFilters[i][1]));
+            }
+        }
+        jfc.setFileSelectionMode(javax.swing.JFileChooser.FILES_ONLY);
+        jfc.showOpenDialog(jfc);
+        return jfc.getSelectedFile();
+    }
+    
+    public static File openImageFile(){
+        String fileFilters [][] = {{".png", "png"},
+                              {".gif", "gif"},
+                              {".jpg", "jpg"}};
+        return openFile(fileFilters);
     }
 }

@@ -167,7 +167,7 @@ public class ModelChange extends inventory.myClasses.MyJPanel {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
             if(!this.modelNameTextField.getText().trim().equals("")){
-                if(!inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.model WHERE name = '"+this.modelNameTextField.getText()+"';").next()){
+                if(!inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.model WHERE name = '"+this.modelNameTextField.getText()+"';").next()){
                     int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION){
                         if(!this.contactTextPane.getText().trim().equals("")){
@@ -215,7 +215,7 @@ public class ModelChange extends inventory.myClasses.MyJPanel {
                         }
                         saved = true;
                     }else{
-                        ResultSet rs = inventory.core.DBConnection.excuteQuery("SELECT name FROM inventory.model where name = '"+this.modelNameTextField.getText()+"';");
+                        ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT name FROM inventory.model where name = '"+this.modelNameTextField.getText()+"';");
                         if(!rs.next()){
                             if(!this.contactTextPane.getText().trim().equals("")){
                                 inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`model` SET `name`='"+this.modelNameTextField.getText()+"', `contact`='"+(this.contactTextPane.getText())+"' WHERE `id`='"+this.id+"';");

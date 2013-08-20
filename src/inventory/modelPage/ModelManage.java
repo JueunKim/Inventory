@@ -289,7 +289,7 @@ public class ModelManage extends inventory.myClasses.MyJPanel {
         try {
             ResultSet rs = null;
             
-            rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.model where name like '%"+name+"%' order by name;");
+            rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.model where name like '%"+name+"%' order by name;");
             
             if(rs != null){
                 while(rs.next()){

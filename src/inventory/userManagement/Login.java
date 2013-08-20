@@ -127,7 +127,7 @@ public class Login extends inventory.myClasses.MyJPanel {
 
     private void loginEvent(){
         try {
-            ResultSet rs = inventory.core.DBConnection.excuteQuery("SELECT id, role_id FROM inventory.user WHERE user='"+this.idTextField.getText()+"' AND password=password('"+this.passwordTextField.getText()+"');");
+            ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT id, role_id FROM inventory.user WHERE user='"+this.idTextField.getText()+"' AND password=password('"+this.passwordTextField.getText()+"');");
             
             if(rs.next()){
                 inventory.core.MainFrame.user_id = rs.getInt("id");

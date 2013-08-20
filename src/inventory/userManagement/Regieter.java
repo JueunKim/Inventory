@@ -228,7 +228,7 @@ public class Regieter extends inventory.myClasses.MyJPanel {
                 }
                 
                 if(this.isSame.getText().equals("Password is Same")){
-                    if(!inventory.core.DBConnection.excuteQuery("SELECT user FROM inventory.user WHERE user='"+this.idTextField.getText()+"';").next()){
+                    if(!inventory.core.DBConnection.executeQuery("SELECT user FROM inventory.user WHERE user='"+this.idTextField.getText()+"';").next()){
                         inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`user` (`password`, `user`, `name`, `contact`) VALUES (password('"
                                 +this.passwordTextField.getText()+"'), '"+this.idTextField.getText()+"','"+this.nameTextField.getText()+"','"+contact+"');");
                         clearList();

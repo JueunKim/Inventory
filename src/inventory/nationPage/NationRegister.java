@@ -114,7 +114,7 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
             if(!this.categoryNameTextField.getText().trim().equals("")){
-                if(!inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.nation WHERE name = '"+this.categoryNameTextField.getText()+"';").next()){
+                if(!inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.nation WHERE name = '"+this.categoryNameTextField.getText()+"';").next()){
                     int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION){
                         inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`nation` (`name`, `description`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");

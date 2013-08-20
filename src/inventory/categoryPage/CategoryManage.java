@@ -61,7 +61,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         try {
             ResultSet rs = null;
             
-            rs = inventory.core.DBConnection.excuteQuery("SELECT * FROM inventory.category order by name;");
+            rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.category order by name;");
             
             if(rs != null){
                 while(rs.next()){

@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -22,6 +23,7 @@ import javax.imageio.ImageIO;
  */
 public abstract class MyJPanel extends javax.swing.JPanel implements MyPaneInterface{
     private BufferedImage img = null;
+//    private String imgSource = "/inventory/itemImage/Image.jpg";
     private String imgSource = "Image.jpg";
     
     public MyJPanel(){
@@ -45,10 +47,14 @@ public abstract class MyJPanel extends javax.swing.JPanel implements MyPaneInter
     
     public void setImgSource(String src){
         try {
-            URL resource = getClass().getResource(src);
-            this.setImage(resource.toURI());
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(MyJPanel.class.getName()).log(Level.SEVERE, null, ex);
+//            URL resource = null;
+//            resource = this.getClass().getResource(src);
+//            this.setMyImage(resource.toURI());
+//            
+            this.setMyImage(src);
+        } catch (Exception ex) {
+            System.out.println(this.getClass().getResource(src));
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -60,11 +66,15 @@ public abstract class MyJPanel extends javax.swing.JPanel implements MyPaneInter
         }
     }
     
-    public void setImage(URI address){
+    public void setMyImage(String address){
         try {
-            img = ImageIO.read(new File(address));
+            InputStream is = this.getClass().getResourceAsStream("Image.jpg");
+            
+            img = ImageIO.read(is);
+            //img = ImageIO.read(new File(address));
             //makeTransparency(152, img);
         } catch (IOException ex) {
+            System.out.println(this.getClass().getResource("Image.jpg"));;
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
