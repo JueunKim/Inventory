@@ -23,10 +23,9 @@ public class DBConnection {
     public static Connection getWriteConnection(){
         return write;
     }
-    public static boolean setReadConnection(String userName, String password) {
+    public static boolean setReadConnection(String userName, String password, String ip) {
         try {
-            //String readIP = "54.214.19.198";
-            String readIP = "localhost";
+            String readIP = ip;
             read = null;
             read = DriverManager.getConnection("jdbc:mysql://"+readIP,userName, password);
             System.out.println("Read Database Connection Success");
@@ -41,10 +40,9 @@ public class DBConnection {
             
      */
     
-    public static boolean setWriteConnection(String userName, String password) {
+    public static boolean setWriteConnection(String userName, String password, String ip) {
         try {
-            //String writeIP = "54.214.19.198";
-            String writeIP = "localhost";
+            String writeIP = ip;
             write = null;
             write = DriverManager.getConnection("jdbc:mysql://"+writeIP,userName, password);
             System.out.println("Write Database Connection Success");

@@ -6,6 +6,7 @@ package inventory.itemPage;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
@@ -80,7 +81,34 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
             if(name.length()>1){
                 src = name.substring(0, name.length()-1);
             }
+            /*
+             * 1.       first, read local folder
+             * 1.1      if the file is on local
+             * 1.1.1    if modified date < databased's modifieddate
+             * 1.1.1.1  get file from database and write image on the local
+             * 1.1.2    else use local file
+             * 1.2      if the file is not on local
+             * 1.2.1    get file from database
+             */
             
+            /*
+             if(local folder has file){
+                 if(modified date of local < modified date of database){
+                     get file from database
+                     write image by database file
+                 }else{
+                     use local file
+                 }
+             }else{
+                 get file from database
+             }
+             
+             
+             
+             
+             */
+            
+            //this is a proceess that retrieve from database
             this.imageWidth = 368;
             this.imageHeight = 328;
             

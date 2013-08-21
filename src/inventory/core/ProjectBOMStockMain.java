@@ -33,10 +33,16 @@ public class ProjectBOMStockMain {
     public static ArrayList<String> PageList = null;
     
     private ProjectBOMStockMain(){
-        //DBConnection.setWriteConnection("root", "gcw1234!");
-        //DBConnection.setReadConnection("root", "gcw1234!");
-        DBConnection.setWriteConnection("root", "RLAqkdnf1125!");
-        DBConnection.setReadConnection("root", "RLAqkdnf1125!");
+        this("");
+    }
+    
+    private ProjectBOMStockMain(String ip){
+        //DBConnection.setWriteConnection("root", "gcw1234!", "54.214.19.198");
+        //DBConnection.setReadConnection("root", "gcw1234!", "54.214.19.198");
+//        DBConnection.setWriteConnection("root", "RLAqkdnf1125!", "localhost");
+//        DBConnection.setReadConnection("root", "RLAqkdnf1125!", "localhost");
+        DBConnection.setWriteConnection("root", "RLAqkdnf1125!", "192.168.60.120");
+        DBConnection.setReadConnection("root", "RLAqkdnf1125!", "192.168.60.120");
         
         f = new MainFrame();
         PageList = new ArrayList<String>();

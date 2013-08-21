@@ -5,6 +5,7 @@
 package inventory.itemPage;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
@@ -132,6 +133,9 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     
     public ItemUpdate() {
         super();
+        Font ft = updateButton.getFont().deriveFont(Font.ITALIC,26.0f);
+        this.updateButton.setForeground(Color.red);
+        this.updateButton.setFont(ft);
     }
     
     protected ImageIcon getItemImage(String name){
@@ -351,7 +355,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         imageLabel.setOpaque(true);
         imageLabel.setPreferredSize(new java.awt.Dimension(368, 328));
 
-        imageEditButton.setText("Image Edit");
+        imageEditButton.setText("Image");
         imageEditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 imageEditButtonActionPerformed(evt);
@@ -590,6 +594,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             ps.executeUpdate();
             conn.commit();
         } catch (SQLException | FileNotFoundException ex) {
+            Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
@@ -948,6 +954,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         this.packageTextField.setBackground(transparent);
         this.priceTextField.setBackground(transparent);
         this.updateButton.setBackground(transparent);
+        this.imageEditButton.setBackground(transparent);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
