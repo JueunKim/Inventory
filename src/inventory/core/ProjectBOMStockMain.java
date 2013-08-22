@@ -32,17 +32,17 @@ public class ProjectBOMStockMain {
     
     public static ArrayList<String> PageList = null;
     
+    public static String destIp = null;
+    
     private ProjectBOMStockMain(){
-        this("");
+        this("localhoset","root","RLAqkdnf1125!");
     }
     
-    private ProjectBOMStockMain(String ip){
-        //DBConnection.setWriteConnection("root", "gcw1234!", "54.214.19.198");
-        //DBConnection.setReadConnection("root", "gcw1234!", "54.214.19.198");
-//        DBConnection.setWriteConnection("root", "RLAqkdnf1125!", "localhost");
-//        DBConnection.setReadConnection("root", "RLAqkdnf1125!", "localhost");
-        DBConnection.setWriteConnection("root", "RLAqkdnf1125!", "192.168.60.120");
-        DBConnection.setReadConnection("root", "RLAqkdnf1125!", "192.168.60.120");
+    private ProjectBOMStockMain(String wip, String wid, String wpwd){
+        ProjectBOMStockMain.destIp = wip;
+        
+        DBConnection.setWriteConnection(wid, wpwd, wip);
+        DBConnection.setReadConnection(wid, wpwd, wip);
         
         f = new MainFrame();
         PageList = new ArrayList<String>();
@@ -115,7 +115,11 @@ public class ProjectBOMStockMain {
     }
     
     public static void main(String[] args){
-        new ProjectBOMStockMain().setPage(PageList.indexOf("Login"));
+        if(args.length != 3){
+            return;
+        }else{
+            new ProjectBOMStockMain(args[0],args[1],args[2]).setPage(PageList.indexOf("Login"));
+        }
     }
     
     public static void dropAndDisable(Component com, ArrayList<Integer> ids, javax.swing.JList list, int table_type){
