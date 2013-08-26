@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -180,12 +182,21 @@ public class PackageManage extends inventory.myClasses.MyJPanel {
         // TODO add your handling code here:
         if(!this.packageRegisterValueTextField.getText().trim().equals("")){
             if(isInteger(this.packageRegisterValueTextField.getText().trim())){
-                int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Register? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
-
-                if(dialogResult == JOptionPane.YES_OPTION){
-                    //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`package` WHERE `id`='"+id.get(this.packageNameList.getSelectedIndex())+"';");
-                    inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`package` (`count`) VALUES ('"+this.packageRegisterValueTextField.getText()+"');");
-                    this.loadDataByName(this.packageSearchTextField.getText());
+                try {
+                    int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Register? Are you Sure?!","Warning",JOptionPane.YES_NO_OPTION);
+                    
+                    ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.package where count = "+this.packageRegisterValueTextField.getText()+" and disable_id = 1;");
+                    if(!rs.next() || rs.getInt("disable_id")!=1){
+                        if(dialogResult == JOptionPane.YES_OPTION){
+                            //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`package` WHERE `id`='"+id.get(this.packageNameList.getSelectedIndex())+"';");
+                            inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`package` (`count`) VALUES ('"+this.packageRegisterValueTextField.getText()+"');");
+                            this.loadDataByName(this.packageSearchTextField.getText());
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(this, "There is a duplicated NUMBER.","Warning",JOptionPane.OK_OPTION);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(PackageManage.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
                 JOptionPane.showConfirmDialog (this, "This is not a Number format, Please retype correctly.","Warning",JOptionPane.YES_NO_OPTION);

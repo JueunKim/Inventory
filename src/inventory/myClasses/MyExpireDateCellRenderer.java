@@ -22,6 +22,8 @@ public class MyExpireDateCellRenderer extends DefaultListCellRenderer{
                                                   boolean isSelected,  
                                                   boolean cellHasFocus) {  
         
+        int transparent = 160;
+        
         Calendar now = Calendar.getInstance();
         Calendar oneWeekAfter = Calendar.getInstance();
         Calendar twoWeekAfter = Calendar.getInstance();
@@ -30,21 +32,21 @@ public class MyExpireDateCellRenderer extends DefaultListCellRenderer{
         twoWeekAfter.add(Calendar.WEEK_OF_YEAR, 2);
         fourWeekAfter.add(Calendar.WEEK_OF_YEAR, 4);
         
-        Color myColor = new java.awt.Color(180, 255, 180, 152);
+        Color myColor = new java.awt.Color(180, 255, 200, transparent);
         
         setBackground(myColor);
         
         if(((java.sql.Date)list.getModel().getElementAt(index)).getTime() < now.getTime().getTime()){
-            myColor = new java.awt.Color(Color.GRAY.getRed(),Color.GRAY.getGreen(),Color.GRAY.getBlue(),152);
+            myColor = new java.awt.Color(Color.GRAY.getRed(),Color.GRAY.getGreen(),Color.GRAY.getBlue(),transparent);
             setBackground(myColor);
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< oneWeekAfter.getTime().getTime()){
-            myColor = new java.awt.Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),152);
+            myColor = new java.awt.Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),transparent);
             setBackground(myColor);  
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< twoWeekAfter.getTime().getTime()){
-            myColor = new java.awt.Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),152);
+            myColor = new java.awt.Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),transparent);
             setBackground(myColor);  
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< fourWeekAfter.getTime().getTime()){
-            myColor = new java.awt.Color(255, 255, 120, 152);
+            myColor = new java.awt.Color(255, 255, 120, transparent);
             setBackground(myColor);  
         }
         if(isSelected){

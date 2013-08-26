@@ -21,23 +21,23 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="categoryNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="nationNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="DescriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="categoryNameTextField" max="32767" attributes="0"/>
+                          <Component id="nationNameTextField" max="32767" attributes="0"/>
                           <Component id="descriptionScrollPane" pref="180" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="backButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="172" max="32767" attributes="0"/>
                       <Component id="RegisterButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,8 +46,8 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="categoryNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="categoryNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nationNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nationNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -76,9 +76,9 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="categoryNameLabel">
+    <Component class="javax.swing.JLabel" name="nationNameLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Category Name"/>
+        <Property name="text" type="java.lang.String" value="Nation Name"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="DescriptionLabel">
@@ -86,7 +86,7 @@
         <Property name="text" type="java.lang.String" value="Description"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="categoryNameTextField">
+    <Component class="javax.swing.JTextField" name="nationNameTextField">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>

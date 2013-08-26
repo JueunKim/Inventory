@@ -34,15 +34,15 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        categoryNameLabel = new javax.swing.JLabel();
-        categoryNameTextField = new inventory.myClasses.MyTextField();
+        nationNameLabel = new javax.swing.JLabel();
+        nationNameTextField = new inventory.myClasses.MyTextField();
         descriptionScrollPane = new javax.swing.JScrollPane();
         descriptionTextPane = new inventory.myClasses.MyTextPane();
         DescriptionLabel = new javax.swing.JLabel();
         backButton = new inventory.myClasses.MyButton();
         editButton = new inventory.myClasses.MyButton();
 
-        categoryNameLabel.setText("Category Name");
+        nationNameLabel.setText("Nation Name");
 
         descriptionScrollPane.setViewportView(descriptionTextPane);
 
@@ -75,12 +75,12 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
                         .addComponent(editButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(categoryNameLabel)
+                            .addComponent(nationNameLabel)
                             .addComponent(DescriptionLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(descriptionScrollPane)
-                            .addComponent(categoryNameTextField))))
+                            .addComponent(nationNameTextField))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -88,8 +88,8 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(categoryNameLabel)
-                    .addComponent(categoryNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nationNameLabel)
+                    .addComponent(nationNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,19 +111,19 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
         try {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
-            if(!this.categoryNameTextField.getText().trim().equals("")){
+            if(!this.nationNameTextField.getText().trim().equals("")){
                 int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                 boolean saved = false;
                 if(dialogResult == JOptionPane.YES_OPTION){
-                    if(this.name.equals(this.categoryNameTextField.getText())){
+                    if(this.name.equals(this.nationNameTextField.getText())){
                         inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`nation` SET `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");
                         saved = true;
                     }else{
                         //SELECT name FROM inventory.category where name = 'eye';
-                        ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT name FROM inventory.nation where name = '"+this.categoryNameTextField.getText()+"';");
-                        if(!rs.next()){
+                        ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.nation where name = '"+this.nationNameTextField.getText()+"' and disable_id = 1;");
+                        if(!rs.next() || rs.getInt("disable_id")!=1){
                             //UPDATE `inventory`.`category` SET `name`='Knife&suture2', `description`='test45' WHERE `id`='4';
-                            inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`nation` SET `name`='"+this.categoryNameTextField.getText()+"', `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");
+                            inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`nation` SET `name`='"+this.nationNameTextField.getText()+"', `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");
                             saved = true;
                         }else{
                             JOptionPane.showConfirmDialog(this, "Name is duplicated","Warning",JOptionPane.OK_CANCEL_OPTION);
@@ -132,7 +132,7 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
                     
                     if(saved){
                         ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).LoadData();
-                        ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).findAndSetSelectedItem(this.categoryNameTextField.getText());
+                        ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).findAndSetSelectedItem(this.nationNameTextField.getText());
                         this.clear();
                             
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Nation Manage\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
@@ -154,7 +154,7 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void clear(){
-        this.categoryNameTextField.setText("");
+        this.nationNameTextField.setText("");
         this.descriptionTextPane.setText("");
         this.id = 0;
         this.name = "";
@@ -165,7 +165,7 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.categoryNameTextField.setText(name);
+        this.nationNameTextField.setText(name);
         this.descriptionTextPane.setText(description);
     }
     
@@ -176,11 +176,11 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DescriptionLabel;
     private javax.swing.JButton backButton;
-    private javax.swing.JLabel categoryNameLabel;
-    protected javax.swing.JTextField categoryNameTextField;
     protected javax.swing.JScrollPane descriptionScrollPane;
     protected javax.swing.JTextPane descriptionTextPane;
     protected javax.swing.JButton editButton;
+    private javax.swing.JLabel nationNameLabel;
+    protected javax.swing.JTextField nationNameTextField;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -197,7 +197,7 @@ public class NationEdit extends inventory.myClasses.MyJPanel {
     @Override
     public void setComponetsColor(Color transparent) {
         this.backButton.setBackground(transparent);
-        this.categoryNameTextField.setBackground(transparent);
+        this.nationNameTextField.setBackground(transparent);
         this.descriptionScrollPane.setBackground(transparent);
         this.descriptionTextPane.setBackground(transparent);
         this.editButton.setBackground(transparent);

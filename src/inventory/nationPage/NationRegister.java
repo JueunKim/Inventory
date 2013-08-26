@@ -8,6 +8,7 @@ package inventory.nationPage;
 
 import inventory.categoryPage.*;
 import java.awt.Color;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,9 +37,9 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
     private void initComponents() {
 
         backButton = new inventory.myClasses.MyButton();
-        categoryNameLabel = new javax.swing.JLabel();
+        nationNameLabel = new javax.swing.JLabel();
         DescriptionLabel = new javax.swing.JLabel();
-        categoryNameTextField = new inventory.myClasses.MyTextField();
+        nationNameTextField = new inventory.myClasses.MyTextField();
         descriptionScrollPane = new javax.swing.JScrollPane();
         descriptionTextPane = new inventory.myClasses.MyTextPane();
         RegisterButton = new inventory.myClasses.MyButton();
@@ -50,7 +51,7 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
             }
         });
 
-        categoryNameLabel.setText("Category Name");
+        nationNameLabel.setText("Nation Name");
 
         DescriptionLabel.setText("Description");
 
@@ -72,26 +73,26 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(categoryNameLabel)
+                            .addComponent(nationNameLabel)
                             .addComponent(DescriptionLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(categoryNameTextField)
+                            .addComponent(nationNameTextField)
                             .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                         .addComponent(RegisterButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(categoryNameLabel)
-                    .addComponent(categoryNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nationNameLabel)
+                    .addComponent(nationNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -113,14 +114,15 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
         try {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
-            if(!this.categoryNameTextField.getText().trim().equals("")){
-                if(!inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.nation WHERE name = '"+this.categoryNameTextField.getText()+"';").next()){
+            if(!this.nationNameTextField.getText().trim().equals("")){
+                ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.nation WHERE name = '"+this.nationNameTextField.getText()+"' and disable_id = 1;");
+                if(!rs.next() || rs.getInt("disable_id")!=1){
                     int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION){
-                        inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`nation` (`name`, `description`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");
+                        inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`nation` (`name`, `description`) VALUES ('"+this.nationNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");
                         
                         ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).LoadData();
-                        ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).findAndSetSelectedItem(this.categoryNameTextField.getText());
+                        ((inventory.nationPage.NationManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("NationManage"))).findAndSetSelectedItem(this.nationNameTextField.getText());
                         this.clear();
                         
                         if(JOptionPane.showConfirmDialog(this, "save done! Now, page will go to \"Nation Manager\".","Confirm",JOptionPane.OK_CANCEL_OPTION) == 0){
@@ -147,7 +149,7 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
     }//GEN-LAST:event_RegisterButtonActionPerformed
     
     protected void clear(){
-        this.categoryNameTextField.setText("");
+        this.nationNameTextField.setText("");
         this.descriptionTextPane.setText("");
     }
     
@@ -155,10 +157,10 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
     private javax.swing.JLabel DescriptionLabel;
     protected javax.swing.JButton RegisterButton;
     private javax.swing.JButton backButton;
-    private javax.swing.JLabel categoryNameLabel;
-    protected javax.swing.JTextField categoryNameTextField;
     protected javax.swing.JScrollPane descriptionScrollPane;
     protected javax.swing.JTextPane descriptionTextPane;
+    private javax.swing.JLabel nationNameLabel;
+    protected javax.swing.JTextField nationNameTextField;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -175,7 +177,7 @@ public class NationRegister extends inventory.myClasses.MyJPanel {
     @Override
     public void setComponetsColor(Color transparent) {
         this.backButton.setBackground(transparent);
-        this.categoryNameTextField.setBackground(transparent);
+        this.nationNameTextField.setBackground(transparent);
         this.descriptionScrollPane.setBackground(transparent);
         this.descriptionTextPane.setBackground(transparent);
         this.RegisterButton.setBackground(transparent);

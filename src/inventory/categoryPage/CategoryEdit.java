@@ -132,8 +132,8 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
                         saved = true;
                     }else{
                         //SELECT name FROM inventory.category where name = 'eye';
-                        ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT name FROM inventory.category where name = '"+this.categoryNameTextField.getText()+"';");
-                        if(!rs.next()){
+                        ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.category where name = '"+this.categoryNameTextField.getText()+"' and disable_id = 1;");
+                        if(!rs.next() || rs.getInt("disable_id") != 1){
                             //UPDATE `inventory`.`category` SET `name`='Knife&suture2', `description`='test45' WHERE `id`='4';
                             inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`category` SET `name`='"+this.categoryNameTextField.getText()+"', `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");
                             saved = true;

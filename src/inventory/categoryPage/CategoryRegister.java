@@ -9,6 +9,7 @@ package inventory.categoryPage;
 import java.awt.Color;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,7 +119,7 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
             if(!this.categoryNameTextField.getText().trim().equals("")){
-                if(!inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.category WHERE name = '"+this.categoryNameTextField.getText()+"';").next()){
+                if(!inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.category WHERE name = '"+this.categoryNameTextField.getText()+"' and disable_id = 1;").next()){
                     int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION){
                         inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`category` (`name`, `description`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");

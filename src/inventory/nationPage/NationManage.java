@@ -48,6 +48,9 @@ public class NationManage extends inventory.myClasses.MyJPanel {
             
             if(rs != null){
                 while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
                     list.add(rs.getString("name"));
                     pane.add(rs.getString("description"));
                     id.add(rs.getInt("id"));
@@ -191,6 +194,7 @@ public class NationManage extends inventory.myClasses.MyJPanel {
             this.LoadData();
         }*/
         inventory.core.ProjectBOMStockMain.dropAndDisable(this, this.id, this.nationNameList, inventory.core.ProjectBOMStockMain.table_type.indexOf("Nation"));
+        this.LoadData();
     }//GEN-LAST:event_dropButtonActionPerformed
 
     private void nationNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_nationNameListValueChanged
