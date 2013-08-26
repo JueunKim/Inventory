@@ -71,7 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         
-        this.setLocation(100, 100);
+        this.setLocation(0, 0);
         //this.setLocation(-1600, 100);
         
         pack();

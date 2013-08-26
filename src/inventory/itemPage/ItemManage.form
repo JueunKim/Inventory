@@ -19,76 +19,75 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="nameLabel" min="-2" pref="140" max="-2" attributes="0"/>
-                  <Component id="nameScrollPane" min="-2" pref="160" max="-2" attributes="0"/>
+                  <Component id="nameLabel" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="nameScrollPane" min="-2" pref="120" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="categoryScrollPane" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="modelScrollPane" min="-2" pref="130" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="packageScrollPane" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                      <Component id="categoryScrollPane" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="modelScrollPane" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="packageScrollPane" min="-2" pref="80" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="categoryLabel" max="32767" attributes="0"/>
+                      <Component id="categoryLabel" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="modelLabel" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="packageLabel" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="modelLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="packageLabel" min="-2" pref="80" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="priceLabel" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="priceLabel" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="currentLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="currentLabel" min="-2" pref="80" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="priceScrollPane" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="currentScrollPane" min="-2" pref="112" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="priceScrollPane" min="-2" pref="120" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="currentScrollPane" min="-2" pref="80" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="totalPriceLabel" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="totalPriceLabel" min="-2" pref="83" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="won10000" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="totalPriceScrollPane" min="-2" pref="162" max="-2" attributes="0"/>
+                  <Component id="totalPriceScrollPane" min="-2" pref="133" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="expireDateScrollPane" min="-2" pref="110" max="-2" attributes="0"/>
+                  <Component id="expireDateLabel" min="-2" pref="110" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="descriptionScrollPane" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="descriptionLabel" min="-2" pref="120" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="expireDateScrollPane" min="-2" pref="130" max="-2" attributes="0"/>
-                  <Component id="expireDateLabel" max="32767" attributes="0"/>
+                  <Component id="searchByNameLabel" alignment="0" pref="138" max="32767" attributes="0"/>
+                  <Component id="deductButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="addButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jSeparator4" alignment="1" max="32767" attributes="0"/>
+                  <Component id="searchByNameTextField" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jSeparator3" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="editButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="registerButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="dropButton" alignment="0" pref="138" max="32767" attributes="0"/>
+                  <Component id="backButton" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="descriptionScrollPane" min="-2" pref="160" max="-2" attributes="0"/>
-                  <Component id="descriptionLabel" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="searchByNameLabel" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
-                  <Component id="backButton" pref="140" max="32767" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="deductButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="addButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jSeparator4" alignment="1" max="32767" attributes="0"/>
-                      <Component id="searchByNameTextField" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jSeparator3" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
-                      <Component id="editButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="registerButton" alignment="1" max="32767" attributes="0"/>
-                      <Component id="dropButton" alignment="1" min="-2" pref="138" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -138,13 +137,13 @@
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Group type="102" attributes="0">
                                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="won10000" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="expireDateLabel" alignment="1" max="32767" attributes="0"/>
-                                                  <Component id="descriptionLabel" max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="descriptionLabel" alignment="3" max="32767" attributes="0"/>
+                                                  <Component id="expireDateLabel" alignment="3" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -363,7 +362,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="currentLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Current Remain"/>
+        <Property name="text" type="java.lang.String" value="Remain"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="currentLabelMouseClicked"/>
@@ -604,8 +603,11 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="won10000">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Ubuntu" size="10" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="W = 10000"/>
       </Properties>
     </Component>
