@@ -128,6 +128,15 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        this.categoryScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.modelScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.packageScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.priceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.currentScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.totalPriceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.expireDateScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.descriptionScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        
         this.nameList.setListData(itemNameArrayList.toArray());
         this.categoryList.setListData(this.categoryNameArrayList.toArray());
         this.modelList.setListData(this.modelNameArrayList.toArray());
@@ -518,8 +527,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                         .addGap(6, 6, 6)
                         .addComponent(modelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
-                        .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0))
+                        .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
