@@ -34,9 +34,9 @@ public abstract class MyJPanel extends javax.swing.JPanel implements MyPaneInter
         
         setComponetsColor(new Color(255,255,255,152));
         
-        if(imgSource != null){
-            this.setImgSource(imgSource);
-        }
+//        if(imgSource != null){
+//            this.setImgSource(imgSource);
+//        }
     }
     
     protected abstract void myInitComponents();
