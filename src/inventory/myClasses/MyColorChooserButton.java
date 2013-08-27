@@ -54,8 +54,10 @@ public class MyColorChooserButton extends MyButton{
                     }else if(button.equals("afterFourWeek")){
                         inventory.itemPage.ItemManage.afterFourWeek = select;
                         weekID = "5";    
+                    }else if(button.equals("remainZero")){
+                        inventory.itemPage.ItemManage.remainZero = select;
+                        weekID = "6";
                     }
-                    
                     sql = "UPDATE `inventory`.`weekAndColor` SET `colorRed`='"+select.getRed()+"', `colorGreen`='"+select.getGreen()+"', `colorBlue`='"+select.getBlue()+"' WHERE `id`="+weekID+";";
                     System.out.println(sql);
                     

@@ -7,15 +7,25 @@ package inventory.myClasses;
 import inventory.itemPage.ItemManage;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
+import java.text.AttributedString;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
 import javax.swing.JList;
 
 /**
  *
  * @author paul
  */
-public class MyExpireDateCellRenderer extends DefaultListCellRenderer{  
+public class MyExpireDateCellRenderer extends DefaultListCellRenderer{ 
+    public MyExpireDateCellRenderer(){
+        super();
+    }
+    
     @Override  
     public Component getListCellRendererComponent(JList list,   
                                                   Object value,  
@@ -81,12 +91,22 @@ public class MyExpireDateCellRenderer extends DefaultListCellRenderer{
             int b = (int)(selectionBackground.getBlue()*rate + myColor.getBlue()*(1-rate));
             
             setBackground(new Color(r,g,b, 128));
-            this.setBorder(new javax.swing.border.CompoundBorder(null, new javax.swing.border.LineBorder(Color.blue)));
+//            this.setBorder(new javax.swing.border.CompoundBorder(null, new javax.swing.border.LineBorder(Color.blue)));
+            this.setBorder(new DefaultListCellRenderer().getBorder());
         }else{
-            this.setBorder(new javax.swing.border.CompoundBorder(null, new javax.swing.border.LineBorder(myColor)));
+            this.setBorder(new DefaultListCellRenderer().getBorder());
+//            this.setBorder(new javax.swing.border.CompoundBorder(null, new javax.swing.border.LineBorder(myColor)));
         }
-                
-        setText(list.getModel().getElementAt(index).toString());  
+        
+        setText(list.getModel().getElementAt(index).toString());
+        
+        if(inventory.itemPage.ItemManage.currentArrayList.get(index) == 0){
+            final Map<TextAttribute, Object> attr = new HashMap<TextAttribute, Object>(list.getFont().getAttributes());
+            attr.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+            this.setFont(list.getFont().deriveFont(attr));
+        }else{
+            this.setFont(new Font(list.getFont().getFontName(),list.getFont().getStyle(),list.getFont().getSize()));
+        }
         setOpaque(true);  
         return this;  
     }  
