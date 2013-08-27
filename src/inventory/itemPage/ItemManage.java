@@ -33,8 +33,12 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private ArrayList<String> descriptionArrayList;
     private ArrayList<String> nationArrayList;
     
-    private String order_by = "itemname";
-    private String order = "DESC";
+    private String order_by = "categoryname";
+    private String order = "ASC";
+    
+    private String searchSubject = "item.name";
+    
+    private String pastName = null;
     
     public static Color expired = null;
     public static Color oneWeek = null;
@@ -124,12 +128,110 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         try {
-            String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by "+order_by+" "+order+";";
+            String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
             
             if(sql.toString().contains("null")){
-                sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where item.name like '%"+name+"%' order by itemname DESC;";
+                sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
             }
             
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
+            
+            this.pastName = name;
+            
+            if(rs != null){
+                while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
+                    this.id.add(rs.getInt("id"));
+                    this.itemNameArrayList.add(rs.getString("itemname"));
+                    this.categoryNameArrayList.add(rs.getString("categoryname"));
+                    this.modelNameArrayList.add(rs.getString("modelname"));
+                    this.packageArrayList.add(rs.getInt("count"));
+                    this.priceArrayList.add(rs.getFloat("price"));
+                    this.nationArrayList.add(rs.getString("nationname"));
+                    this.totalPriceArrayList.add(rs.getFloat("total"));
+                    String priceAndNation = null;
+                    String totalPriceAndNation = null;
+                    switch (this.nationArrayList.get(this.nationArrayList.size()-1)) {
+                        case "South Korea":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
+                            break;
+                        case "Malawi":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
+                            break;
+                    }
+                    priceOnListArrayList.add(priceAndNation);
+                    totalPriceOnListArrayList.add(totalPriceAndNation);
+                    
+                    this.currentArrayList.add(rs.getInt("current"));
+                    this.expireDateArrayList.add(rs.getDate("expiredate"));
+                    this.descriptionArrayList.add(rs.getString("description"));
+                }
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.categoryScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.modelScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.packageScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.priceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.currentScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+//        this.totalPriceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.expireDateScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.descriptionScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        
+        this.descriptionScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener() {
+
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                ItemManage.this.updateUI();
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        this.nameList.setListData(itemNameArrayList.toArray());
+        this.categoryList.setListData(this.categoryNameArrayList.toArray());
+        this.modelList.setListData(this.modelNameArrayList.toArray());
+        this.packageList.setListData(this.packageArrayList.toArray());
+        this.priceList.setListData(priceOnListArrayList.toArray());
+        this.currentList.setListData(this.currentArrayList.toArray());
+//        this.totalPriceList.setListData(totalPriceOnListArrayList.toArray());
+        this.expireDateList.setListData(this.expireDateArrayList.toArray());
+        this.descriptionList.setListData(this.descriptionArrayList.toArray());
+        
+        this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
+    }
+    
+    public final void reLoadDataByName() {
+        this.id = new ArrayList<>();
+        this.itemNameArrayList = new ArrayList<>();
+        this.categoryNameArrayList = new ArrayList<>();
+        this.modelNameArrayList =  new ArrayList<>();
+        this.packageArrayList =  new ArrayList<>();
+        this.priceArrayList = new ArrayList<>();
+        this.currentArrayList =  new ArrayList<>();
+        this.totalPriceArrayList = new ArrayList<>();
+        this.expireDateArrayList = new ArrayList<>();
+        this.descriptionArrayList = new ArrayList<>();
+        this.nationArrayList = new ArrayList<>();
+        //this.modelTextPane.setText("");
+        
+        ArrayList<String> priceOnListArrayList = new ArrayList<>();
+        ArrayList<String> totalPriceOnListArrayList = new ArrayList<>();
+        
+        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description 
+        //FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category 
+        //ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' ;
+        
+        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
+        
+        String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
+        
+        try {
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
             
             if(rs != null){
@@ -240,7 +342,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         categoryScrollPane = new javax.swing.JScrollPane();
-        categoryList = new javax.swing.JList();
+        categoryList = new inventory.myClasses.MyList();
         categoryLabel = new javax.swing.JLabel();
         addButton = new inventory.myClasses.MyButton();
         deductButton = new inventory.myClasses.MyButton();
@@ -256,6 +358,10 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         expiredColorButton = new inventory.myClasses.MyColorChooserButton();
         afterFourWeekColorLabel = new javax.swing.JLabel();
         afterFourWeekColorButton = new inventory.myClasses.MyColorChooserButton();
+        searchByCategoryTextField = new inventory.myClasses.MyTextField();
+        searchByCategoryLabel = new javax.swing.JLabel();
+        searchByModelTextField = new inventory.myClasses.MyTextField();
+        searchByModelLabel = new javax.swing.JLabel();
 
         nameScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         nameScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -441,7 +547,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             }
         });
 
-        searchByNameLabel.setText("Search By Name");
+        searchByNameLabel.setText("Search Name");
 
         expireDateScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         expireDateScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -574,6 +680,22 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         afterFourWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         afterFourWeekColorButton.setToolTipText("afterFourWeek");
 
+        searchByCategoryTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchByCategoryTextFieldKeyReleased(evt);
+            }
+        });
+
+        searchByCategoryLabel.setText("Search Category");
+
+        searchByModelTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchByModelTextFieldKeyReleased(evt);
+            }
+        });
+
+        searchByModelLabel.setText("Search Model");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -582,147 +704,170 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(categoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
-                        .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(modelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modelScrollPane))
+                        .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(searchByCategoryTextField)
+                            .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(searchByCategoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(searchByNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(searchByNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(packageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(priceScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(currentScrollPane)
-                    .addComponent(currentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(expireDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(searchByNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                        .addComponent(deductButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(searchByNameTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(editButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(registerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dropButton, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                        .addComponent(jSeparator2))
-                    .addComponent(fourWeekColorLabel)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                        .addComponent(jSeparator5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(oneWeekColorLabel)
-                            .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(twoWeekColorLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(modelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchByModelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(afterFourWeekColorLabel)
-                            .addComponent(expiredColorLabel)
-                            .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(packageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(currentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(expireDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(deductButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(editButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(registerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(fourWeekColorLabel)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(oneWeekColorLabel)
+                                                .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(twoWeekColorLabel))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(afterFourWeekColorLabel)
+                                                .addComponent(expiredColorLabel)
+                                                .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(dropButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchByModelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(packageLabel)
-                                .addComponent(modelLabel)
-                                .addComponent(nameLabel)
-                                .addComponent(categoryLabel)
-                                .addComponent(currentLabel)
-                                .addComponent(expireDateLabel))
-                            .addComponent(descriptionLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(currentScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(priceScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(packageScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(modelScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(expireDateScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(categoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchByNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchByNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dropButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchByNameLabel)
+                            .addComponent(searchByModelLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(oneWeekColorLabel)
-                            .addComponent(expiredColorLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(twoWeekColorLabel)
-                            .addComponent(afterFourWeekColorLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fourWeekColorLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(searchByNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchByCategoryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchByModelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(nameLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(packageLabel)
+                            .addComponent(modelLabel)
+                            .addComponent(categoryLabel)
+                            .addComponent(currentLabel)
+                            .addComponent(expireDateLabel)
+                            .addComponent(descriptionLabel)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(searchByCategoryLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(dropButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(23, 23, 23)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(deductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(oneWeekColorLabel)
+                                .addComponent(expiredColorLabel))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(twoWeekColorLabel)
+                                .addComponent(afterFourWeekColorLabel))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(fourWeekColorLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(24, 24, 24)
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(modelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(categoryScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -820,6 +965,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 
     private void searchByNameTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchByNameTextFieldKeyReleased
         // TODO add your handling code here:
+        this.searchSubject = "item.name";
         this.loadDataByName(this.searchByNameTextField.getText());
     }//GEN-LAST:event_searchByNameTextFieldKeyReleased
 
@@ -940,49 +1086,49 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "itemname";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_nameLabelMouseClicked
 
     private void categoryLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "categoryname";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_categoryLabelMouseClicked
 
     private void modelLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modelLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "modelname";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_modelLabelMouseClicked
 
     private void packageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_packageLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "count";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_packageLabelMouseClicked
 
     private void priceLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_priceLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "price";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_priceLabelMouseClicked
 
     private void currentLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "current";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_currentLabelMouseClicked
 
     private void expireDateLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_expireDateLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
         this.order_by = "expiredate";
-        this.loadDataByName(this.searchByNameTextField.getText());
+        this.reLoadDataByName();
     }//GEN-LAST:event_expireDateLabelMouseClicked
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -1061,6 +1207,18 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         // TODO add your handling code here:
         doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_packageListMouseClicked
+
+    private void searchByCategoryTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchByCategoryTextFieldKeyReleased
+        // TODO add your handling code here:
+        this.searchSubject = "category.name";
+        this.loadDataByName(this.searchByCategoryTextField.getText());
+    }//GEN-LAST:event_searchByCategoryTextFieldKeyReleased
+
+    private void searchByModelTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchByModelTextFieldKeyReleased
+        // TODO add your handling code here:
+        this.searchSubject = "model.name";
+        this.loadDataByName(this.searchByModelTextField.getText());
+    }//GEN-LAST:event_searchByModelTextFieldKeyReleased
     
     public void setSelectedListItem(String name){
         //System.out.println(this.nameList.getNextMatch(name, 0, Position.Bias.Forward));
@@ -1137,6 +1295,10 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private javax.swing.JList priceList;
     private javax.swing.JScrollPane priceScrollPane;
     private javax.swing.JButton registerButton;
+    private javax.swing.JLabel searchByCategoryLabel;
+    private javax.swing.JTextField searchByCategoryTextField;
+    private javax.swing.JLabel searchByModelLabel;
+    private javax.swing.JTextField searchByModelTextField;
     private javax.swing.JLabel searchByNameLabel;
     private javax.swing.JTextField searchByNameTextField;
     private javax.swing.JButton twoWeekColorButton;

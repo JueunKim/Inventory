@@ -17,6 +17,7 @@ public class MyTextField extends javax.swing.JTextField{
         super();
         this.setBackground(new Color(255,255,255,152));
         keybordHandler();
+        this.setDisabledTextColor(Color.blue);
     }
     
     private void keybordHandler(){
