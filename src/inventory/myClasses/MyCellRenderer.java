@@ -4,6 +4,7 @@
  */
 package inventory.myClasses;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
@@ -39,6 +40,19 @@ public class MyCellRenderer extends DefaultListCellRenderer{
         }else{
             this.setFont(new Font(list.getFont().getFontName(),list.getFont().getStyle(),list.getFont().getSize()));
         }
+        
+        if(isSelected){
+            Color selectionBackground = list.getSelectionBackground();
+            
+            double rate = 0.2;
+            
+            int r = (int)(selectionBackground.getRed()*rate + inventory.itemPage.ItemManage.remainZero.getRed()*(1-rate));
+            int g = (int)(selectionBackground.getGreen()*rate + inventory.itemPage.ItemManage.remainZero.getGreen()*(1-rate));
+            int b = (int)(selectionBackground.getBlue()*rate + inventory.itemPage.ItemManage.remainZero.getBlue()*(1-rate));
+            
+            setBackground(new Color(r,g,b, 128));
+        }
+        
         setOpaque(true);  
         return this;  
     }  
