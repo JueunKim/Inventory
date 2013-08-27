@@ -4,6 +4,7 @@
  */
 package inventory.myClasses;
 
+import inventory.itemPage.ItemManage;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Calendar;
@@ -32,21 +33,42 @@ public class MyExpireDateCellRenderer extends DefaultListCellRenderer{
         twoWeekAfter.add(Calendar.WEEK_OF_YEAR, 2);
         fourWeekAfter.add(Calendar.WEEK_OF_YEAR, 4);
         
-        Color myColor = new java.awt.Color(180, 255, 200, transparent);
+        Color myColor = null;
         
+        if(ItemManage.afterFourWeek != null){
+            myColor = ItemManage.afterFourWeek;
+        }else{
+            myColor = new java.awt.Color(180, 255, 200, transparent);
+        }
         setBackground(myColor);
         
         if(((java.sql.Date)list.getModel().getElementAt(index)).getTime() < now.getTime().getTime()){
-            myColor = new java.awt.Color(Color.GRAY.getRed(),Color.GRAY.getGreen(),Color.GRAY.getBlue(),transparent);
+            if(ItemManage.expired != null){
+                myColor = ItemManage.expired;
+            }else{
+                myColor = new java.awt.Color(Color.GRAY.getRed(),Color.GRAY.getGreen(),Color.GRAY.getBlue(),transparent);
+            }
             setBackground(myColor);
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< oneWeekAfter.getTime().getTime()){
-            myColor = new java.awt.Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),transparent);
+            if(ItemManage.oneWeek != null){
+                myColor = ItemManage.oneWeek;
+            }else{
+                myColor = new java.awt.Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),transparent);
+            }
             setBackground(myColor);  
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< twoWeekAfter.getTime().getTime()){
-            myColor = new java.awt.Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),transparent);
+            if(ItemManage.twoWeek != null){
+                myColor = ItemManage.twoWeek;
+            }else{
+                myColor = new java.awt.Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),transparent);
+            }
             setBackground(myColor);  
         }else if(((java.sql.Date)list.getModel().getElementAt(index)).getTime()< fourWeekAfter.getTime().getTime()){
-            myColor = new java.awt.Color(255, 255, 120, transparent);
+            if(ItemManage.fourWeek != null){
+                myColor = ItemManage.fourWeek;
+            }else{
+                myColor = new java.awt.Color(255, 255, 120, transparent);
+            }
             setBackground(myColor);  
         }
         if(isSelected){
