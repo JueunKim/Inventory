@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -816,13 +817,23 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void expireDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expireDateButtonActionPerformed
         // TODO add your handling code here:
-        this.expiredate = new java.sql.Date(new inventory.core.DateChooser(new JDialog()).select().getTime());
-        
-        if((this.expiredate !=null) && (this.expiredate.getTime() > Calendar.getInstance().getTime().getTime())){
-            this.expiredateTextField.setText(this.expiredate.toString());
+        Date utilDate = null;
+        if(this.expiredate != null){
+            inventory.core.DateChooser dc = new inventory.core.DateChooser(new JDialog());
+            utilDate = dc.select(this.expiredate);
+//            utilDate =  dc.select();
         }else{
-            JOptionPane.showMessageDialog(this, "ExpireDate should be exceeded from today.","Warning",JOptionPane.OK_OPTION);
-            //System.out.println("this.expiredate.getDate() > new Date().getDate()");
+            utilDate =  new inventory.core.DateChooser(new JDialog()).select();
+        }
+        if(utilDate != null){
+            java.sql.Date date = new java.sql.Date(utilDate.getTime());
+            if(date != null){
+                this.expiredate = date;
+            }
+        }
+        
+        if(this.expiredate != null){
+            this.expiredateTextField.setText(this.expiredate.toString());    
         }
     }//GEN-LAST:event_expireDateButtonActionPerformed
 
