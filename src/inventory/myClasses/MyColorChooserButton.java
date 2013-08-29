@@ -31,6 +31,7 @@ public class MyColorChooserButton extends MyButton{
                 select = javax.swing.JColorChooser.showDialog(MyColorChooserButton.this, "test", MyColorChooserButton.this.getBackground());
                 if(select != null){
                     MyColorChooserButton.this.setBackground(select);
+                    MyColorChooserButton.this.setForeground(select);
                     
                     String sql = null;
                     String weekID = null;

@@ -53,21 +53,22 @@ public class ProjectBOMStockMain {
     }
     
     private void setMetaData(){
-        roles = new ArrayList<String>();
-        roles.add("Dumy");
-        roles.add("Admin");
-        roles.add("User");
-        roles.add("Test");
-        roles.add("Waiting Permision");
-        
-        table_type = new ArrayList<String>();
-        table_type.add("Dumy");
-        table_type.add("None");
-        table_type.add("Category");
-        table_type.add("Model");
-        table_type.add("Nation");
-        table_type.add("Item");
-        table_type.add("Package");
+        try {
+            roles = new ArrayList<String>();
+            roles.add("Dumy");
+            roles.add("Admin");
+            roles.add("User");
+            roles.add("Test");
+            roles.add("Waiting Permision");
+            
+            table_type = new ArrayList<String>();
+            ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.table_type;");
+            while(rs.next()){
+                table_type.add(rs.getString("table_name"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectBOMStockMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void initPage(){
@@ -95,6 +96,8 @@ public class ProjectBOMStockMain {
         addPage(new inventory.itemPage.ItemManage(), "ItemManage");
         addPage(new inventory.itemPage.ItemUpdate(), "ItemUpdate");
         addPage(new inventory.itemPage.ItemChange(), "ItemChange");
+        
+        addPage(new inventory.varietyPage.VarietyManage(), "VarietyManage");
     }
     
     private void addPage(javax.swing.JPanel panel, String title){
