@@ -24,6 +24,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private ArrayList<Integer> id;
     private ArrayList<String> itemNameArrayList;
     private ArrayList<String> categoryNameArrayList;
+    private ArrayList<String> categoryCodeArrayList;
     private ArrayList<String> modelNameArrayList;
     private ArrayList<Integer> packageArrayList;
     private ArrayList<Float> priceArrayList;
@@ -56,258 +57,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         //loadDataByName("");
         setDefaultExpireDateColor();
     }
-    
-    private void setDefaultExpireDateColor(){
-        try {
-            ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.weekAndColor;");
-            while(rs.next()){
-                switch(rs.getInt("week")){
-                    case 0:
-                        expired = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
-                        break;
-                    case 1:
-                        oneWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
-                        break;
-                    case 2:
-                        twoWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
-                        break;
-                    case 3:
-                        fourWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
-                        break;
-                    case 4:
-                        afterFourWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
-                        break;
-                    case 5:
-                        remainZero = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
-                        break;
-                }
-            }
-            this.expiredColorButton.setBackground(expired);
-            this.oneWeekColorButton.setBackground(oneWeek);
-            this.twoWeekColorButton.setBackground(twoWeek);
-            this.fourWeekColorButton.setBackground(fourWeek);
-            this.afterFourWeekColorButton.setBackground(afterFourWeek);
-            this.remainZeroColorButton.setBackground(remainZero);
-        } catch (SQLException ex) {
-            Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public final void loadDataByName(String name) {
-        if(inventory.core.MainFrame.role == 1){
-            this.registerButton.setVisible(true);
-            this.dropButton.setVisible(true);
-            this.editButton.setVisible(true);
-            this.jSeparator1.setVisible(true);
-            this.jSeparator3.setVisible(true);
-            this.jSeparator4.setVisible(true);
-            this.addButton.setVisible(true);
-        }else{
-            this.registerButton.setVisible(false);
-            this.dropButton.setVisible(false);
-            this.editButton.setVisible(false);
-            this.jSeparator1.setVisible(false);
-            this.jSeparator3.setVisible(false);
-            this.jSeparator4.setVisible(false);
-            this.addButton.setVisible(false);
-        }
         
-        this.id = new ArrayList<>();
-        this.itemNameArrayList = new ArrayList<>();
-        this.categoryNameArrayList = new ArrayList<>();
-        this.modelNameArrayList =  new ArrayList<>();
-        this.packageArrayList =  new ArrayList<>();
-        this.priceArrayList = new ArrayList<>();
-        this.currentArrayList =  new ArrayList<>();
-        this.totalPriceArrayList = new ArrayList<>();
-        this.expireDateArrayList = new ArrayList<>();
-        this.descriptionArrayList = new ArrayList<>();
-        this.nationArrayList = new ArrayList<>();
-        //this.modelTextPane.setText("");
-        
-        ArrayList<String> priceOnListArrayList = new ArrayList<>();
-        ArrayList<String> totalPriceOnListArrayList = new ArrayList<>();
-        
-        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description 
-        //FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category 
-        //ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' ;
-        
-        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
-        try {
-            String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
-            
-            if(sql.toString().contains("null")){
-                sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
-            }
-            
-            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
-            
-            this.pastName = name;
-            
-            if(rs != null){
-                while(rs.next()){
-                    if(rs.getInt("disable_id") != 1){
-                        continue;
-                    }
-                    this.id.add(rs.getInt("id"));
-                    this.itemNameArrayList.add(rs.getString("itemname"));
-                    this.categoryNameArrayList.add(rs.getString("categoryname"));
-                    this.modelNameArrayList.add(rs.getString("modelname"));
-                    this.packageArrayList.add(rs.getInt("count"));
-                    this.priceArrayList.add(rs.getFloat("price"));
-                    this.nationArrayList.add(rs.getString("nationname"));
-                    this.totalPriceArrayList.add(rs.getFloat("total"));
-                    String priceAndNation = null;
-                    String totalPriceAndNation = null;
-                    switch (this.nationArrayList.get(this.nationArrayList.size()-1)) {
-                        case "South Korea":
-                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
-                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
-                            break;
-                        case "Malawi":
-                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
-                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
-                            break;
-                    }
-                    priceOnListArrayList.add(priceAndNation);
-                    totalPriceOnListArrayList.add(totalPriceAndNation);
-                    
-                    this.currentArrayList.add(rs.getInt("current"));
-                    this.expireDateArrayList.add(rs.getDate("expiredate"));
-                    this.descriptionArrayList.add(rs.getString("description"));
-                }
-            }
-        } catch (SQLException ex) {
-            //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.categoryScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.modelScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.packageScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.priceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.currentScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-//        this.totalPriceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.expireDateScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.descriptionScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        
-        this.descriptionScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener() {
-
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                ItemManage.this.updateUI();
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        
-        this.nameList.setListData(itemNameArrayList.toArray());
-        this.categoryList.setListData(this.categoryNameArrayList.toArray());
-        this.modelList.setListData(this.modelNameArrayList.toArray());
-        this.packageList.setListData(this.packageArrayList.toArray());
-        this.priceList.setListData(priceOnListArrayList.toArray());
-        this.currentList.setListData(this.currentArrayList.toArray());
-//        this.totalPriceList.setListData(totalPriceOnListArrayList.toArray());
-        this.expireDateList.setListData(this.expireDateArrayList.toArray());
-        this.descriptionList.setListData(this.descriptionArrayList.toArray());
-        
-        this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
-    }
-    
-    public final void reLoadDataByName() {
-        this.id = new ArrayList<>();
-        this.itemNameArrayList = new ArrayList<>();
-        this.categoryNameArrayList = new ArrayList<>();
-        this.modelNameArrayList =  new ArrayList<>();
-        this.packageArrayList =  new ArrayList<>();
-        this.priceArrayList = new ArrayList<>();
-        this.currentArrayList =  new ArrayList<>();
-        this.totalPriceArrayList = new ArrayList<>();
-        this.expireDateArrayList = new ArrayList<>();
-        this.descriptionArrayList = new ArrayList<>();
-        this.nationArrayList = new ArrayList<>();
-        //this.modelTextPane.setText("");
-        
-        ArrayList<String> priceOnListArrayList = new ArrayList<>();
-        ArrayList<String> totalPriceOnListArrayList = new ArrayList<>();
-        
-        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description 
-        //FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category 
-        //ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' ;
-        
-        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
-        
-        String sql = "SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
-        
-        try {
-            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
-            
-            if(rs != null){
-                while(rs.next()){
-                    if(rs.getInt("disable_id") != 1){
-                        continue;
-                    }
-                    this.id.add(rs.getInt("id"));
-                    this.itemNameArrayList.add(rs.getString("itemname"));
-                    this.categoryNameArrayList.add(rs.getString("categoryname"));
-                    this.modelNameArrayList.add(rs.getString("modelname"));
-                    this.packageArrayList.add(rs.getInt("count"));
-                    this.priceArrayList.add(rs.getFloat("price"));
-                    this.nationArrayList.add(rs.getString("nationname"));
-                    this.totalPriceArrayList.add(rs.getFloat("total"));
-                    String priceAndNation = null;
-                    String totalPriceAndNation = null;
-                    switch (this.nationArrayList.get(this.nationArrayList.size()-1)) {
-                        case "South Korea":
-                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
-                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
-                            break;
-                        case "Malawi":
-                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
-                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
-                            break;
-                    }
-                    priceOnListArrayList.add(priceAndNation);
-                    totalPriceOnListArrayList.add(totalPriceAndNation);
-                    
-                    this.currentArrayList.add(rs.getInt("current"));
-                    this.expireDateArrayList.add(rs.getDate("expiredate"));
-                    this.descriptionArrayList.add(rs.getString("description"));
-                }
-            }
-        } catch (SQLException ex) {
-            //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.categoryScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.modelScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.packageScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.priceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.currentScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-//        this.totalPriceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.expireDateScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        this.descriptionScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
-        
-        this.descriptionScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener() {
-
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                ItemManage.this.updateUI();
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        
-        this.nameList.setListData(itemNameArrayList.toArray());
-        this.categoryList.setListData(this.categoryNameArrayList.toArray());
-        this.modelList.setListData(this.modelNameArrayList.toArray());
-        this.packageList.setListData(this.packageArrayList.toArray());
-        this.priceList.setListData(priceOnListArrayList.toArray());
-        this.currentList.setListData(this.currentArrayList.toArray());
-//        this.totalPriceList.setListData(totalPriceOnListArrayList.toArray());
-        this.expireDateList.setListData(this.expireDateArrayList.toArray());
-        this.descriptionList.setListData(this.descriptionArrayList.toArray());
-        
-        this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -370,6 +120,11 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         searchByModelLabel = new javax.swing.JLabel();
         remainZeroColorButton = new inventory.myClasses.MyColorChooserButton();
         remainZeroColorLabel = new javax.swing.JLabel();
+        swapButton = new inventory.myClasses.MyButton();
+        modeLabel = new javax.swing.JLabel();
+        codeScrollPane = new javax.swing.JScrollPane();
+        codeList = new inventory.myClasses.MyList();
+        codeLabel = new javax.swing.JLabel();
 
         nameScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         nameScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -380,7 +135,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        nameList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        nameList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         nameList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nameListMouseClicked(evt);
@@ -401,7 +156,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        modelList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        modelList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         modelList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 modelListMouseClicked(evt);
@@ -436,7 +191,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        packageList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        packageList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         packageList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 packageListMouseClicked(evt);
@@ -464,7 +219,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        priceList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        priceList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         priceList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 priceListMouseClicked(evt);
@@ -492,7 +247,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        currentList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        currentList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         currentList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 currentListMouseClicked(evt);
@@ -570,7 +325,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        expireDateList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        expireDateList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         expireDateList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 expireDateListMouseClicked(evt);
@@ -591,7 +346,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        descriptionList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        descriptionList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         descriptionList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 descriptionListMouseClicked(evt);
@@ -627,7 +382,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        categoryList.setCellRenderer(new inventory.myClasses.MyCellRenderer());
+        categoryList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
         categoryList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 categoryListMouseClicked(evt);
@@ -719,6 +474,43 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         remainZeroColorLabel.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         remainZeroColorLabel.setText("Reamin Zero");
 
+        swapButton.setText("Swap Mode");
+        swapButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                swapButtonActionPerformed(evt);
+            }
+        });
+
+        modeLabel.setText("Listing Mode");
+
+        codeScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        codeScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        codeList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        codeList.setCellRenderer(new inventory.myClasses.MyItemManageCellRenderer());
+        codeList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                codeListMouseClicked(evt);
+            }
+        });
+        codeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                codeListValueChanged(evt);
+            }
+        });
+        codeScrollPane.setViewportView(codeList);
+
+        codeLabel.setText("Code");
+        codeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                codeLabelMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -727,88 +519,95 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(categoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(searchByCategoryTextField)
                             .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(searchByCategoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(searchByNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(searchByNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchByNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchByNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(codeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(categoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(codeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(modelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(modelScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                     .addComponent(searchByModelTextField)
                     .addComponent(searchByModelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(packageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(currentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(expireDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(deductButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(editButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(registerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(oneWeekColorLabel)
-                                        .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(twoWeekColorLabel))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(afterFourWeekColorLabel)
-                                        .addComponent(expiredColorLabel)
-                                        .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(fourWeekColorLabel))
-                                    .addGap(12, 12, 12)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(remainZeroColorLabel)
-                                        .addComponent(remainZeroColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(dropButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(packageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(currentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(expireDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(deductButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(editButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(registerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(oneWeekColorLabel)
+                                                .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(twoWeekColorLabel))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(afterFourWeekColorLabel)
+                                                .addComponent(expiredColorLabel)
+                                                .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(fourWeekColorLabel))
+                                            .addGap(12, 12, 12)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(remainZeroColorLabel)
+                                                .addComponent(remainZeroColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(dropButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(modeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(swapButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -826,9 +625,14 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                             .addComponent(searchByCategoryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchByModelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nameLabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameLabel)
+                            .addComponent(codeLabel)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(swapButton)
+                            .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(priceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(packageLabel)
@@ -837,66 +641,66 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                             .addComponent(currentLabel)
                             .addComponent(expireDateLabel)
                             .addComponent(descriptionLabel)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(searchByCategoryLabel)
-                        .addGap(0, 0, 0)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(searchByCategoryLabel, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(dropButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(23, 23, 23)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(deductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(oneWeekColorLabel)
-                                .addComponent(expiredColorLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(twoWeekColorLabel)
-                                .addComponent(afterFourWeekColorLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(remainZeroColorLabel)
-                                .addComponent(fourWeekColorLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(remainZeroColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(24, 24, 24)
-                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(modelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(categoryScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(dropButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(deductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(oneWeekColorLabel)
+                                    .addComponent(expiredColorLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(oneWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(expiredColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(twoWeekColorLabel)
+                                    .addComponent(afterFourWeekColorLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(twoWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(afterFourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(remainZeroColorLabel)
+                                    .addComponent(fourWeekColorLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fourWeekColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(remainZeroColorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(24, 24, 24)
+                                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(currentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(priceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(packageScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modelScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(expireDateScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(categoryScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(codeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -969,7 +773,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
         inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
-        p.setElements(0,"","","","");
+        p.setElements(0,null,"","","","");
 
         if(inventory.core.ProjectBOMStockMain.display != null)
             inventory.core.ProjectBOMStockMain.display.dispose();
@@ -1002,26 +806,6 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         // TODO add your handling code here:
         editPerform();
     }//GEN-LAST:event_editButtonActionPerformed
-    
-    private void editPerform(){
-        if(this.nameList.getSelectedIndex() >= 0){
-            inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
-            p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
-            
-            if(inventory.core.ProjectBOMStockMain.display != null){
-                inventory.core.ProjectBOMStockMain.display.dispose();
-            }
-            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Edit");
-            inventory.core.ProjectBOMStockMain.display.setVisible(true);
-        }
-        
-        /*
-        if(this.nameList.getSelectedIndex() >= 0){
-            ((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
-            inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
-        }
-        */
-    }
     
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
@@ -1058,18 +842,6 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         deductPerformed();
     }//GEN-LAST:event_deductButtonActionPerformed
     
-    private void deductPerformed(){
-        if(this.nameList.getSelectedIndex() >= 0){
-            inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
-            p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
-            if(inventory.core.ProjectBOMStockMain.display != null){
-                inventory.core.ProjectBOMStockMain.display.dispose();
-            }        
-            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Deduct");
-            inventory.core.ProjectBOMStockMain.display.setVisible(true);
-        }
-    }
-    
     private void expireDateListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_expireDateListValueChanged
         // TODO add your handling code here:
         if(evt.getSource() instanceof javax.swing.JList)
@@ -1103,14 +875,6 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         }
     }//GEN-LAST:event_backButtonKeyTyped
 
-    private void orderByLabelClick(java.awt.event.MouseEvent evt){
-        if(evt.getClickCount()>1){
-            this.order = "DESC";
-        }else{
-            this.order = "ASC";
-        }
-    }
-    
     private void nameLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameLabelMouseClicked
         // TODO add your handling code here:
         orderByLabelClick(evt);
@@ -1183,7 +947,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                 
                 if(rs.next()){
                     inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();
-                    p.setEditConfig(0, rs.getString("name"), rs.getString("description"));
+                    p.setEditConfig(0, rs.getString("name"), rs.getString("description"),rs.getString("code"));
                     p.showMode(true);
 
                     inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Category");
@@ -1200,18 +964,6 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         doubleClickOnListExceptModelAndCategory(evt);
     }//GEN-LAST:event_nameListMouseClicked
 
-    private void doubleClickOnListExceptModelAndCategory(java.awt.event.MouseEvent evt){
-        if(evt.getClickCount()==2){
-            if(this.nameList.getSelectedIndex()>=0){
-                if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("Admin")){
-                    editPerform();
-                }else if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("User")){
-                    deductPerformed();
-                }
-            }
-        }
-    }
-    
     private void priceListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_priceListMouseClicked
         // TODO add your handling code here:
         doubleClickOnListExceptModelAndCategory(evt);
@@ -1248,6 +1000,343 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         this.searchSubject = "model.name";
         this.loadDataByName(this.searchByModelTextField.getText());
     }//GEN-LAST:event_searchByModelTextFieldKeyReleased
+
+    private void swapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_swapButtonActionPerformed
+        // TODO add your handling code here:
+        ((inventory.itemPage.ItemManageSwap)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManageSwap"))).LoadData();
+        
+        inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManageSwap"));
+        
+        if(inventory.core.ProjectBOMStockMain.display != null){
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        }
+    }//GEN-LAST:event_swapButtonActionPerformed
+
+    private void codeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_codeListValueChanged
+        // TODO add your handling code here:
+        if(evt.getSource() instanceof javax.swing.JList)
+        this.listChanged(((javax.swing.JList)evt.getSource()).getSelectedIndex());
+    }//GEN-LAST:event_codeListValueChanged
+
+    private void codeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_codeLabelMouseClicked
+        // TODO add your handling code here:
+        orderByLabelClick(evt);
+        this.order_by = "wcode";
+        this.reLoadDataByName();
+    }//GEN-LAST:event_codeLabelMouseClicked
+
+    private void codeListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_codeListMouseClicked
+        // TODO add your handling code here:
+        doubleClickOnListExceptModelAndCategory(evt);
+    }//GEN-LAST:event_codeListMouseClicked
+        
+    private void setDefaultExpireDateColor(){
+        try {
+            ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.weekAndColor;");
+            while(rs.next()){
+                switch(rs.getInt("week")){
+                    case 0:
+                        expired = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
+                        break;
+                    case 1:
+                        oneWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
+                        break;
+                    case 2:
+                        twoWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
+                        break;
+                    case 3:
+                        fourWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
+                        break;
+                    case 4:
+                        afterFourWeek = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
+                        break;
+                    case 5:
+                        remainZero = new Color(rs.getInt("colorRed"),rs.getInt("colorGreen"),rs.getInt("colorBlue"));
+                        break;
+                }
+            }
+            this.expiredColorButton.setBackground(expired);
+            this.oneWeekColorButton.setBackground(oneWeek);
+            this.twoWeekColorButton.setBackground(twoWeek);
+            this.fourWeekColorButton.setBackground(fourWeek);
+            this.afterFourWeekColorButton.setBackground(afterFourWeek);
+            this.remainZeroColorButton.setBackground(remainZero);
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public final void loadDataByName(String name) {
+        if(inventory.core.MainFrame.role == 1){
+            this.registerButton.setVisible(true);
+            this.dropButton.setVisible(true);
+            this.editButton.setVisible(true);
+            this.jSeparator1.setVisible(true);
+            this.jSeparator3.setVisible(true);
+            this.jSeparator4.setVisible(true);
+            this.addButton.setVisible(true);
+        }else{
+            this.registerButton.setVisible(false);
+            this.dropButton.setVisible(false);
+            this.editButton.setVisible(false);
+            this.jSeparator1.setVisible(false);
+            this.jSeparator3.setVisible(false);
+            this.jSeparator4.setVisible(false);
+            this.addButton.setVisible(false);
+        }
+        
+        this.id = new ArrayList<>();
+        this.itemNameArrayList = new ArrayList<>();
+        this.categoryNameArrayList = new ArrayList<>();
+        this.categoryCodeArrayList = new ArrayList<>();
+        this.modelNameArrayList =  new ArrayList<>();
+        this.packageArrayList =  new ArrayList<>();
+        this.priceArrayList = new ArrayList<>();
+        this.currentArrayList =  new ArrayList<>();
+        this.totalPriceArrayList = new ArrayList<>();
+        this.expireDateArrayList = new ArrayList<>();
+        this.descriptionArrayList = new ArrayList<>();
+        this.nationArrayList = new ArrayList<>();
+        //this.modelTextPane.setText("");
+        
+        ArrayList<String> priceOnListArrayList = new ArrayList<>();
+        ArrayList<String> totalPriceOnListArrayList = new ArrayList<>();
+        
+        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description 
+        //FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category 
+        //ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' ;
+        
+        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
+        try {
+            String sql = "SELECT item.id,item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
+            
+            if(sql.toString().contains("null")){
+                sql = "SELECT item.id,item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
+            }
+            
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
+            
+            this.pastName = name;
+            
+            if(rs != null){
+                while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
+                    this.id.add(rs.getInt("id"));
+                    this.itemNameArrayList.add(rs.getString("itemname"));
+                    this.categoryNameArrayList.add(rs.getString("categoryname"));
+                    
+                    this.categoryCodeArrayList.add(rs.getString("wcode"));
+                    
+                    this.modelNameArrayList.add(rs.getString("modelname"));
+                    this.packageArrayList.add(rs.getInt("count"));
+                    this.priceArrayList.add(rs.getFloat("price"));
+                    this.nationArrayList.add(rs.getString("nationname"));
+                    this.totalPriceArrayList.add(rs.getFloat("total"));
+                    String priceAndNation = null;
+                    String totalPriceAndNation = null;
+                    switch (this.nationArrayList.get(this.nationArrayList.size()-1)) {
+                        case "South Korea":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
+                            break;
+                        case "Malawi":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
+                            break;
+                    }
+                    priceOnListArrayList.add(priceAndNation);
+                    totalPriceOnListArrayList.add(totalPriceAndNation);
+                    
+                    this.currentArrayList.add(rs.getInt("current"));
+                    this.expireDateArrayList.add(rs.getDate("expiredate"));
+                    this.descriptionArrayList.add(rs.getString("description"));
+                }
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.categoryScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.modelScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.packageScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.priceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.currentScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+//        this.totalPriceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.expireDateScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.descriptionScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.codeScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        
+        this.descriptionScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener() {
+
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                ItemManage.this.updateUI();
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        this.nameList.setListData(itemNameArrayList.toArray());
+        this.categoryList.setListData(this.categoryNameArrayList.toArray());
+        this.modelList.setListData(this.modelNameArrayList.toArray());
+        this.packageList.setListData(this.packageArrayList.toArray());
+        this.priceList.setListData(priceOnListArrayList.toArray());
+        this.currentList.setListData(this.currentArrayList.toArray());
+//        this.totalPriceList.setListData(totalPriceOnListArrayList.toArray());
+        this.expireDateList.setListData(this.expireDateArrayList.toArray());
+        this.descriptionList.setListData(this.descriptionArrayList.toArray());
+        this.codeList.setListData(this.categoryCodeArrayList.toArray());
+        
+        this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
+    }
+    
+    public final void reLoadDataByName() {
+        this.id = new ArrayList<>();
+        this.itemNameArrayList = new ArrayList<>();
+        this.categoryNameArrayList = new ArrayList<>();
+        this.categoryCodeArrayList = new ArrayList<>();
+        this.modelNameArrayList =  new ArrayList<>();
+        this.packageArrayList =  new ArrayList<>();
+        this.priceArrayList = new ArrayList<>();
+        this.currentArrayList =  new ArrayList<>();
+        this.totalPriceArrayList = new ArrayList<>();
+        this.expireDateArrayList = new ArrayList<>();
+        this.descriptionArrayList = new ArrayList<>();
+        this.nationArrayList = new ArrayList<>();
+        //this.modelTextPane.setText("");
+        
+        ArrayList<String> priceOnListArrayList = new ArrayList<>();
+        ArrayList<String> totalPriceOnListArrayList = new ArrayList<>();
+        
+        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description 
+        //FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category 
+        //ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' ;
+        
+        //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
+        
+        String sql = "SELECT item.id,item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
+        
+        try {
+            ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
+            
+            if(rs != null){
+                while(rs.next()){
+                    if(rs.getInt("disable_id") != 1){
+                        continue;
+                    }
+                    this.id.add(rs.getInt("id"));
+                    this.itemNameArrayList.add(rs.getString("itemname"));
+                    this.categoryNameArrayList.add(rs.getString("categoryname"));
+                    
+                    this.categoryCodeArrayList.add(rs.getString("wcode"));
+                    
+                    this.modelNameArrayList.add(rs.getString("modelname"));
+                    this.packageArrayList.add(rs.getInt("count"));
+                    this.priceArrayList.add(rs.getFloat("price"));
+                    this.nationArrayList.add(rs.getString("nationname"));
+                    this.totalPriceArrayList.add(rs.getFloat("total"));
+                    String priceAndNation = null;
+                    String totalPriceAndNation = null;
+                    switch (this.nationArrayList.get(this.nationArrayList.size()-1)) {
+                        case "South Korea":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" W";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))/10000+" W";
+                            break;
+                        case "Malawi":
+                            priceAndNation = (this.priceArrayList.get(this.priceArrayList.size()-1))+" MK";
+                            totalPriceAndNation = (this.totalPriceArrayList.get(this.totalPriceArrayList.size()-1))+" MK";
+                            break;
+                    }
+                    priceOnListArrayList.add(priceAndNation);
+                    totalPriceOnListArrayList.add(totalPriceAndNation);
+                    
+                    this.currentArrayList.add(rs.getInt("current"));
+                    this.expireDateArrayList.add(rs.getDate("expiredate"));
+                    this.descriptionArrayList.add(rs.getString("description"));
+                }
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(CategoryManage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.categoryScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.codeScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.modelScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.packageScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.priceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.currentScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+//        this.totalPriceScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.expireDateScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        this.descriptionScrollPane.getVerticalScrollBar().setModel(this.nameScrollPane.getVerticalScrollBar().getModel());
+        
+        this.descriptionScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener() {
+
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                ItemManage.this.updateUI();
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        this.nameList.setListData(itemNameArrayList.toArray());
+        this.categoryList.setListData(this.categoryNameArrayList.toArray());
+        this.modelList.setListData(this.modelNameArrayList.toArray());
+        this.packageList.setListData(this.packageArrayList.toArray());
+        this.priceList.setListData(priceOnListArrayList.toArray());
+        this.currentList.setListData(this.currentArrayList.toArray());
+//        this.totalPriceList.setListData(totalPriceOnListArrayList.toArray());
+        this.expireDateList.setListData(this.expireDateArrayList.toArray());
+        this.descriptionList.setListData(this.descriptionArrayList.toArray());
+        this.codeList.setListData(this.categoryCodeArrayList.toArray());
+        
+        this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
+    }
+
+    private void editPerform(){
+        if(this.nameList.getSelectedIndex() >= 0){
+            inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
+            p.setElements(this.id.get(this.nameList.getSelectedIndex()),null,this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
+            
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Edit");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+    }
+
+    private void doubleClickOnListExceptModelAndCategory(java.awt.event.MouseEvent evt){
+        if(evt.getClickCount()==2){
+            if(this.nameList.getSelectedIndex()>=0){
+                if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("Admin")){
+                    editPerform();
+                }else if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("User")){
+                    deductPerformed();
+                }
+            }
+        }
+    }
+    
+    private void deductPerformed(){
+        if(this.nameList.getSelectedIndex() >= 0){
+            inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
+            p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }        
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "Deduct");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+    }
+    
+    private void orderByLabelClick(java.awt.event.MouseEvent evt){
+        if(evt.getClickCount()>1){
+            this.order = "DESC";
+        }else{
+            this.order = "ASC";
+        }
+    }
     
     public void setSelectedListItem(String name){
         //System.out.println(this.nameList.getNextMatch(name, 0, Position.Bias.Forward));
@@ -1266,6 +1355,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 //        this.totalPriceList.setSelectedIndex(index);
         this.expireDateList.setSelectedIndex(index);
         this.descriptionList.setSelectedIndex(index);
+        this.codeList.setSelectedIndex(index);
         
         this.nameList.ensureIndexIsVisible(this.nameList.getSelectedIndex());
         this.categoryList.ensureIndexIsVisible(this.categoryList.getSelectedIndex());
@@ -1276,6 +1366,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 //        this.totalPriceList.ensureIndexIsVisible(this.totalPriceList.getSelectedIndex());
         this.expireDateList.ensureIndexIsVisible(this.expireDateList.getSelectedIndex());
         this.descriptionList.ensureIndexIsVisible(this.descriptionList.getSelectedIndex());
+        this.codeList.ensureIndexIsVisible(this.codeList.getSelectedIndex());
         
         this.updateUI();
     }
@@ -1288,6 +1379,9 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JList categoryList;
     private javax.swing.JScrollPane categoryScrollPane;
+    private javax.swing.JLabel codeLabel;
+    private javax.swing.JList codeList;
+    private javax.swing.JScrollPane codeScrollPane;
     private javax.swing.JLabel currentLabel;
     private javax.swing.JList currentList;
     private javax.swing.JScrollPane currentScrollPane;
@@ -1309,6 +1403,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JLabel modeLabel;
     private javax.swing.JLabel modelLabel;
     private javax.swing.JList modelList;
     private javax.swing.JScrollPane modelScrollPane;
@@ -1332,6 +1427,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private javax.swing.JTextField searchByModelTextField;
     private javax.swing.JLabel searchByNameLabel;
     private javax.swing.JTextField searchByNameTextField;
+    private javax.swing.JButton swapButton;
     private javax.swing.JButton twoWeekColorButton;
     private javax.swing.JLabel twoWeekColorLabel;
     // End of variables declaration//GEN-END:variables
@@ -1376,6 +1472,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         this.priceScrollPane.setBackground(transparent);
         this.registerButton.setBackground(transparent);
         this.searchByNameTextField.setBackground(transparent);
+        this.swapButton.setBackground(transparent);
 //        this.totalPriceList.setBackground(transparent);
 //        this.totalPriceScrollPane.setBackground(transparent);
     }

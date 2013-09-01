@@ -44,6 +44,8 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
         descriptionScrollPane = new javax.swing.JScrollPane();
         descriptionTextPane = new inventory.myClasses.MyTextPane();
         RegisterButton = new inventory.myClasses.MyButton();
+        codeTextField = new javax.swing.JTextField();
+        codeLabel = new javax.swing.JLabel();
 
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +67,8 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
             }
         });
 
+        codeLabel.setText("Code");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,18 +77,20 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(categoryNameLabel)
-                            .addComponent(DescriptionLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(categoryNameTextField)
-                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(RegisterButton)))
+                        .addComponent(RegisterButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(categoryNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(DescriptionLabel)
+                            .addComponent(codeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(codeTextField)
+                            .addComponent(categoryNameTextField)
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -94,7 +100,11 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryNameLabel)
                     .addComponent(categoryNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(codeTextField)
+                    .addComponent(codeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DescriptionLabel))
@@ -116,13 +126,17 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
 
     private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
         try {
+            if(this.codeTextField.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(this, "Please Type Code.", "Alert", JOptionPane.OK_OPTION);
+                return;
+            }
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
             if(!this.categoryNameTextField.getText().trim().equals("")){
                 if(!inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.category WHERE name = '"+this.categoryNameTextField.getText()+"' and disable_id = 1;").next()){
                     int dialogResult = JOptionPane.showConfirmDialog (this, "Would You Like to Save?","Warning",JOptionPane.YES_NO_OPTION);
                     if(dialogResult == JOptionPane.YES_OPTION){
-                        inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`category` (`name`, `description`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"');");
+                        inventory.core.DBConnection.updateQuery("INSERT INTO `inventory`.`category` (`name`, `description`, `code`) VALUES ('"+this.categoryNameTextField.getText()+"', '"+this.descriptionTextPane.getText()+"', '"+this.codeTextField.getText()+"');");
                         ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).LoadData();
                         ((inventory.categoryPage.CategoryManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("CategoryManage"))).findAndSetSelectedItem(this.categoryNameTextField.getText());
                         this.clear();
@@ -163,6 +177,8 @@ public class CategoryRegister extends inventory.myClasses.MyJPanel {
     private javax.swing.JButton backButton;
     private javax.swing.JLabel categoryNameLabel;
     protected javax.swing.JTextField categoryNameTextField;
+    private javax.swing.JLabel codeLabel;
+    private javax.swing.JTextField codeTextField;
     protected javax.swing.JScrollPane descriptionScrollPane;
     protected javax.swing.JTextPane descriptionTextPane;
     // End of variables declaration//GEN-END:variables

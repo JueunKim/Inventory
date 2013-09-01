@@ -55,6 +55,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         list = new ArrayList<String>();
         pane = new ArrayList<String>();
         id = new ArrayList<Integer>();
+        code = new ArrayList<String>();
         
         this.descriptionTextPane.setText("");
         
@@ -71,6 +72,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
                     list.add(rs.getString("name"));
                     pane.add(rs.getString("description"));
                     id.add(rs.getInt("id"));
+                    code.add(rs.getString("code"));
                 }
             }
         } catch (SQLException ex) {
@@ -78,6 +80,9 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         }
         
         this.categoryNameList.setListData(list.toArray());
+        this.codeList.setListData(code.toArray());
+        
+        this.codeScrollPane.getVerticalScrollBar().setModel(this.categoryNameScrollPane.getVerticalScrollBar().getModel());
     }
     
     @SuppressWarnings("unchecked")
@@ -92,6 +97,8 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         editButton = new inventory.myClasses.MyButton();
         dropButton = new inventory.myClasses.MyButton();
         registerButton = new inventory.myClasses.MyButton();
+        codeScrollPane = new javax.swing.JScrollPane();
+        codeList = new javax.swing.JList();
 
         categoryNameList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -137,6 +144,18 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
             }
         });
 
+        codeList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                codeListMouseClicked(evt);
+            }
+        });
+        codeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                codeListValueChanged(evt);
+            }
+        });
+        codeScrollPane.setViewportView(codeList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,10 +164,12 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
                 .addContainerGap()
                 .addComponent(categoryNameScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(codeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dropButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(registerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -159,6 +180,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(codeScrollPane)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
@@ -179,7 +201,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         this.descriptionTextPane.setText(this.pane.get(this.categoryNameList.getSelectedIndex()));
         if(this.categoryNameList.getSelectedIndex() >= 0 && evt.getClickCount() == 2){
             inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();
-            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()));
+            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()),(String)this.codeList.getSelectedValue());
             
             if(inventory.core.ProjectBOMStockMain.display != null){
                 inventory.core.ProjectBOMStockMain.display.dispose();
@@ -207,7 +229,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         */
         if(this.categoryNameList.getSelectedIndex() >= 0){
             inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();
-            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()));
+            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()),(String)this.codeList.getSelectedValue());
             
             if(inventory.core.ProjectBOMStockMain.display != null){
                 inventory.core.ProjectBOMStockMain.display.dispose();
@@ -242,6 +264,7 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
             return;
         }
         
+        this.codeList.setSelectedIndex(this.categoryNameList.getSelectedIndex());
         
         if(this.categoryNameList.getSelectedIndex()>=0 && this.categoryNameList.getSelectedIndex() < pane.size()){
             this.descriptionTextPane.setText(this.pane.get(this.categoryNameList.getSelectedIndex()));
@@ -260,11 +283,47 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
         inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryRegister");
         inventory.core.ProjectBOMStockMain.display.setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
+
+    private void codeListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_codeListMouseClicked
+        // TODO add your handling code here:
+        if(this.categoryNameList.getSelectedIndex() >= 0 && evt.getClickCount() == 2){
+            inventory.categoryPage.CategoryEdit p = new inventory.categoryPage.CategoryEdit();
+            p.setEditConfig(id.get(this.categoryNameList.getSelectedIndex()), list.get(this.categoryNameList.getSelectedIndex()), pane.get(this.categoryNameList.getSelectedIndex()),(String)this.codeList.getSelectedValue());
+            
+            if(inventory.core.ProjectBOMStockMain.display != null){
+                inventory.core.ProjectBOMStockMain.display.dispose();
+            }
+            inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "CategoryEdit");
+            inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        }
+    }//GEN-LAST:event_codeListMouseClicked
+
+    private void codeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_codeListValueChanged
+        // TODO add your handling code here:
+        if(this.categoryNameList == null){
+            return;
+        }
+        if(this.descriptionTextPane == null){
+            return;
+        }
+        if(this.pane == null){
+            return;
+        }
+        
+        this.categoryNameList.setSelectedIndex(this.codeList.getSelectedIndex());
+        
+        if(this.categoryNameList.getSelectedIndex()>=0 && this.categoryNameList.getSelectedIndex() < pane.size()){
+            this.descriptionTextPane.setText(this.pane.get(this.categoryNameList.getSelectedIndex()));
+            
+            this.updateUI();
+        }
+    }//GEN-LAST:event_codeListValueChanged
     
     public void findAndSetSelectedItem(String name){
         this.categoryNameList.setSelectedIndex(this.list.indexOf(name));
     }
     
+    private ArrayList<String> code = null;
     private ArrayList<String> list = null;
     private ArrayList<String> pane = null;
     private ArrayList<Integer> id = null;
@@ -273,6 +332,8 @@ public class CategoryManage extends inventory.myClasses.MyJPanel {
     private javax.swing.JButton backButton;
     private javax.swing.JList categoryNameList;
     private javax.swing.JScrollPane categoryNameScrollPane;
+    private javax.swing.JList codeList;
+    private javax.swing.JScrollPane codeScrollPane;
     private javax.swing.JScrollPane descriptionScrollPane;
     private javax.swing.JTextPane descriptionTextPane;
     private javax.swing.JButton dropButton;

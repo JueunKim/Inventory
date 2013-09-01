@@ -42,6 +42,8 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
         DescriptionLabel = new javax.swing.JLabel();
         backButton = new inventory.myClasses.MyButton();
         editButton = new inventory.myClasses.MyButton();
+        codeTextField = new javax.swing.JTextField();
+        codeLabel = new javax.swing.JLabel();
 
         categoryNameLabel.setText("Category Name");
 
@@ -63,6 +65,8 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
             }
         });
 
+        codeLabel.setText("Code");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,13 +79,15 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
                         .addComponent(editButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(categoryNameLabel)
-                            .addComponent(DescriptionLabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(categoryNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(DescriptionLabel)
+                            .addComponent(codeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(categoryNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))))
+                            .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                            .addComponent(codeTextField))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -91,7 +97,11 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoryNameLabel)
                     .addComponent(categoryNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(codeTextField)
+                    .addComponent(codeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DescriptionLabel))
@@ -121,6 +131,10 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
     
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         try {
+            if(this.codeTextField.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(this, "Please Type Code.", "Alert", JOptionPane.OK_OPTION);
+                return;
+            }
             // TODO add your handling code here:
             //System.out.println(this.categoryNameTextField.getText());
             if(!this.categoryNameTextField.getText().trim().equals("")){
@@ -128,14 +142,16 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
                 boolean saved = false;
                 if(dialogResult == JOptionPane.YES_OPTION){
                     if(this.name.equals(this.categoryNameTextField.getText())){
-                        inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`category` SET `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");
+                        inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`category` SET `description`='"+this.descriptionTextPane.getText()+"', `code`='"+this.codeTextField.getText()+"' WHERE `id`='"+this.id+"';");
                         saved = true;
                     }else{
                         //SELECT name FROM inventory.category where name = 'eye';
                         ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.category where name = '"+this.categoryNameTextField.getText()+"' and disable_id = 1;");
                         if(!rs.next() || rs.getInt("disable_id") != 1){
                             //UPDATE `inventory`.`category` SET `name`='Knife&suture2', `description`='test45' WHERE `id`='4';
-                            inventory.core.DBConnection.updateQuery("UPDATE `inventory`.`category` SET `name`='"+this.categoryNameTextField.getText()+"', `description`='"+this.descriptionTextPane.getText()+"' WHERE `id`='"+this.id+"';");
+                            String sql = "UPDATE `inventory`.`category` SET `name`='"+this.categoryNameTextField.getText()+"', `description`='"+this.descriptionTextPane.getText()+"', `code` = '"+this.codeTextField.getText()+"' WHERE `id`='"+this.id+"';";
+                            System.out.println(sql);
+                            inventory.core.DBConnection.updateQuery(sql);
                             saved = true;
                         }else{
                             JOptionPane.showConfirmDialog(this, "Name is duplicated","Warning",JOptionPane.OK_CANCEL_OPTION);
@@ -175,10 +191,12 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
         this.description = "";
     }
     
-    public void setEditConfig(Integer id, String name, String description){
+    public void setEditConfig(Integer id, String name, String description, String code){
         this.id = id;
         this.name = name;
+        this.code = code;
         this.description = description;
+        this.codeTextField.setText(code);
         this.categoryNameTextField.setText(name);
         this.descriptionTextPane.setText(description);
     }
@@ -186,12 +204,15 @@ public class CategoryEdit extends inventory.myClasses.MyJPanel {
     private Integer id = 0;
     private String name = "";
     private String description = "";
+    private String code = "";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DescriptionLabel;
     private javax.swing.JButton backButton;
     private javax.swing.JLabel categoryNameLabel;
     protected javax.swing.JTextField categoryNameTextField;
+    private javax.swing.JLabel codeLabel;
+    private javax.swing.JTextField codeTextField;
     protected javax.swing.JScrollPane descriptionScrollPane;
     protected javax.swing.JTextPane descriptionTextPane;
     protected javax.swing.JButton editButton;

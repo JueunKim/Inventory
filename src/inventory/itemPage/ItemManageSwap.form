@@ -16,66 +16,56 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="searchByCategoryTextField" max="32767" attributes="0"/>
-                          <Component id="categoryLabel" max="32767" attributes="0"/>
-                          <Component id="searchByCategoryLabel" pref="130" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="categoryLabel" min="-2" pref="130" max="-2" attributes="0"/>
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="nameLabel" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="searchByNameTextField" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="searchByNameLabel" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Component id="nameLabel" min="-2" pref="150" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="codeLabel" min="-2" pref="118" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="categoryScrollPane" min="-2" pref="130" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="nameScrollPane" min="-2" pref="150" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                      <Component id="codeScrollPane" min="-2" pref="118" max="-2" attributes="0"/>
+                      <Component id="varietyNameScrollPane" min="-2" pref="150" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="codeScrollPane" min="-2" pref="124" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="modelLabel" min="-2" pref="120" max="-2" attributes="0"/>
-                  <Component id="modelScrollPane" alignment="0" pref="144" max="32767" attributes="0"/>
-                  <Component id="searchByModelTextField" max="32767" attributes="0"/>
-                  <Component id="searchByModelLabel" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="modelLabel" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="modelScrollPane" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="packageScrollPane" min="-2" pref="80" max="-2" attributes="0"/>
-                          <Component id="packageLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="packageScrollPane" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="packageLabel" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="priceLabel" max="32767" attributes="0"/>
-                          <Component id="priceScrollPane" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="priceLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="priceScrollPane" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="currentLabel" max="32767" attributes="0"/>
-                          <Component id="currentScrollPane" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="currentLabel" alignment="0" max="32767" attributes="0"/>
+                          <Component id="currentScrollPane" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="expireDateScrollPane" min="-2" pref="120" max="-2" attributes="0"/>
-                          <Component id="expireDateLabel" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="expireDateScrollPane" alignment="1" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="expireDateLabel" alignment="1" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="descriptionScrollPane" min="-2" pref="160" max="-2" attributes="0"/>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace pref="32" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
@@ -86,11 +76,11 @@
                                           <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
                                           <Component id="editButton" alignment="1" max="32767" attributes="0"/>
                                           <Component id="registerButton" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="jSeparator2" min="-2" pref="138" max="-2" attributes="0"/>
+                                          <Component id="jSeparator2" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="backButton" max="32767" attributes="0"/>
-                                          <Component id="jSeparator5" min="-2" pref="138" max="-2" attributes="0"/>
+                                          <Component id="backButton" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jSeparator5" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="twoWeekColorButton" min="-2" pref="60" max="-2" attributes="0"/>
@@ -100,14 +90,14 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="oneWeekColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="oneWeekColorButton" min="-2" pref="60" max="-2" attributes="0"/>
+                                              <Component id="oneWeekColorButton" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
                                               <Component id="twoWeekColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="afterFourWeekColorLabel" min="-2" max="-2" attributes="0"/>
-                                              <Component id="expiredColorLabel" min="-2" max="-2" attributes="0"/>
-                                              <Component id="expiredColorButton" min="-2" pref="60" max="-2" attributes="0"/>
+                                              <Component id="afterFourWeekColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="expiredColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="expiredColorButton" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
@@ -117,15 +107,15 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="remainZeroColorLabel" min="-2" max="-2" attributes="0"/>
-                                              <Component id="remainZeroColorButton" min="-2" pref="60" max="-2" attributes="0"/>
+                                              <Component id="remainZeroColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="remainZeroColorButton" alignment="0" min="-2" pref="60" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
                                   <Component id="dropButton" alignment="1" min="-2" pref="138" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="descriptionLabel" min="-2" pref="160" max="-2" attributes="0"/>
+                          <Component id="descriptionLabel" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -142,31 +132,21 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="searchByNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="searchByModelLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="searchByNameTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="searchByCategoryTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="searchByModelTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="34" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="nameLabel" alignment="3" max="-2" attributes="0"/>
                           <Component id="codeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="swapButton" min="-2" max="-2" attributes="0"/>
-                          <Component id="modeLabel" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="swapButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="modeLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="priceLabel" alignment="3" max="32767" attributes="0"/>
                           <Component id="packageLabel" alignment="3" max="-2" attributes="0"/>
@@ -177,13 +157,12 @@
                           <Component id="descriptionLabel" alignment="3" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="searchByCategoryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="registerButton" min="-2" pref="30" max="-2" attributes="0"/>
@@ -208,28 +187,28 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="oneWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="expiredColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="oneWeekColorButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="expiredColorButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="twoWeekColorLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="afterFourWeekColorLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="twoWeekColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="afterFourWeekColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="twoWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="afterFourWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="twoWeekColorButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="afterFourWeekColorButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="remainZeroColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="fourWeekColorLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fourWeekColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="fourWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="remainZeroColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="fourWeekColorButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="remainZeroColorButton" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                               <Component id="jSeparator5" min="-2" pref="10" max="-2" attributes="0"/>
@@ -243,7 +222,7 @@
                           <Component id="expireDateScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                           <Component id="descriptionScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="nameScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                      <Component id="varietyNameScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                       <Component id="categoryScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                   </Group>
                   <Component id="codeScrollPane" min="-2" pref="510" max="-2" attributes="0"/>
@@ -254,7 +233,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="nameScrollPane">
+    <Container class="javax.swing.JScrollPane" name="varietyNameScrollPane">
       <Properties>
         <Property name="horizontalScrollBarPolicy" type="int" value="32"/>
         <Property name="verticalScrollBarPolicy" type="int" value="22"/>
@@ -266,25 +245,19 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="nameList">
+        <Component class="javax.swing.JList" name="varietyNameList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
-            </Property>
-            <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nameListMouseClicked"/>
-            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="nameListValueChanged"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="varietyNameListMouseClicked"/>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="varietyNameListValueChanged"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyList()"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -302,16 +275,10 @@
         <Component class="javax.swing.JList" name="modelList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <Connection code="new inventory.myClasses.MyItemManageSwapCellRenderer()" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -351,16 +318,12 @@
         <Component class="javax.swing.JList" name="packageList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
+              <StringArray count="1">
+                <StringItem index="0" value=" "/>
               </StringArray>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <Connection code="new inventory.myClasses.MyItemManageSwapCellRenderer()" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -392,16 +355,10 @@
         <Component class="javax.swing.JList" name="priceList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <Connection code="new inventory.myClasses.MyItemManageSwapCellRenderer()" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -433,16 +390,10 @@
         <Component class="javax.swing.JList" name="currentList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <Connection code="new inventory.myClasses.MyItemManageSwapCellRenderer()" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -505,11 +456,6 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="searchByNameLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Search Name"/>
-      </Properties>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="expireDateScrollPane">
       <Properties>
         <Property name="horizontalScrollBarPolicy" type="int" value="32"/>
@@ -524,16 +470,10 @@
         <Component class="javax.swing.JList" name="expireDateList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <Connection code="new inventory.myClasses.MyItemManageSwapCellRenderer()" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -557,13 +497,7 @@
         <Component class="javax.swing.JList" name="descriptionList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
@@ -589,14 +523,6 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="expireDateLabelMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="searchByNameTextField">
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchByNameTextFieldKeyReleased"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator3">
@@ -617,16 +543,7 @@
         <Component class="javax.swing.JList" name="categoryList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
-            </Property>
-            <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
@@ -783,32 +700,6 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyColorChooserButton()"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="searchByCategoryTextField">
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchByCategoryTextFieldKeyReleased"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="searchByCategoryLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Search Category"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="searchByModelTextField">
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchByModelTextFieldKeyReleased"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="searchByModelLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Search Model"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="remainZeroColorButton">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -844,7 +735,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="modeLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Listing Mode"/>
+        <Property name="text" type="java.lang.String" value="Category Mode"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="codeScrollPane">
@@ -861,16 +752,10 @@
         <Component class="javax.swing.JList" name="codeList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new inventory.myClasses.MyItemManageCellRenderer()" type="code"/>
+              <Connection code="new inventory.myClasses.MyItemManageSwapCellRenderer()" type="code"/>
             </Property>
           </Properties>
           <Events>

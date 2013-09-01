@@ -36,6 +36,7 @@ import javax.swing.JOptionPane;
  */
 public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private String originalName = null;
+    private Integer variety_id = null;
     private Integer category_id = null;
     private Integer model_id = null;
     private Integer package_id = null;
@@ -54,19 +55,36 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     /**
      * Creates new form ItemUpdate
      */
-    public void setElements(Integer id, String categoryName, String modelName, String nationName, String packageNumber){
+    public void setElements(Integer id, Integer variety_id, String categoryName, String modelName, String nationName, String packageNumber){
         //set this values
         this.id = id;
+        
+        String sql = null;
+        ResultSet rs = null;
         
         this.imageLabel.setIcon(null);
         
         if(id == 0){
             this.clearElements();
+            if(variety_id != null){
+                sql = "SELECT variety.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname FROM inventory.variety as variety join inventory.category as category on variety.category_id = category.id  WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
+                rs = inventory.core.DBConnection.executeQuery(sql);
+                try {
+                    while(rs.next()){
+                        this.category_id = rs.getInt("category_id");
+                        this.variety_id = variety_id;
+                        this.categoryTextField.setText(rs.getString("cname"));
+                        this.nameTextField.setText(rs.getString("vname"));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             this.updateButton.setText("Register");
         }else if(id > 0){
             this.updateButton.setText("Edit");
             try {
-                ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.item WHERE id = "+id+";");
+                rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.item WHERE id = "+id+";");
                 if(rs.next()){
                     originalName = rs.getString("name");
                     category_id = rs.getInt("category_id");
@@ -74,9 +92,12 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                     package_id = rs.getInt("package_id");
                     nation_id = rs.getInt("nation_id");
                     expiredate = rs.getDate("expiredate");
+                    this.variety_id = rs.getInt("variety_id");
                     
                     possibilities = null;
                     
+                    this.codeTextField.setText(rs.getString("itemNumber"));
+                        
                     this.nameTextField.setText(originalName);
                     this.priceTextField.setText(rs.getFloat("price")+"");
                     this.descriptionTextArea.setText(rs.getString("description"));
@@ -241,8 +262,11 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         expireDateButton = new inventory.myClasses.MyButton();
         imageLabel = new javax.swing.JLabel();
         imageEditButton = new inventory.myClasses.MyButton();
+        varietyButton = new javax.swing.JButton();
+        codeLabel = new javax.swing.JLabel();
+        codeTextField = new javax.swing.JTextField();
 
-        nameLabel.setText("Name");
+        nameLabel.setText("Variety");
 
         categoryLabel.setText("Category");
 
@@ -259,6 +283,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         expiredateLabel.setText("ExpireDate");
 
         descriptionLabel.setText("Description");
+
+        nameTextField.setEnabled(false);
 
         categoryTextField.setEnabled(false);
 
@@ -300,7 +326,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         });
 
-        categoryButton.setText("CategorySet");
+        categoryButton.setText("Category");
         categoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoryButtonActionPerformed(evt);
@@ -371,6 +397,21 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         });
 
+        varietyButton.setText("Variety");
+        varietyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                varietyButtonActionPerformed(evt);
+            }
+        });
+
+        codeLabel.setText("ItemNumber");
+
+        codeTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codeTextFieldKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -386,25 +427,28 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                     .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(expiredateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(descriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(descriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(codeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(modelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(packageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(currentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(categoryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(expiredateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(modelTextField)
+                    .addComponent(packageTextField)
+                    .addComponent(priceTextField)
+                    .addComponent(nationTextField)
+                    .addComponent(currentTextField)
+                    .addComponent(descriptionScrollPane)
+                    .addComponent(nameTextField)
+                    .addComponent(categoryTextField)
+                    .addComponent(expiredateTextField)
+                    .addComponent(codeTextField))
                 .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(categoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(modelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(packageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(expireDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(packageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(expireDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(varietyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -423,24 +467,25 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(nameLabel)
-                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(categoryLabel)
                                 .addComponent(categoryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(categoryButton))
-                            .addGap(8, 8, 8)
+                                .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(7, 7, 7)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(nameLabel)
+                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(varietyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(modelLabel)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(modelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(modelButton)))
+                                    .addComponent(modelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(8, 8, 8)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(packageLabel)
                                 .addComponent(packageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(packageButton))
+                                .addComponent(packageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(9, 9, 9)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(priceLabel)
@@ -449,7 +494,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(nationLabel)
                                 .addComponent(nationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nationButton))
+                                .addComponent(nationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(9, 9, 9)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(currentLabel)
@@ -459,11 +504,15 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                                 .addComponent(expiredateLabel)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(expiredateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(expireDateButton)))
+                                    .addComponent(expireDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(9, 9, 9)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(descriptionLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(codeLabel)
+                                .addComponent(codeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(9, 9, 9)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(descriptionLabel)
+                                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(imageEditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(124, 124, 124)
@@ -550,6 +599,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         */
         //if(JOptionPane.showConfirmDialog(this, "Save was done!, Continue to Update?","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
+            ((inventory.itemPage.ItemManageSwap)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManageSwap"))).reLoadDataByName();
             //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
             this.originalName = this.nameTextField.getText();
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(this.originalName);
@@ -655,7 +705,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         
         String sql = "UPDATE `inventory`.`item` SET `name`='"+this.nameTextField.getText()+"', `description`='"+this.descriptionTextArea.getText()+"', `model_id`='"+this.model_id
                 +"', `package_id`='"+this.package_id+"', `category_id`='"+category_id+"', `price`='"+Float.parseFloat(this.priceTextField.getText())
-                +"', `nation_id`='"+this.nation_id+"', `current`='"+this.currentTextField.getText()+"',  `expiredate`='"+this.expiredate.toString()+"' WHERE `id`='"+this.id+"';";
+                +"', `nation_id`='"+this.nation_id+"', `current`='"+this.currentTextField.getText()+"',  `expiredate`='"+this.expiredate.toString()+"', `variety_id`='"+this.variety_id+"', `itemNumber`='"+this.codeTextField.getText()+"' WHERE `id`='"+this.id+"';";
         
         inventory.core.DBConnection.updateQuery(sql);
         
@@ -719,6 +769,12 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             this.descriptionTextArea.setText(" ");
         }//description check
         
+        
+        if(this.codeTextField.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(this, "itemNumber is empty.","Warning",JOptionPane.OK_OPTION);
+            return validatation;
+        }
+        
         validatation = true;
         return validatation;
     }
@@ -750,16 +806,27 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             return validation;
         }
         
-        String sql = "INSERT INTO `inventory`.`item` (`name`, `description`, `model_id`, `package_id`, `category_id`, `price`, `nation_id`, `current`, `register_id`, `disable_id`, `expiredate`) "+
+        String sql = "INSERT INTO `inventory`.`item` (`name`, `description`, `model_id`, `package_id`, `category_id`, `price`, `nation_id`, `current`, `register_id`, `disable_id`, `expiredate`, `itemNumber`, `variety_id`) "+
                 "VALUES ('"+this.nameTextField.getText()+"', '"+this.descriptionTextArea.getText()+"', '"+this.model_id+"', '"+this.package_id+
                 "', '"+this.category_id+"', '"+Float.parseFloat(this.priceTextField.getText())+"', '"+this.nation_id+"', '"+this.currentTextField.getText()+"', '"+inventory.core.MainFrame.user_id+
-                "', '1', '"+this.expiredate.toString()+"');";
+                "', '1', '"+this.expiredate.toString()+"', '"+this.codeTextField.getText()+"', '"+this.variety_id+"');";
+        
+        System.out.println(sql);
         
         ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
         
         if(rs.next()){
             this.id = (int)rs.getLong(1);
-            System.out.println(this.id + "in edit");
+        }
+        
+        String varietyInsertSql = null;
+        
+        varietyInsertSql = "UPDATE `inventory`.`item` SET `variety_id`='"+this.variety_id+"' WHERE `id`='"+this.id+"';";
+        
+        rs = inventory.core.DBConnection.updateQueryGetID(varietyInsertSql);
+        
+        if(rs.next()){
+            this.id = (int)rs.getLong(1);
         }
         
         validation = true;
@@ -777,7 +844,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     
     private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Category Select", "Please Check a Category","SELECT * FROM inventory.category ORDER BY name;","name");
+        String s = selectDialog("Category Select", "Please Check a Category","SELECT * FROM inventory.category where disable_id = 1 ORDER BY name;","name");
         if ((s != null) && (s.length() > 0)) {
             this.category_id = ids.get(possibilities.indexOf(s));
             this.categoryTextField.setText(s);
@@ -787,7 +854,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void modelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Model Select", "Please Select a Model","SELECT * FROM inventory.model ORDER BY name;","name");
+        String s = selectDialog("Model Select", "Please Select a Model","SELECT * FROM inventory.model where disable_id = 1 ORDER BY name;","name");
         if ((s != null) && (s.length() > 0)) {
             this.model_id = ids.get(possibilities.indexOf(s));
             this.modelTextField.setText(s);
@@ -797,7 +864,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void packageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packageButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Package Select", "Please Select a Package","SELECT * FROM inventory.package ORDER BY count;","count");
+        String s = selectDialog("Package Select", "Please Select a Package","SELECT * FROM inventory.package where disable_id = 1 ORDER BY count;","count");
         if ((s != null) && (s.length() > 0)) {
             this.package_id = ids.get(possibilities.indexOf(s));
             this.packageTextField.setText(s);
@@ -807,7 +874,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void nationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nationButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Nation Select", "Please Select a Nation","SELECT * FROM inventory.nation ORDER BY name DESC;","name");
+        String s = selectDialog("Nation Select", "Please Select a Nation","SELECT * FROM inventory.nation where disable_id = 1 ORDER BY name DESC;","name");
         if ((s != null) && (s.length() > 0)) {
             this.nation_id = ids.get(possibilities.indexOf(s));
             this.nationTextField.setText(s);
@@ -887,6 +954,27 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         }
     }//GEN-LAST:event_imageEditButtonActionPerformed
 
+    private void varietyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varietyButtonActionPerformed
+        // TODO add your handling code here:
+        if(category_id ==null || category_id == 0){
+            JOptionPane.showMessageDialog(this, "Category is empty.","Warning",JOptionPane.OK_OPTION);
+            return;
+        }
+        String s = selectDialog("Variety Select", "Please Check a Variety","SELECT * FROM inventory.variety WHERE category_id = "+this.category_id+" and disable_id = 1 ORDER BY name;","name");
+        if ((s != null) && (s.length() > 0)) {
+            this.variety_id = ids.get(possibilities.indexOf(s));
+            this.nameTextField.setText(s);
+            return;
+        }
+    }//GEN-LAST:event_varietyButtonActionPerformed
+
+    private void codeTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextFieldKeyTyped
+        // TODO add your handling code here:
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_codeTextFieldKeyTyped
+
     private String selectDialog(String Title, String Message, String sql, String possibleTarget){
         try {
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
@@ -921,6 +1009,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private javax.swing.JButton categoryButton;
     private javax.swing.JLabel categoryLabel;
     private javax.swing.JTextField categoryTextField;
+    private javax.swing.JLabel codeLabel;
+    private javax.swing.JTextField codeTextField;
     private javax.swing.JLabel currentLabel;
     private javax.swing.JTextField currentTextField;
     private javax.swing.JLabel descriptionLabel;
@@ -945,6 +1035,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private javax.swing.JLabel priceLabel;
     private javax.swing.JTextField priceTextField;
     private javax.swing.JButton updateButton;
+    private javax.swing.JButton varietyButton;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -978,6 +1069,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         this.priceTextField.setBackground(transparent);
         this.updateButton.setBackground(transparent);
         this.imageEditButton.setBackground(transparent);
+        this.varietyButton.setBackground(transparent);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

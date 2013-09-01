@@ -38,8 +38,6 @@ public class MyColorChooserButton extends MyButton{
                     
                     String button = MyColorChooserButton.this.getToolTipText();
                     
-                    System.out.println(button);
-                    
                     if(button.equals("expired")){
                         inventory.itemPage.ItemManage.expired = select;
                         weekID = "1";
@@ -60,7 +58,6 @@ public class MyColorChooserButton extends MyButton{
                         weekID = "6";
                     }
                     sql = "UPDATE `inventory`.`weekAndColor` SET `colorRed`='"+select.getRed()+"', `colorGreen`='"+select.getGreen()+"', `colorBlue`='"+select.getBlue()+"' WHERE `id`="+weekID+";";
-                    System.out.println(sql);
                     
                     if(weekID != null){
                         inventory.core.DBConnection.updateQuery(sql);

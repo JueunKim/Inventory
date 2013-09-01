@@ -28,26 +28,29 @@
                   <Component id="nameLabel" alignment="0" max="32767" attributes="0"/>
                   <Component id="expiredateLabel" alignment="0" max="32767" attributes="0"/>
                   <Component id="descriptionLabel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="codeLabel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="modelTextField" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="packageTextField" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="priceTextField" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="nationTextField" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="currentTextField" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="descriptionScrollPane" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="nameTextField" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="categoryTextField" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="expiredateTextField" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                  <Component id="modelTextField" max="32767" attributes="0"/>
+                  <Component id="packageTextField" max="32767" attributes="0"/>
+                  <Component id="priceTextField" max="32767" attributes="0"/>
+                  <Component id="nationTextField" max="32767" attributes="0"/>
+                  <Component id="currentTextField" max="32767" attributes="0"/>
+                  <Component id="descriptionScrollPane" max="32767" attributes="0"/>
+                  <Component id="nameTextField" alignment="0" max="32767" attributes="0"/>
+                  <Component id="categoryTextField" alignment="0" max="32767" attributes="0"/>
+                  <Component id="expiredateTextField" alignment="0" max="32767" attributes="0"/>
+                  <Component id="codeTextField" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="categoryButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="modelButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="packageButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="nationButton" alignment="0" max="32767" attributes="0"/>
-                  <Component id="expireDateButton" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="categoryButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="modelButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="packageButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="nationButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="expireDateButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="varietyButton" min="-2" pref="120" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="imageLabel" min="-2" pref="368" max="-2" attributes="0"/>
@@ -67,31 +70,32 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="imageLabel" min="-2" pref="459" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="nameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="categoryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="categoryTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="categoryButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="categoryButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="nameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="varietyButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="modelLabel" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="modelTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="modelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="modelButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="packageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="packageTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="packageButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="packageButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -102,7 +106,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="nationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="nationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="nationButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="nationButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -114,13 +118,18 @@
                               <Component id="expiredateLabel" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="expiredateTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="expireDateButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="expireDateButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="descriptionScrollPane" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="codeLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="codeTextField" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="descriptionLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="descriptionScrollPane" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -140,7 +149,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="nameLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Name"/>
+        <Property name="text" type="java.lang.String" value="Variety"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="categoryLabel">
@@ -184,6 +193,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nameTextField">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyTextField()"/>
       </AuxValues>
@@ -286,7 +298,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="categoryButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="CategorySet"/>
+        <Property name="text" type="java.lang.String" value="Category"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryButtonActionPerformed"/>
@@ -368,6 +380,24 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new inventory.myClasses.MyButton()"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="varietyButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Variety"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="varietyButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="codeLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ItemNumber"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="codeTextField">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="codeTextFieldKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

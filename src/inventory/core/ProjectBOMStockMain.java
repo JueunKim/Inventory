@@ -96,6 +96,7 @@ public class ProjectBOMStockMain {
         addPage(new inventory.itemPage.ItemManage(), "ItemManage");
         addPage(new inventory.itemPage.ItemUpdate(), "ItemUpdate");
         addPage(new inventory.itemPage.ItemChange(), "ItemChange");
+        addPage(new inventory.itemPage.ItemManageSwap(), "ItemManageSwap");
         
         addPage(new inventory.varietyPage.VarietyManage(), "VarietyManage");
     }

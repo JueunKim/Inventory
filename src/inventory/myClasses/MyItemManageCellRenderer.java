@@ -17,8 +17,8 @@ import javax.swing.JList;
  *
  * @author paul
  */
-public class MyCellRenderer extends DefaultListCellRenderer{
-    public MyCellRenderer(){
+public class MyItemManageCellRenderer extends DefaultListCellRenderer{
+    public MyItemManageCellRenderer(){
         super();
     }
     
@@ -31,7 +31,6 @@ public class MyCellRenderer extends DefaultListCellRenderer{
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         
         setText(list.getModel().getElementAt(index).toString());
-        
         if(inventory.itemPage.ItemManage.currentArrayList.get(index) == 0){
             this.setBackground(inventory.itemPage.ItemManage.remainZero);
             final Map<TextAttribute, Object> attr = new HashMap<TextAttribute, Object>(list.getFont().getAttributes());
