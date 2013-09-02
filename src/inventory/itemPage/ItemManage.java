@@ -1371,6 +1371,8 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         this.updateUI();
     }
     
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton afterFourWeekColorButton;

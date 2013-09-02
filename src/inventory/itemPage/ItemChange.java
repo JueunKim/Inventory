@@ -407,6 +407,25 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
             return;
         }
         
+        String s = null;
+        s = JOptionPane.showInputDialog(this, "Please Type a Reciept # or Register Key", "Reciept",JOptionPane.OK_CANCEL_OPTION);
+        
+        if(s == null || s.trim().equals("")){
+            return;
+        }
+        
+        for(int i = 0 ; i < s.length(); i++){
+            if(!Character.isLetterOrDigit(s.toCharArray()[i])){
+                JOptionPane.showMessageDialog(this, "No Special Cahracter.","Alert",JOptionPane.OK_OPTION);
+                return;
+            }
+        }
+        
+        if(inventory.core.MainFrame.role != 1 && s.trim().equals("A01")){
+            JOptionPane.showMessageDialog(this, "A01 is for admin","Alert",JOptionPane.OK_OPTION);
+            return;
+        }
+        
         Integer type = 0;
         if(((javax.swing.JButton)evt.getSource()).getText().equals("Deduct")){
             try {
@@ -432,20 +451,33 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
         //INSERT INTO `inventory`.`change` (`item_id`, `amount`, `changetype_id`, `editor_id`) VALUES ('1', '1', '1', '1');
 
         String sql = "INSERT INTO `inventory`.`change` (`item_id`, `amount`, `changetype_id`, `editor_id`, `date`) VALUES ('"+this.id+"', '"+this.changeTextField.getText()+"', '"+type+"', '"+inventory.core.MainFrame.user_id+"', now());";
-        inventory.core.DBConnection.updateQuery(sql);
+        ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
+        
+        Integer reg_id = 0;
+        try {
+            if(rs.next()){
+                reg_id = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemChange.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         switch(type){
             case 1 : 
                 sql = "UPDATE `inventory`.`item` SET `current`=`current`+"+this.changeTextField.getText()+" WHERE `id`='"+this.id+"';";
                 inventory.core.DBConnection.updateQuery(sql);
-                System.out.println("ADD");
                 break;
             case 2 : 
                 sql = "UPDATE `inventory`.`item` SET `current`=`current`-"+this.changeTextField.getText()+" WHERE `id`='"+this.id+"';";
                 inventory.core.DBConnection.updateQuery(sql);
-                System.out.println("DEDUCT");
                 break;
         }
+        
+        sql = "UPDATE `inventory`.`change` SET `register_key`='"+s+"' WHERE `id`='"+reg_id+"';";
+        inventory.core.DBConnection.updateQuery(sql);
+        System.out.println(sql);
+        
         clearElements();
         
         ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(inventory.core.ProjectBOMStockMain.getMainFrame().getTitle()))).loadDataByName("");

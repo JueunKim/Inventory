@@ -554,6 +554,27 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
+        
+        String s = null;
+        s = JOptionPane.showInputDialog(this, "Please Type a Reciept # or Register Key", "Reciept",JOptionPane.OK_CANCEL_OPTION);
+        
+        if(s == null || s.trim().equals("")){
+            JOptionPane.showMessageDialog(this, "Please Type a Reciept # or Register Key.","Alert",JOptionPane.OK_OPTION);
+            return;
+        }
+        
+        for(int i = 0 ; i < s.length(); i++){
+            if(!Character.isLetterOrDigit(s.toCharArray()[i])){
+                JOptionPane.showMessageDialog(this, "No Special Cahracter.","Alert",JOptionPane.OK_OPTION);
+                return;
+            }
+        }
+        
+        if(inventory.core.MainFrame.role != 1 && s.trim().equals("A01")){
+            JOptionPane.showMessageDialog(this, "A01 is for admin","Alert",JOptionPane.OK_OPTION);
+            return;
+        }
+        
         if(id == 0){
             try {
                 if(!register()){
@@ -574,12 +595,29 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             }
         }
         
+        Integer reg_id = 0;
+        ResultSet rs = null;
+        String sql = null;
+        
         if(this.originalCurrent != Integer.parseInt(this.currentTextField.getText())){
             if(this.id != 0){
-                String sql = "INSERT INTO `inventory`.`change` (`item_id`, `amount`, `changetype_id`, `editor_id`, `date`) VALUES ('"+this.id+"', '"+this.currentTextField.getText()+"', '3', '"+inventory.core.MainFrame.user_id+"', now());";
-                inventory.core.DBConnection.updateQuery(sql);
+                sql = "INSERT INTO `inventory`.`change` (`item_id`, `amount`, `changetype_id`, `editor_id`, `date`) VALUES ('"+this.id+"', '"+this.currentTextField.getText()+"', '3', '"+inventory.core.MainFrame.user_id+"', now());";
+                rs = inventory.core.DBConnection.updateQueryGetID(sql);
             }
         }
+        
+        try {
+            if(rs != null && rs.next()){
+                reg_id = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemChange.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        sql = "UPDATE `inventory`.`change` SET `register_key`='"+s+"' WHERE `id`='"+reg_id+"';";
+        inventory.core.DBConnection.updateQuery(sql);
+        System.out.println(sql);
+        
         
         if(this.imgSource != null){
             updateItemImage();
