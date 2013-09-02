@@ -47,8 +47,12 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
         backButton = new inventory.myClasses.MyButton();
         updateButton = new inventory.myClasses.MyButton();
         categoryButton = new inventory.myClasses.MyButton();
+        varietyNumberLabel = new javax.swing.JLabel();
+        varietyNumberTextField = new javax.swing.JTextField();
 
         categoryNameLabel.setText("Category Name");
+
+        cateogrynameTextField.setEnabled(false);
 
         varietyNameLabel.setText("Variety Name");
 
@@ -73,6 +77,14 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
             }
         });
 
+        varietyNumberLabel.setText("Variety Number");
+
+        varietyNumberTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                varietyNumberTextFieldKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,8 +98,11 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
                         .addComponent(categoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(varietyNameLabel)
                     .addComponent(categoryNameLabel)
+                    .addComponent(varietyNumberLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(vatieryNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(varietyNumberTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(vatieryNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -108,12 +123,16 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cateogrynameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(varietyNumberLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(varietyNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
                         .addComponent(varietyNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(vatieryNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(updateButton))
-                        .addGap(0, 55, Short.MAX_VALUE)))
+                        .addGap(0, 45, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -164,6 +183,13 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
+    private void varietyNumberTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_varietyNumberTextFieldKeyTyped
+        // TODO add your handling code here:
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_varietyNumberTextFieldKeyTyped
+
     private void closeProcess(){
         if(javax.swing.SwingUtilities.getWindowAncestor(this) !=null && javax.swing.SwingUtilities.getWindowAncestor(this) instanceof javax.swing.JFrame){
             if(id != null && id != 0){
@@ -192,6 +218,11 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
                 return validation;
             }
             
+            if(this.varietyNumberTextField.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Variety Number is Empty","Warning",JOptionPane.OK_OPTION);
+                return validation;
+            }
+            
             String sql = null;
             
             ResultSet rs = null;
@@ -210,7 +241,7 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
             ///
             String updateSql = null;
             
-            updateSql = "UPDATE `inventory`.`variety` SET `category_id`="+this.category_id+", `name`='"+this.vatieryNameTextField.getText()+"' WHERE `id`="+this.id+";";
+            updateSql = "UPDATE `inventory`.`variety` SET `category_id`="+this.category_id+", `name`='"+this.vatieryNameTextField.getText()+"', `varietyNumber`='"+this.varietyNumberTextField.getText()+"' WHERE `id`="+this.id+";";
             
             inventory.core.DBConnection.updateQuery(updateSql);
             
@@ -239,6 +270,11 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
                 return validation;
             }
             
+            if(this.varietyNumberTextField.getText().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Variety Number is Empty","Warning",JOptionPane.OK_OPTION);
+                return validation;
+            }
+            
             String sql = null;
             
             sql = "SELECT * FROM inventory.variety where name = '"+this.vatieryNameTextField.getText()+"'  and disable_id = 1;";
@@ -252,7 +288,7 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
             
             String updateSql = null;
             
-            updateSql = "INSERT INTO `inventory`.`variety` (`category_id`, `name`, `register_id`) VALUES ("+this.category_id+", '"+this.vatieryNameTextField.getText()+"', "+inventory.core.MainFrame.user_id+");";
+            updateSql = "INSERT INTO `inventory`.`variety` (`category_id`, `name`, `register_id`, `varietyNumber`) VALUES ("+this.category_id+", '"+this.vatieryNameTextField.getText()+"', "+inventory.core.MainFrame.user_id+", '"+this.varietyNumberTextField.getText()+"');";
             
             rs = inventory.core.DBConnection.updateQueryGetID(updateSql);
             
@@ -303,6 +339,8 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
     private javax.swing.JTextField cateogrynameTextField;
     private javax.swing.JButton updateButton;
     private javax.swing.JLabel varietyNameLabel;
+    private javax.swing.JLabel varietyNumberLabel;
+    private javax.swing.JTextField varietyNumberTextField;
     private javax.swing.JTextField vatieryNameTextField;
     // End of variables declaration//GEN-END:variables
 
@@ -345,6 +383,7 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
                     
                     possibilities = null;
                     
+                    this.varietyNumberTextField.setText(rs.getString("varietyNumber"));
                     this.cateogrynameTextField.setText(categoryName);
                     this.vatieryNameTextField.setText(rs.getString("name"));
                     this.original_Name = this.vatieryNameTextField.getText();

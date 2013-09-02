@@ -62,6 +62,11 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
 
         varietyLabel.setText("Variety");
 
+        varietyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                varietyListMouseClicked(evt);
+            }
+        });
         varietyScrollPane.setViewportView(varietyList);
 
         registerButton.setText("Register");
@@ -99,13 +104,13 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(categoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(categoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                     .addComponent(categoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(varietyLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(varietyScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(varietyScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -150,8 +155,8 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
                 this.variety_name = new ArrayList<String>();
                 
                 String sql = null;
-                
-                sql = "SELECT * FROM inventory.variety where category_id = "+id+";";
+                //SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety;
+                sql = "SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety where category_id = "+id+";";
                 
                 ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
@@ -161,7 +166,7 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
                     }
                     
                     this.variety_id.add(rs.getInt("id"));
-                    String str = rs.getString("varietyNumber") + " : " + rs.getString("name");
+                    String str = rs.getString("vn") + " : " + rs.getString("name");
                     this.variety_name.add(str);
                 }
                 
@@ -204,18 +209,7 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-        inventory.varietyPage.VarietyUpdate p = new inventory.varietyPage.VarietyUpdate();
-        if(this.varietyList.getSelectedIndex() >= 0){
-            p.setElements(this.variety_id.get(this.varietyList.getSelectedIndex()), (String)this.categoryList.getSelectedValue(), this.category_id.get(this.categoryList.getSelectedIndex()));
-        }else{
-            JOptionPane.showMessageDialog(null, "Please Select Variety","Warning",JOptionPane.OK_OPTION);
-            return;
-        }
-
-        if(inventory.core.ProjectBOMStockMain.display != null)
-            inventory.core.ProjectBOMStockMain.display.dispose();
-        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "VarietyEdit");
-        inventory.core.ProjectBOMStockMain.display.setVisible(true);
+        editProcess();
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
@@ -225,6 +219,13 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
         this.LoadData();
         this.categoryList.setSelectedIndex(this.category_id.indexOf(cid));
     }//GEN-LAST:event_dropButtonActionPerformed
+
+    private void varietyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_varietyListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            editProcess();
+        }
+    }//GEN-LAST:event_varietyListMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
@@ -239,6 +240,21 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
     private javax.swing.JScrollPane varietyScrollPane;
     // End of variables declaration//GEN-END:variables
 
+    private void editProcess(){
+        inventory.varietyPage.VarietyUpdate p = new inventory.varietyPage.VarietyUpdate();
+        if(this.varietyList.getSelectedIndex() >= 0){
+            p.setElements(this.variety_id.get(this.varietyList.getSelectedIndex()), (String)this.categoryList.getSelectedValue(), this.category_id.get(this.categoryList.getSelectedIndex()));
+        }else{
+            JOptionPane.showMessageDialog(null, "Please Select Variety","Warning",JOptionPane.OK_OPTION);
+            return;
+        }
+
+        if(inventory.core.ProjectBOMStockMain.display != null)
+            inventory.core.ProjectBOMStockMain.display.dispose();
+        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(p, "VarietyEdit");
+        inventory.core.ProjectBOMStockMain.display.setVisible(true);
+    }
+    
     public void setSelectedVariety(Integer category_id, Integer variety_id){
         this.LoadData();
         this.categoryList.setSelectedIndex(this.category_id.indexOf(category_id));
