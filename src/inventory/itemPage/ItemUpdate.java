@@ -556,7 +556,9 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         // TODO add your handling code here:
         
         String s = null;
-        s = JOptionPane.showInputDialog(this, "Please Type a Reciept # or Register Key", "Reciept",JOptionPane.OK_CANCEL_OPTION);
+//        s = JOptionPane.showInputDialog(this, "Please Type a Reciept # or Register Key", "Reciept",JOptionPane.OK_CANCEL_OPTION);
+        
+        s = "A01";
         
         if(s == null || s.trim().equals("")){
             JOptionPane.showMessageDialog(this, "Please Type a Reciept # or Register Key.","Alert",JOptionPane.OK_OPTION);

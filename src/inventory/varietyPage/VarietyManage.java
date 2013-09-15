@@ -67,6 +67,11 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
                 varietyListMouseClicked(evt);
             }
         });
+        varietyList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                varietyListValueChanged(evt);
+            }
+        });
         varietyScrollPane.setViewportView(varietyList);
 
         registerButton.setText("Register");
@@ -156,7 +161,7 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
                 
                 String sql = null;
                 //SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety;
-                sql = "SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety where category_id = "+id+";";
+                sql = "SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety where category_id = "+id+" order by vn;";
                 
                 ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
@@ -193,6 +198,7 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         //INSERT INTO `inventory`.`variety` (`category_id`, `name`, `register_id`) VALUES (2, 'test7', 1);
+        this.updateUI();
         inventory.varietyPage.VarietyUpdate p = new inventory.varietyPage.VarietyUpdate();
         if(this.categoryList.getSelectedIndex()>=0){
             p.setElements(0, (String)this.categoryList.getSelectedValue(), this.category_id.get(this.categoryList.getSelectedIndex()));
@@ -226,6 +232,10 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
             editProcess();
         }
     }//GEN-LAST:event_varietyListMouseClicked
+
+    private void varietyListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_varietyListValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varietyListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;

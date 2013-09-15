@@ -139,7 +139,7 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
 
     private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Category Select", "Please Check a Category","SELECT * FROM inventory.category ORDER BY name;","name");
+        String s = selectDialog("Category Select", "Please Check a Category","SELECT * FROM inventory.category where disable_id = 1 ORDER BY name;","name");
         if ((s != null) && (s.length() > 0)) {
             this.category_id = ids.get(possibilities.indexOf(s));
             this.cateogrynameTextField.setText(s);
@@ -156,7 +156,6 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
         // TODO add your handling code here:
         if(id == 0){
             if(this.registerValidate()){
-                System.out.println(this.id);
                 JOptionPane.showConfirmDialog(null, "Register Success.","Notice",JOptionPane.OK_OPTION);
                 Integer option = JOptionPane.showConfirmDialog(null, "Do you want to continue this process?","Alert",JOptionPane.OK_CANCEL_OPTION);
                 if(option == JOptionPane.OK_OPTION){
@@ -169,8 +168,8 @@ public class VarietyUpdate extends inventory.myClasses.MyJPanel {
             }
         }else{
             if(this.editValidate()){
-                System.out.println(this.id);
                 JOptionPane.showConfirmDialog(null, "Edit Success.","Notice",JOptionPane.OK_OPTION);
+                ((inventory.varietyPage.VarietyManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("VarietyManage"))).LoadData();
                 Integer option = JOptionPane.showConfirmDialog(null, "Do you want to continue this process?","Alert",JOptionPane.OK_CANCEL_OPTION);
                 if(option == JOptionPane.OK_OPTION){
                     //this.clearElements();
