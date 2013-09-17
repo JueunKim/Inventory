@@ -34,6 +34,7 @@ public class DBConnection {
             System.out.println("SQLException: " + sqex.getMessage());
             System.out.println("SQLState: " + sqex.getSQLState());
         }
+        //
         return false;
     }
     /*
