@@ -307,6 +307,11 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         });
 
         expiredateTextField.setEnabled(false);
+        expiredateTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expiredateTextFieldActionPerformed(evt);
+            }
+        });
 
         descriptionTextArea.setColumns(20);
         descriptionTextArea.setRows(5);
@@ -1014,6 +1019,10 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
             evt.consume();
         }
     }//GEN-LAST:event_codeTextFieldKeyTyped
+
+    private void expiredateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expiredateTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_expiredateTextFieldActionPerformed
 
     private String selectDialog(String Title, String Message, String sql, String possibleTarget){
         try {

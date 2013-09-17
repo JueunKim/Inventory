@@ -99,6 +99,9 @@ public class ProjectBOMStockMain {
         addPage(new inventory.itemPage.ItemManageSwap(), "ItemManageSwap");
         
         addPage(new inventory.varietyPage.VarietyManage(), "VarietyManage");
+        
+        addPage(new inventory.reportPage.reportMain(), "reportMain");
+        addPage(new inventory.reportPage.reportShow(), "reportShow");
     }
     
     private void addPage(javax.swing.JPanel panel, String title){
