@@ -97,11 +97,12 @@ public class ProjectBOMStockMain {
         addPage(new inventory.itemPage.ItemUpdate(), "ItemUpdate");
         addPage(new inventory.itemPage.ItemChange(), "ItemChange");
         addPage(new inventory.itemPage.ItemManageSwap(), "ItemManageSwap");
+        addPage(new inventory.itemPage.UserItemManage(), "UserItemManage");
+        addPage(new inventory.itemPage.UserItemUpdate(), "UserItemUpdate");
         
         addPage(new inventory.varietyPage.VarietyManage(), "VarietyManage");
         
-        addPage(new inventory.reportPage.reportMain(), "reportMain");
-        addPage(new inventory.reportPage.reportShow(), "reportShow");
+        addPage(new inventory.reportPage.ReportView(), "ReportView");
     }
     
     private void addPage(javax.swing.JPanel panel, String title){

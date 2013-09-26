@@ -55,6 +55,7 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
         varietyLabel = new javax.swing.JLabel();
         reportLabel = new javax.swing.JLabel();
         reportButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +130,13 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
             }
         });
 
+        jButton2.setText("Multi Deduct");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,7 +146,9 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
             .addComponent(jSeparator3)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -207,7 +217,9 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
                 .addGap(12, 12, 12)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -259,8 +271,26 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
 
     private void reportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportButtonActionPerformed
         // TODO add your handling code here:
-        ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("reportMain"));  
+        ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ReportView"));  
     }//GEN-LAST:event_reportButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+            ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemManage"));
+                        inventory.itemPage.UserItemUpdate uip  = ((inventory.itemPage.UserItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemUpdate")));
+                        ((inventory.itemPage.UserItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemManage"))).loadData();
+                        
+                        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(uip, "UserItemUpdate");
+                        inventory.core.ProjectBOMStockMain.display.setBounds(800, 100, inventory.core.ProjectBOMStockMain.display.getWidth(), inventory.core.ProjectBOMStockMain.display.getHeight());
+                        
+                        inventory.core.ProjectBOMStockMain.display.setVisible(true);
+                        inventory.core.ProjectBOMStockMain.getMainFrame().setVisible(true);
+                        
+                        inventory.core.ProjectBOMStockMain.getMainFrame().setEnabled(true);
+                        inventory.core.ProjectBOMStockMain.display.setEnabled(false);
+
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void manageButtonHandler(java.awt.event.ActionEvent evt){
         ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf(evt.getActionCommand()+"Manage"));
@@ -270,6 +300,7 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
     private javax.swing.JButton categoryButton;
     private javax.swing.JButton itemButton;
     private javax.swing.JLabel itemLabel;
+    private javax.swing.JButton jButton2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

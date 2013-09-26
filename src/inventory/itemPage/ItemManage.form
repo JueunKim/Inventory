@@ -88,10 +88,6 @@
                                           <Component id="registerButton" alignment="1" max="32767" attributes="0"/>
                                           <Component id="jSeparator2" min="-2" pref="138" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="backButton" max="32767" attributes="0"/>
-                                          <Component id="jSeparator5" min="-2" pref="138" max="-2" attributes="0"/>
-                                      </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="twoWeekColorButton" min="-2" pref="60" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -123,6 +119,8 @@
                                       </Group>
                                   </Group>
                                   <Component id="dropButton" alignment="1" min="-2" pref="138" max="-2" attributes="0"/>
+                                  <Component id="jSeparator5" alignment="1" min="-2" pref="138" max="-2" attributes="0"/>
+                                  <Component id="backButton" alignment="1" min="-2" pref="138" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="descriptionLabel" min="-2" pref="160" max="-2" attributes="0"/>
@@ -182,73 +180,78 @@
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="registerButton" min="-2" pref="30" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="editButton" min="-2" pref="30" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="dropButton" min="-2" pref="30" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="addButton" min="-2" pref="30" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="deductButton" min="-2" pref="30" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="oneWeekColorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="expiredColorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="registerButton" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="editButton" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="dropButton" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="addButton" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="deductButton" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                                  <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="oneWeekColorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="expiredColorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="oneWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="expiredColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="twoWeekColorLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="afterFourWeekColorLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="twoWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="afterFourWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="remainZeroColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="fourWeekColorLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="fourWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="remainZeroColorButton" min="-2" pref="22" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jSeparator5" min="-2" pref="10" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="backButton" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="oneWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="expiredColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="twoWeekColorLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="afterFourWeekColorLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="twoWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="afterFourWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="remainZeroColorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="fourWeekColorLabel" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="fourWeekColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="remainZeroColorButton" min="-2" pref="22" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jSeparator5" min="-2" pref="10" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="backButton" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="currentScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                              <Component id="priceScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                              <Component id="packageScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                              <Component id="modelScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                              <Component id="expireDateScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                              <Component id="descriptionScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="currentScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
-                          <Component id="priceScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
-                          <Component id="packageScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
-                          <Component id="modelScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
-                          <Component id="expireDateScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
-                          <Component id="descriptionScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       </Group>
                       <Component id="nameScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                       <Component id="categoryScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="codeScrollPane" min="-2" pref="510" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="codeScrollPane" min="-2" pref="510" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -785,6 +788,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="searchByCategoryTextField">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchByCategoryTextFieldActionPerformed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchByCategoryTextFieldKeyReleased"/>
       </Events>
       <AuxValues>
@@ -798,6 +802,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="searchByModelTextField">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchByModelTextFieldActionPerformed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchByModelTextFieldKeyReleased"/>
       </Events>
       <AuxValues>

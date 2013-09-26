@@ -135,12 +135,23 @@ public class Login extends inventory.myClasses.MyJPanel {
                 
                 switch(inventory.core.MainFrame.role){
                     case 1:
-                        ((inventory.userPage.UserMain)ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"))).loadDataByName("");
+                //        ((inventory.adminPage.AdminMain)ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"))).LoadData();
                         ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
                         break;
                     case 2:
-                        ((inventory.userPage.UserMain)ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"))).loadDataByName("");
-                        ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"));
+                //        ((inventory.userPage.UserMain)ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserMain"))).loadDataByName("");                      
+                        ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemManage"));
+                        inventory.itemPage.UserItemUpdate uip  = ((inventory.itemPage.UserItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemUpdate")));
+                        ((inventory.itemPage.UserItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemManage"))).loadData();
+                        
+                        inventory.core.ProjectBOMStockMain.display = new inventory.core.ShowingFrame(uip, "UserItemUpdate");
+                        inventory.core.ProjectBOMStockMain.display.setBounds(800, 100, inventory.core.ProjectBOMStockMain.display.getWidth(), inventory.core.ProjectBOMStockMain.display.getHeight());
+                        
+                        inventory.core.ProjectBOMStockMain.display.setVisible(true);
+                        inventory.core.ProjectBOMStockMain.getMainFrame().setVisible(true);
+                        
+                        inventory.core.ProjectBOMStockMain.getMainFrame().setEnabled(true);
+                        inventory.core.ProjectBOMStockMain.display.setEnabled(false);
                         break;
                     case 4:
                         JOptionPane.showMessageDialog(this, "You need a Permission. Ask to Administrator","Warning",JOptionPane.OK_OPTION);

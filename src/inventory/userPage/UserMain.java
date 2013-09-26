@@ -8,7 +8,7 @@ package inventory.userPage;
  *
  * @author Kind
  */
-public class UserMain extends inventory.itemPage.ItemManage {
+public class UserMain extends inventory.itemPage.UserItemManage {
 
     /**
      * Creates new form UserMain
