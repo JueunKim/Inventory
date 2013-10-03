@@ -4,20 +4,17 @@
  */
 package inventory.reportPage;
 
-import inventory.core.ProjectBOMStockMain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
-
-    // Variables declaration - do not modify                     
+// Variables declaration - do not modify                     
 /**
  *
  * @author Liz
@@ -25,12 +22,15 @@ import javax.swing.JTable;
 public class ReportView extends javax.swing.JPanel {
     private Date fromDate = null;
     private Date toDate = null;
-    private ArrayList<Integer> idArrayList = null;
+    private ArrayList<String> idArrayList;
+    private ArrayList<Integer> priceList;
+
     /**
      * Creates new form ReportView
      */
     public ReportView() {
         initComponents();
+
     }
 
     /**
@@ -42,6 +42,7 @@ public class ReportView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator3 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         reportTable = new javax.swing.JTable();
         backButton = new javax.swing.JButton();
@@ -55,20 +56,22 @@ public class ReportView extends javax.swing.JPanel {
         jSeparator2 = new javax.swing.JSeparator();
         totalLabel = new javax.swing.JLabel();
         totalTextField = new javax.swing.JTextField();
+        patientTextField = new javax.swing.JTextField();
+        patientLabel = new javax.swing.JLabel();
 
         reportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Register_Key", "Name", "Code", "Price", "Date"
+                "User", "Register_Key", "Name", "Code", "Qty", "Price", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -137,6 +140,15 @@ public class ReportView extends javax.swing.JPanel {
             }
         });
 
+        patientTextField.setEditable(false);
+        patientTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientTextFieldActionPerformed(evt);
+            }
+        });
+
+        patientLabel.setText("Number of Patient");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,7 +156,6 @@ public class ReportView extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .add(24, 24, 24)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 476, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(layout.createSequentialGroup()
                         .add(dateLabel)
                         .add(28, 28, 28)
@@ -152,25 +163,30 @@ public class ReportView extends javax.swing.JPanel {
                         .add(34, 34, 34)
                         .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
-                        .add(toTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(toTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 743, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(18, 18, 18)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(patientLabel)
+                                .add(0, 15, Short.MAX_VALUE))
                             .add(backButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(todayButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(applyButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .add(3, 3, 3))
-                            .add(jSeparator1)
                             .add(jSeparator2)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, totalTextField))
-                        .addContainerGap())
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, totalTextField)
+                            .add(patientTextField)
+                            .add(jSeparator1))
+                        .add(12, 12, 12))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(totalLabel)
-                        .add(27, 27, 27))))
+                        .add(38, 38, 38))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -183,55 +199,100 @@ public class ReportView extends javax.swing.JPanel {
                     .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(applyButton1))
                 .add(12, 12, 12)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(todayButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 53, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 112, Short.MAX_VALUE)
+                        .add(patientLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(patientTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(totalLabel)
-                        .add(18, 18, 18)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(totalTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(3, 3, 3)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(backButton))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 308, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void loadData(Date fromDate, Date toDate) throws SQLException{
-
-        this.reportTable = new JTable();    
-        javax.swing.table.DefaultTableModel dtm = new javax.swing.table.DefaultTableModel();
+ 
+    private void setElements(Date fromDate, Date toDate) {
+        this.reportTable = new javax.swing.JTable();
+        this.idArrayList = new ArrayList<>();
+        this.priceList = new ArrayList<>();
       
+        javax.swing.table.DefaultTableModel dtm = new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+
+        },
+        new String [] {
+            "User", "Register_Key", "Name", "Code", "Qty", "Price", "Date"
+        }
+        ) {
+        Class[] types = new Class [] {
+            java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
+        };
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false, false, false
+        };
+
+        public Class getColumnClass(int columnIndex) {
+            return types [columnIndex];
+        }
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+
+    };
+        
         String sql = null;
-        ResultSet rs =null ;
-          
-        try{
-            if(fromDate != null && toDate != null){
-                sql = "SELECT change.register_key as rkey,item.name as name,CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, item.price as price, change.date as date "
+            if (fromDate != null && toDate != null) 
+              try { 
+                   sql = "SELECT change.register_key as rkey,user.name as user,change.register_key as rkey,item.name as name,CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,change.amount as amount,item.price as price, change.date as date "
                         + "FROM inventory.change as `change` "
-                        + "JOIN inventory.item as `item` JOIN inventory.category as `category` JOIN inventory.variety as variety "
-                        + "ON `change`.item_id = `item`.id AND `category`.id = `item`.category_id AND `item`.variety_id = variety.id "
-                        + "WHERE date >'"+this.fromDate+"'and date <'"+this.toDate+"' order by change.date;";
+                        + "JOIN inventory.item as `item` JOIN inventory.category as `category` JOIN inventory.variety as variety JOIN inventory.user as `user`"
+                        + "ON `user`.id = `change`.editor_id AND `change`.item_id = `item`.id AND `category`.id = `item`.category_id AND `item`.variety_id = variety.id "
+                        + "WHERE change.changetype_id=2 and change.changetype_id=2 AND "
+                        + "date >'" + this.fromDate + " 00:00:00'"+"and date <'" + this.toDate +" 23:59:59'" +" order by change.date;";
+                      
+                ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
+      
+                if(rs != null){
+               
+                    while(rs.next()){
+                        this.idArrayList.add(rs.getString("rkey"));
+                        this.priceList.add(rs.getInt("price"));
+                        dtm.addRow(new Object [] {rs.getString("user"), rs.getString("rkey"), rs.getString("name"),rs.getString("wcode"), rs.getInt("amount"), rs.getInt("price"), rs.getDate("date") });   
                 }
-                rs = inventory.core.DBConnection.executeQuery(sql);
-
-                    if(rs != null){
-                        while(rs.next()){
-                            dtm.addRow(new Object[] { rs.getString("rkey"), rs.getString("name"), rs.getString("wcode"), rs.getFloat("price"),rs.getDate("date")});
-                        }
-                    }
-        }catch(SQLException ex){
-          Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            System.out.println(sql);
-       
-    }
+          }catch (SQLException ex) {
+            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+            }
    
+        reportTable.setModel(dtm);
+        dtm.addTableModelListener(reportTable);
+        jScrollPane1.setViewportView(reportTable);
+
+        HashSet hSet = new HashSet();   
+
+        for (int i =0 ; i < this.idArrayList.size(); i++){
+                hSet.add(this.idArrayList.get(i));
+              
+//                sum += ((int)(this.reportTable.getModel().getValueAt(i, 6)));
+//                sum += this.priceList.get(i) ;
+            }
+        
+//         int j = ((int)(this.reportTable.getModel().getValueAt(2, 6)));
+        patientTextField.setText("" + hSet.size());
+//        totalTextField.setText("" + j);
+    }
+    
     private void fromTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fromTextFieldActionPerformed
@@ -243,74 +304,69 @@ public class ReportView extends javax.swing.JPanel {
     private void toTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toTextFieldMouseClicked
         // TODO add your handling code here:
         Date utilDate = null;
-        if(this.toDate != null){
+        if (this.toDate != null) {
             inventory.core.DateChooser dc = new inventory.core.DateChooser(new JDialog());
             utilDate = dc.select(this.toDate);
 //            utilDate =  dc.select();
-        }else{
-            utilDate =  new inventory.core.DateChooser(new JDialog()).select();
+        } else {
+            utilDate = new inventory.core.DateChooser(new JDialog()).select();
         }
-        if(utilDate != null){
+        if (utilDate != null) {
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
-            if(date != null){
+            if (date != null) {
                 this.toDate = date;
             }
         }
-        
-        if(this.toDate != null){
-            this.toTextField.setText(this.toDate.toString());   
+
+        if (this.toDate != null) {
+            this.toTextField.setText(this.toDate.toString());
             System.out.println(this.toDate.toString());
-    
+
         }
     }//GEN-LAST:event_toTextFieldMouseClicked
 
     private void fromTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fromTextFieldMouseClicked
         // TODO add your handling code here:
-              Date utilDate = null;
-        if(this.fromDate != null){
+        Date utilDate = null;
+        if (this.fromDate != null) {
             inventory.core.DateChooser dc = new inventory.core.DateChooser(new JDialog());
             utilDate = dc.select(this.fromDate);
 //            utilDate =  dc.select();
-        }else{
-            utilDate =  new inventory.core.DateChooser(new JDialog()).select();
+        } else {
+            utilDate = new inventory.core.DateChooser(new JDialog()).select();
         }
-        if(utilDate != null){
+        if (utilDate != null) {
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
-            if(date != null){
+            if (date != null) {
                 this.fromDate = date;
             }
         }
         
-        if(this.fromDate != null){
-            this.fromTextField.setText(this.fromDate.toString());  
+        if (this.fromDate != null) {
+            this.fromTextField.setText(this.fromDate.toString());
             System.out.println(this.fromDate.toString());
         }
-        
+
     }//GEN-LAST:event_fromTextFieldMouseClicked
 
     private void applyButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButton1ActionPerformed
-        // TODO add your handling code here:
-        if( fromDate.getTime() - toDate.getTime() < 0){    
-                try {
-                    loadData(fromDate, toDate);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        // TODO add your handling code here:      
+        if (fromDate.getTime() - toDate.getTime() < 0) {
+              setElements(fromDate, toDate);
+        }
         else {
-           JOptionPane.showMessageDialog(this, "Apply Fail ","Warning",JOptionPane.OK_OPTION);
-        } 
-
+            JOptionPane.showMessageDialog(this, "Apply Fail ", "Warning", JOptionPane.OK_OPTION);
+        }
     }//GEN-LAST:event_applyButton1ActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        if(inventory.core.ProjectBOMStockMain.display != null){
+        if (inventory.core.ProjectBOMStockMain.display != null) {
             inventory.core.ProjectBOMStockMain.display.dispose();
         }
         inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
         clearElements();
-                            
+
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void totalTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTextFieldActionPerformed
@@ -319,20 +375,27 @@ public class ReportView extends javax.swing.JPanel {
 
     private void todayButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todayButton1ActionPerformed
         // TODO add your handling code here:
-        Date todayDate = new Date();
-        
-        System.out.println(todayDate.toString());
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-        System.out.println(sdf.format(todayDate).toString()); 
-        try {
-            loadData(todayDate,todayDate);
-  //        fromTextField.setText();
-        } catch (SQLException ex) {
-            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+        Date toDate = new Date();
+
+        if (toDate != null) {
+            java.sql.Date date = new java.sql.Date(toDate.getTime());
+            if (date != null) {
+                this.fromDate = date;
+            }
         }
 
+        if (this.fromDate != null) {
+            this.fromTextField.setText(this.fromDate.toString());
+            this.toTextField.setText(this.fromDate.toString());
+            System.out.println(this.fromDate.toString());
+        }
+            
+        setElements(fromDate, fromDate);
     }//GEN-LAST:event_todayButton1ActionPerformed
+
+    private void patientTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientTextFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton1;
@@ -343,6 +406,9 @@ public class ReportView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JLabel patientLabel;
+    private javax.swing.JTextField patientTextField;
     private javax.swing.JTable reportTable;
     private javax.swing.JTextField toTextField;
     private javax.swing.JButton todayButton1;
@@ -353,9 +419,12 @@ public class ReportView extends javax.swing.JPanel {
     private void clearElements() {
         fromDate = null;
         toDate = null;
-        
+
         fromTextField.setText("");
         toTextField.setText("");
         totalTextField.setText("");
+        patientTextField.setText("");
+        
+        this.setElements(fromDate, toDate);
     }
 }
