@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package inventory.itemPage;
-
+ 
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
