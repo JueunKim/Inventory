@@ -102,7 +102,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
         try {
             this.category_id = new ArrayList<Integer>();
             this.categoryNameArrayList = new ArrayList<String>();
-            
+             
             String sql = "SELECT * FROM inventory.category;";
             
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
