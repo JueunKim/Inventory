@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +43,7 @@ public class ProjectBOMStockMain {
         DBConnection.setReadConnection(wid, wpwd, wip);
         
         f = new MainFrame();
-        PageList = new ArrayList<String>();
+        PageList = new ArrayList<>();
         
         setMetaData();
         
@@ -54,14 +52,14 @@ public class ProjectBOMStockMain {
     
     private void setMetaData(){
         try {
-            roles = new ArrayList<String>();
+            roles = new ArrayList<>();
             roles.add("Dumy");
             roles.add("Admin");
             roles.add("User");
             roles.add("Test");
             roles.add("Waiting Permision");
             
-            table_type = new ArrayList<String>();
+            table_type = new ArrayList<>();
             ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.table_type;");
             while(rs.next()){
                 table_type.add(rs.getString("table_name"));
@@ -144,6 +142,7 @@ public class ProjectBOMStockMain {
                         //INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('desc', 'user_id', 'tabld_id', 'table_type');
                         String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+ids.get(list.getSelectedIndex())+"', '"+table_type+"');";
                         
+                        System.out.println("drop    "  + sql);
                         
                         ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
                         
@@ -234,7 +233,6 @@ public class ProjectBOMStockMain {
     	    System.out.println("File is copied successful!");
  
     	}catch(IOException e){
-    		e.printStackTrace();
     	}
     }
     
