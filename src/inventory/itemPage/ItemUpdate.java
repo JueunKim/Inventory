@@ -67,11 +67,13 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         if(id == 0){
             this.clearElements();
             if(variety_id != null){
-                sql = "SELECT item.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname "
-                        + "FROM inventory.variety as variety "
-                        + "JOIN inventory.category as category "
-                        + "ON variety.category_id = category.id "
-                        + "WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
+//                sql = "SELECT item.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname "
+//                        + "FROM inventory.variety as variety "
+//                        + "JOIN inventory.category as category "
+//                        + "ON variety.category_id = category.id "
+//                        + "WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
+                
+                sql = "SELECT variety.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname FROM inventory.variety as variety join inventory.category as category on variety.category_id = category.id  WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
                 rs = inventory.core.DBConnection.executeQuery(sql);
             
                 try {
@@ -89,9 +91,9 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         }else if(id > 0){
             this.updateButton.setText("Edit");
             try {
-//               String sql2 ="SELECT * FROM inventory.item WHERE id = "+id+";";
-//                rs = inventory.core.DBConnection.executeQuery(sql2);
-            String sql2 ="select variety.name as vname, variety.category_id, variety.varietyNumber,item.package_id,item.nation_id,item.expiredate,item.variety_id,item.itemNumber,item.price,item.description, item.current from inventory.variety join inventory.item on variety.id = item.variety_id WHERE item.id ="+id+";";
+               String sql2 ="SELECT * FROM inventory.item WHERE id = "+id+";";
+                rs = inventory.core.DBConnection.executeQuery(sql2);
+//            String sql2 ="select variety.name as vname, variety.category_id, variety.varietyNumber,item.package_id,item.nation_id,item.expiredate,item.variety_id,item.itemNumber,item.price,item.description, item.current from inventory.variety join inventory.item on variety.id = item.variety_id WHERE item.id ="+id+";";
                     
                 rs =inventory.core.DBConnection.executeQuery(sql2);
           
@@ -100,8 +102,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
            if(rs.next()){
                     originalName = rs.getString("vname");
                     category_id = rs.getInt("category_id");
-//                    model_id = rs.getInt("model_id");
-                    model_id = rs.getInt("varietyNumber");
+                    model_id = rs.getInt("model_id");
+//                    model_id = rs.getInt("varietyNumber");
                     package_id = rs.getInt("package_id");
                     nation_id = rs.getInt("nation_id");
                     expiredate = rs.getDate("expiredate");
