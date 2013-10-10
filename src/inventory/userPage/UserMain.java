@@ -15,6 +15,8 @@ public class UserMain extends inventory.itemPage.UserItemManage {
      */
     public UserMain() {
         super();
+      
+
     }
 
     /**

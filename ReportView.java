@@ -16,16 +16,17 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-
-    // Variables declaration - do not modify                     
+// Variables declaration - do not modify                     
 /**
  *
  * @author Liz
  */
 public class ReportView extends javax.swing.JPanel {
+
     private Date fromDate = null;
     private Date toDate = null;
     private ArrayList<Integer> idArrayList = null;
+
     /**
      * Creates new form ReportView
      */
@@ -58,7 +59,7 @@ public class ReportView extends javax.swing.JPanel {
 
         reportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null}
             },
             new String [] {
                 "Register_Key", "Name", "Code", "Price", "Date"
@@ -201,37 +202,43 @@ public class ReportView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadData(Date fromDate, Date toDate) throws SQLException{
+    private void loadData(Date fromDate, Date toDate) {
 
-        this.reportTable = new JTable();    
+        this.reportTable = new javax.swing.JTable();
+
         javax.swing.table.DefaultTableModel dtm = new javax.swing.table.DefaultTableModel();
-      
         String sql = null;
-        ResultSet rs =null ;
-          
-        try{
-            if(fromDate != null && toDate != null){
+        ResultSet rs = null;
+        for (int i = 0; i < 2; i++) {
+
+            if (fromDate != null && toDate != null) {
                 sql = "SELECT change.register_key as rkey,item.name as name,CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, item.price as price, change.date as date "
                         + "FROM inventory.change as `change` "
                         + "JOIN inventory.item as `item` JOIN inventory.category as `category` JOIN inventory.variety as variety "
                         + "ON `change`.item_id = `item`.id AND `category`.id = `item`.category_id AND `item`.variety_id = variety.id "
-                        + "WHERE date >'"+this.fromDate+"'and date <'"+this.toDate+"' order by change.date;";
-                }
-                rs = inventory.core.DBConnection.executeQuery(sql);
+                        + "WHERE date >'" + this.fromDate + "'and date <'" + this.toDate + "' order by change.date;";
 
-                    if(rs != null){
-                        while(rs.next()){
-                            dtm.addRow(new Object[] { rs.getString("rkey"), rs.getString("name"), rs.getString("wcode"), rs.getFloat("price"),rs.getDate("date")});
-                        }
+            }
+            rs = inventory.core.DBConnection.executeQuery(sql);
+
+            if (rs != null) {
+                try {
+                    while (rs.next()) {
+                        dtm.addRow(new Object[]{rs.getString("rkey"), rs.getString("name"), rs.getString("wcode"), rs.getInt("price"), rs.getString("date")});
                     }
-        }catch(SQLException ex){
-          Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
-            System.out.println(sql);
-       
+        }
+
+        jScrollPane1.setViewportView(reportTable);
+
+
+        System.out.println(sql);
     }
-   
+
     private void fromTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fromTextFieldActionPerformed
@@ -243,74 +250,69 @@ public class ReportView extends javax.swing.JPanel {
     private void toTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toTextFieldMouseClicked
         // TODO add your handling code here:
         Date utilDate = null;
-        if(this.toDate != null){
+        if (this.toDate != null) {
             inventory.core.DateChooser dc = new inventory.core.DateChooser(new JDialog());
             utilDate = dc.select(this.toDate);
 //            utilDate =  dc.select();
-        }else{
-            utilDate =  new inventory.core.DateChooser(new JDialog()).select();
+        } else {
+            utilDate = new inventory.core.DateChooser(new JDialog()).select();
         }
-        if(utilDate != null){
+        if (utilDate != null) {
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
-            if(date != null){
+            if (date != null) {
                 this.toDate = date;
             }
         }
-        
-        if(this.toDate != null){
-            this.toTextField.setText(this.toDate.toString());   
+
+        if (this.toDate != null) {
+            this.toTextField.setText(this.toDate.toString());
             System.out.println(this.toDate.toString());
-    
+
         }
     }//GEN-LAST:event_toTextFieldMouseClicked
 
     private void fromTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fromTextFieldMouseClicked
         // TODO add your handling code here:
-              Date utilDate = null;
-        if(this.fromDate != null){
+        Date utilDate = null;
+        if (this.fromDate != null) {
             inventory.core.DateChooser dc = new inventory.core.DateChooser(new JDialog());
             utilDate = dc.select(this.fromDate);
 //            utilDate =  dc.select();
-        }else{
-            utilDate =  new inventory.core.DateChooser(new JDialog()).select();
+        } else {
+            utilDate = new inventory.core.DateChooser(new JDialog()).select();
         }
-        if(utilDate != null){
+        if (utilDate != null) {
             java.sql.Date date = new java.sql.Date(utilDate.getTime());
-            if(date != null){
+            if (date != null) {
                 this.fromDate = date;
             }
         }
-        
-        if(this.fromDate != null){
-            this.fromTextField.setText(this.fromDate.toString());  
+
+        if (this.fromDate != null) {
+            this.fromTextField.setText(this.fromDate.toString());
             System.out.println(this.fromDate.toString());
         }
-        
+
     }//GEN-LAST:event_fromTextFieldMouseClicked
 
     private void applyButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButton1ActionPerformed
         // TODO add your handling code here:
-        if( fromDate.getTime() - toDate.getTime() < 0){    
-                try {
-                    loadData(fromDate, toDate);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        else {
-           JOptionPane.showMessageDialog(this, "Apply Fail ","Warning",JOptionPane.OK_OPTION);
-        } 
+        if (fromDate.getTime() - toDate.getTime() < 0) {
+            loadData(fromDate, toDate);
+        } else {
+            JOptionPane.showMessageDialog(this, "Apply Fail ", "Warning", JOptionPane.OK_OPTION);
+        }
 
     }//GEN-LAST:event_applyButton1ActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        if(inventory.core.ProjectBOMStockMain.display != null){
+        if (inventory.core.ProjectBOMStockMain.display != null) {
             inventory.core.ProjectBOMStockMain.display.dispose();
         }
         inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
         clearElements();
-                            
+
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void totalTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTextFieldActionPerformed
@@ -320,20 +322,16 @@ public class ReportView extends javax.swing.JPanel {
     private void todayButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todayButton1ActionPerformed
         // TODO add your handling code here:
         Date todayDate = new Date();
-        
+
         System.out.println(todayDate.toString());
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-        System.out.println(sdf.format(todayDate).toString()); 
-        try {
-            loadData(todayDate,todayDate);
-  //        fromTextField.setText();
-        } catch (SQLException ex) {
-            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(sdf.format(todayDate).toString());
+        loadData(todayDate, todayDate);
+        //        fromTextField.setText();
+
 
     }//GEN-LAST:event_todayButton1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton1;
     private javax.swing.JButton backButton;
@@ -353,7 +351,7 @@ public class ReportView extends javax.swing.JPanel {
     private void clearElements() {
         fromDate = null;
         toDate = null;
-        
+
         fromTextField.setText("");
         toTextField.setText("");
         totalTextField.setText("");

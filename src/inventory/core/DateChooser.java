@@ -453,10 +453,11 @@ public class DateChooser extends JDialog
 	int _day = calendar.get(Calendar.DATE);
 	int _month = calendar.get(Calendar.MONTH);
 	int _year = calendar.get(Calendar.YEAR);
- 
+
 	year.setSelectedIndex( _year-FIRST_YEAR );
 	month.setSelectedIndex( _month-Calendar.JANUARY );
 	setSelected( _day );
+        
 	okClicked = false;
 	setVisible(true);
 	if ( !okClicked )
