@@ -162,7 +162,7 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
                 String sql = null;
                 //SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety;
                 sql = "SELECT *, LPAD(variety.varietyNumber,2,'0') as vn FROM inventory.variety where category_id = "+id+" order by vn;";
-                
+             
                 ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
                 while(rs.next()){
@@ -175,12 +175,13 @@ public class VarietyManage extends inventory.myClasses.MyJPanel {
                     this.variety_name.add(str);
                 }
                 
+                
                 this.varietyList.setListData(this.variety_name.toArray());
     //            this.category_id.get(((javax.swing.JList)evt.getSource()).getSelectedIndex());
             } catch (SQLException ex) {
                 Logger.getLogger(VarietyManage.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+              
         }
     }//GEN-LAST:event_categoryListValueChanged
 
