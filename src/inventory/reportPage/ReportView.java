@@ -55,9 +55,9 @@ public class ReportView extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         totalLabel = new javax.swing.JLabel();
-        totalTextField = new javax.swing.JTextField();
         patientTextField = new javax.swing.JTextField();
         patientLabel = new javax.swing.JLabel();
+        totalTextField = new javax.swing.JTextField();
 
         reportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,13 +133,6 @@ public class ReportView extends javax.swing.JPanel {
 
         totalLabel.setText("Total Price");
 
-        totalTextField.setEnabled(false);
-        totalTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totalTextFieldActionPerformed(evt);
-            }
-        });
-
         patientTextField.setEditable(false);
         patientTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +141,13 @@ public class ReportView extends javax.swing.JPanel {
         });
 
         patientLabel.setText("Number of Patient");
+
+        totalTextField.setEditable(false);
+        totalTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalTextFieldActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -166,27 +166,27 @@ public class ReportView extends javax.swing.JPanel {
                         .add(toTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 743, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(totalLabel)
+                        .add(38, 38, 38))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(18, 18, 18)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(patientLabel)
-                                .add(0, 15, Short.MAX_VALUE))
-                            .add(backButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, backButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(todayButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(applyButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .add(3, 3, 3))
-                            .add(jSeparator2)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, totalTextField)
-                            .add(patientTextField)
-                            .add(jSeparator1))
-                        .add(12, 12, 12))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(totalLabel)
-                        .add(38, 38, 38))))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jSeparator2)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, patientTextField)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jSeparator1)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                                .add(patientLabel)
+                                .add(0, 18, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, totalTextField))
+                        .add(12, 12, 12))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -211,7 +211,7 @@ public class ReportView extends javax.swing.JPanel {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(totalLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(totalTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(totalTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -262,6 +262,8 @@ public class ReportView extends javax.swing.JPanel {
                         + "date >'" + this.fromDate + " 00:00:00'"+"and date <'" + this.toDate +" 23:59:59'" +" order by change.date;";
                       
                 ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
+                
+      System.out.println(" report ___"+sql);
       
                 if(rs != null){
                
@@ -280,17 +282,14 @@ public class ReportView extends javax.swing.JPanel {
         jScrollPane1.setViewportView(reportTable);
 
         HashSet hSet = new HashSet();   
-
+        int sum = 0; 
         for (int i =0 ; i < this.idArrayList.size(); i++){
-                hSet.add(this.idArrayList.get(i));
-              
-//                sum += ((int)(this.reportTable.getModel().getValueAt(i, 6)));
-//                sum += this.priceList.get(i) ;
+                hSet.add(this.idArrayList.get(i));              
+                sum += this.priceList.get(i) ;
             }
-        
-//         int j = ((int)(this.reportTable.getModel().getValueAt(2, 6)));
-        patientTextField.setText("" + hSet.size());
-//        totalTextField.setText("" + j);
+
+        patientTextField.setText( hSet.size() +"   Patient ");
+        totalTextField.setText( sum + "  MK");
     }
     
     private void fromTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromTextFieldActionPerformed
@@ -317,7 +316,7 @@ public class ReportView extends javax.swing.JPanel {
                 this.toDate = date;
             }
         }
-
+ 
         if (this.toDate != null) {
             this.toTextField.setText(this.toDate.toString());
             System.out.println(this.toDate.toString());
@@ -369,10 +368,6 @@ public class ReportView extends javax.swing.JPanel {
 
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void totalTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_totalTextFieldActionPerformed
-
     private void todayButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_todayButton1ActionPerformed
         // TODO add your handling code here:
         Date toDate = new Date();
@@ -396,6 +391,10 @@ public class ReportView extends javax.swing.JPanel {
     private void patientTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_patientTextFieldActionPerformed
+
+    private void totalTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalTextFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton1;
