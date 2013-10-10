@@ -325,7 +325,7 @@ public class AdminMain extends inventory.myClasses.MyJPanel {
         this.logoutButton.setBackground(color);
         this.varietyButton.setBackground(color);
     }
-
+ 
     @Override
     public void LoadData() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
