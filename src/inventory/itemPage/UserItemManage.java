@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package inventory.itemPage;
-
+ 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
