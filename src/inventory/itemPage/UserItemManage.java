@@ -4,7 +4,6 @@
  */
 package inventory.itemPage;
 
-import inventory.core.ProjectBOMStockMain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class UserItemManage extends javax.swing.JPanel {
     private ArrayList<String> codeArrayList;
     private static ArrayList<Integer> currentArrayList;
     
-    private String order_by ="categoryname";
+    private String order_by ="cname";
     private String order ="ASC";
     
-    private String searchSubject = "item.name";
+    private String searchSubject = "variety.name";
     private ArrayList<Integer> idArrayList;
     /**
      * Creates new form UserItemManage
@@ -329,21 +328,21 @@ public class UserItemManage extends javax.swing.JPanel {
         this.codeArrayList = new ArrayList<>();
         this.currentArrayList = new ArrayList<>();
         this.idArrayList = new ArrayList<>();
-        
-        String sql = "SELECT item.id as itemid, category.name AS categoryname, item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
-                + "FROM inventory.category as category "
-                + "JOIN inventory.item as item "
-                + "join inventory.variety as variety"
-                + " ON category.id = item.category_id AND item.variety_id = variety.id where item.disable_id = 1;";
-       // System.out.println(sql);
-        try{
+
+        String sql = "SELECT item.id, category.name as cname, variety.name as vname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
+                + "FROM inventory.item as item "
+                + "JOIN inventory.category "
+                + "JOIN inventory.variety "
+                + "ON inventory.item.category_id = inventory.category.id and item.variety_id = variety.id "
+                + "WHERE item.disable_id = 1;";
+         try{
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
             
             while(rs.next()){
-                this.categoryArrayList.add(rs.getString("categoryname"));
-                this.nameArrayList.add(rs.getString("itemname"));
+                this.categoryArrayList.add(rs.getString("cname"));
+                this.nameArrayList.add(rs.getString("vname"));
                 this.codeArrayList.add(rs.getString("wcode"));
-                this.idArrayList.add(rs.getInt("itemid"));
+                this.idArrayList.add(rs.getInt("id"));
                 UserItemManage.currentArrayList.add(rs.getInt("current"));
             }
             
@@ -368,29 +367,34 @@ public class UserItemManage extends javax.swing.JPanel {
         this.currentArrayList = new ArrayList<>();
         
        try{
-        String sql = "SELECT item.id as itemid, category.name AS categoryname, item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
-                + "FROM inventory.category as category "
-                + "JOIN inventory.item as item "
-                + "join inventory.variety as variety"
-                + " ON category.id = item.category_id AND item.variety_id = variety.id where item.disable_id = 1 and "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
-        
+           String sql = "SELECT item.id, category.name as cname, variety.name as vname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
+                   + "FROM inventory.item "
+                   + "JOIN inventory.category "
+                   + "JOIN inventory.variety "
+                   + "ON inventory.item.category_id = inventory.category.id "
+                   + "AND item.variety_id = variety.id "
+                   + "WHERE item.disable_id = 1 "
+                   + "AND "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";" ;
+           
        
-        if(sql.toString().contains("null")){
-            sql = "SELECT item.id as itemid, category.name AS categoryname, item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
-                + "FROM inventory.category as category "
-                + "JOIN inventory.item as item "
-                + "join inventory.variety as variety"
-                + " ON category.id = item.category_id AND item.variety_id = variety.id where item.disable_id = 1 and "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
-         }
+           if(sql.toString().contains("null")){
+             sql = "SELECT item.id, category.name as cname,variety.name as vname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
+                     + "FROM inventory.item "
+                     + "JOIN inventory.category "
+                     + "JOIN inventory.variety "
+                     + "ON inventory.item.category_id = inventory.category.id "
+                     + "AND item.variety_id = variety.id "
+                     + "WHERE item.disable_id = 1";
+        }
         
         ResultSet rs = inventory.core.DBConnection.executeQuery(sql); 
        
         if(rs != null){
             while(rs.next()){
-                this.categoryArrayList.add(rs.getString("categoryname"));
-                this.nameArrayList.add(rs.getString("itemname"));
+                this.categoryArrayList.add(rs.getString("cname"));
+                this.nameArrayList.add(rs.getString("vname"));
                 this.codeArrayList.add(rs.getString("wcode"));
-                this.idArrayList.add(rs.getInt("itemid"));
+                this.idArrayList.add(rs.getInt("id"));
                 UserItemManage.currentArrayList.add(rs.getInt("current"));
             }
         }
@@ -439,8 +443,9 @@ public class UserItemManage extends javax.swing.JPanel {
     private void addItemProcess(){
           if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.UserItemUpdate uip = ((inventory.itemPage.UserItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("UserItemUpdate")));
-            uip.setElements(this.idArrayList.get(this.nameList.getSelectedIndex()));
-        }
+//            uip.setElements(this.idArrayList.get(this.nameList.getSelectedIndex()));
+            uip.setElements(this.idArrayList.get(this.codeList.getSelectedIndex()));
+          }
           
             
         inventory.core.ProjectBOMStockMain.getMainFrame().setVisible(true);
@@ -471,7 +476,7 @@ public class UserItemManage extends javax.swing.JPanel {
 
     private void searchByNameTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchByNameTextFieldKeyReleased
         // TODO add your handling code here:
-        this.searchSubject = "item.name";
+        this.searchSubject = "variety.name";
         this.loadDataByName(this.searchByNameTextField.getText());
 
     }//GEN-LAST:event_searchByNameTextFieldKeyReleased

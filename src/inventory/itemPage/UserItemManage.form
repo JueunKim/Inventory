@@ -104,7 +104,6 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                               <Component id="deductButton" min="-2" pref="91" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           </Group>
                           <Component id="nameScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
                           <Component id="categoryScrollPane" alignment="0" min="-2" pref="510" max="-2" attributes="0"/>
