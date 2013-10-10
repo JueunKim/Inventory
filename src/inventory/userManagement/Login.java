@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package inventory.userManagement;
-
+ 
 import inventory.core.ProjectBOMStockMain;
 import java.awt.Color;
 import java.sql.ResultSet;
