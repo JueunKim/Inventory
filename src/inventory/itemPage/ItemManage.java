@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package inventory.itemPage;
-
+ 
 import inventory.myClasses.MyExpireDateCellRenderer;
 import java.awt.Color;
 import java.awt.event.AdjustmentEvent;
