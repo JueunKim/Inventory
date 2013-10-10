@@ -428,9 +428,15 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         expiredColorLabel.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         expiredColorLabel.setText("Expired");
 
-        oneWeekColorButton.setBackground(java.awt.Color.RED);
         oneWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        oneWeekColorButton.setForeground(new java.awt.Color(0, 0, 0));
         oneWeekColorButton.setToolTipText("oneWeek");
+        oneWeekColorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        oneWeekColorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oneWeekColorButtonActionPerformed(evt);
+            }
+        });
 
         twoWeekColorButton.setBackground(java.awt.Color.RED);
         twoWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
@@ -833,9 +839,15 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                         String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+this.id.get(this.nameList.getSelectedIndex())+"', '"+inventory.core.ProjectBOMStockMain.table_type.indexOf("Item")+"');";
                         ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
                         
+                        System.out.println("____    " + sql);
+                        
                         if(rs.next()){
                             sql = "UPDATE `inventory`.`item` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';";
                             inventory.core.DBConnection.updateQuery(sql);
+                        
+                            System.out.println("____ddddd    " + sql);
+                     
+                        
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
@@ -1049,6 +1061,10 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     private void searchByCategoryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchByCategoryTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchByCategoryTextFieldActionPerformed
+
+    private void oneWeekColorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneWeekColorButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_oneWeekColorButtonActionPerformed
         
     private void setDefaultExpireDateColor(){
         try {
@@ -1075,6 +1091,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                         break;
                 }
             }
+            
             this.expiredColorButton.setBackground(expired);
             this.oneWeekColorButton.setBackground(oneWeek);
             this.twoWeekColorButton.setBackground(twoWeek);
@@ -1128,16 +1145,17 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         try {
-            String sql = "SELECT item.id,item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
+            String sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
             
             if(sql.toString().contains("null")){
-                sql = "SELECT item.id,item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
+                sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
             }
             
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
-            
+                System.out.println("Load Data    ====="+sql);
+
             this.pastName = name;
-            
+
             if(rs != null){
                 while(rs.next()){
                     if(rs.getInt("disable_id") != 1){
@@ -1235,11 +1253,11 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         
-        String sql = "SELECT item.id,item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
+        String sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
         
         try {
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
-            
+                    
                 while(rs.next()){
             if(rs != null){
                     if(rs.getInt("disable_id") != 1){
