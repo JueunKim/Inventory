@@ -106,7 +106,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                     nation_id = rs.getInt("nation_id");
                     expiredate = rs.getDate("expiredate");
                     this.variety_id = rs.getInt("variety_id");
-                    
+                     
                     possibilities = null;
                     
                     this.codeTextField.setText(rs.getString("itemNumber"));
