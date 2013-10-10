@@ -95,21 +95,23 @@ public class UserItemUpdate extends javax.swing.JPanel {
 
         for(int i = 0; i < this.IdArrayList.size(); i++){
             try {
-                 String sql = "SELECT item.current as remain, item.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode "
+                 String sql = "SELECT item.current as remain, variety.name as vname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode "
                     + "FROM inventory.category as category "
                     + "JOIN inventory.item as item "
-                    + "join inventory.variety as variety"
-                    + " ON category.id = item.category_id AND item.variety_id = variety.id where item.id = '"+this.IdArrayList.get(i)+"';";
+                    + "JOIN inventory.variety as variety "
+                    + "ON category.id = item.category_id AND item.variety_id = variety.id where item.id = '"+this.IdArrayList.get(i)+"';";
 
                  ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
-                        
+           
+                 System.out.println("     "+sql);
+                 
                  if(rs != null){
                      while(rs.next()){
                         if(UserItemUpdate.QtyArrayList.size()<=i){
-                            dtm.addRow(new Object [] { rs.getString("itemname"), rs.getString("wcode"), rs.getInt("remain"), 0});
+                            dtm.addRow(new Object [] { rs.getString("vname"), rs.getString("wcode"), rs.getInt("remain"), 0});
                             UserItemUpdate.QtyArrayList.add(0);
                         }else{
-                            dtm.addRow(new Object [] { rs.getString("itemname"), rs.getString("wcode"), rs.getInt("remain"), UserItemUpdate.QtyArrayList.get(i)});
+                            dtm.addRow(new Object [] { rs.getString("vname"), rs.getString("wcode"), rs.getInt("remain"), UserItemUpdate.QtyArrayList.get(i)});
                         }
                     }    
                  }
