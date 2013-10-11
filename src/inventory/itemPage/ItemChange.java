@@ -37,7 +37,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
     
     public void setElements(Integer id, String categoryName, String modelName, String nationName, String packageNumber, String buttonType){
         //set this values
-        this.id = id;
+    this.id = id;
         
         if(id > 0){
             try {
@@ -76,7 +76,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
     }
     
     protected ImageIcon getItemImage(String name){
-        try {
+           try {
             String src = null;
             if(name.length()>1){
                 src = name.substring(0, name.length()-1);
@@ -109,8 +109,8 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
              */
             
             //this is a proceess that retrieve from database
-            this.imageWidth = 368;
-            this.imageHeight = 490;
+            this.imageWidth = 200;
+            this.imageHeight = 300;
             
             String sql = "SELECT * FROM inventory.item_image WHERE name = '"+src+"';";
             
@@ -403,7 +403,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
     private void changeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtonActionPerformed
         // TODO add your handling code here:
         //Integer type = 0;
-        if(JOptionPane.showConfirmDialog(this, "This will be saved. \""+((javax.swing.JButton)evt.getSource()).getLabel()+"\" Number is \n\n\"\""+this.changeTextField.getText()+"\"\"\n\n Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
+      if(JOptionPane.showConfirmDialog(this, "This will be saved. \""+((javax.swing.JButton)evt.getSource()).getLabel()+"\" Number is \n\n\"\""+this.changeTextField.getText()+"\"\"\n\n Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             return;
         }
         
@@ -494,7 +494,6 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
                 ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
             }
         }*/
-        
     }//GEN-LAST:event_changeButtonActionPerformed
 
     private void changeTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_changeTextFieldKeyTyped
@@ -543,7 +542,7 @@ public class ItemChange extends inventory.myClasses.MyJPanel {
 
     @Override
     public void setComponetsColor(Color transparent) {
-        this.backButton.setBackground(transparent);
+         this.backButton.setBackground(transparent);
         this.categoryTextField.setBackground(transparent);
         this.changeButton.setBackground(transparent);
         this.changeTextField.setBackground(transparent);
