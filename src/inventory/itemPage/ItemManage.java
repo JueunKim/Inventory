@@ -21,7 +21,7 @@ import javax.swing.text.Position;
  * @author Kind
  */
 public class ItemManage extends inventory.myClasses.MyJPanel {
-    private ArrayList<Integer> id;
+  private ArrayList<Integer> id;
     private ArrayList<String> itemNameArrayList;
     private ArrayList<String> categoryNameArrayList;
     private ArrayList<String> categoryCodeArrayList;
@@ -48,6 +48,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     public static Color afterFourWeek = null;
     
     public static Color remainZero = null;
+    
     
     /**
      * Creates new form ItemManage
@@ -428,8 +429,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         expiredColorLabel.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         expiredColorLabel.setText("Expired");
 
-        oneWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
-        oneWeekColorButton.setForeground(new java.awt.Color(0, 0, 0));
+        oneWeekColorButton.setFont(oneWeekColorButton.getFont().deriveFont(oneWeekColorButton.getFont().getSize()-3f));
         oneWeekColorButton.setToolTipText("oneWeek");
         oneWeekColorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         oneWeekColorButton.addActionListener(new java.awt.event.ActionListener() {
@@ -439,22 +439,18 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         });
 
         twoWeekColorButton.setBackground(java.awt.Color.RED);
-        twoWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         twoWeekColorButton.setToolTipText("twoWeek");
 
-        fourWeekColorButton.setBackground(java.awt.Color.RED);
-        fourWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
+        fourWeekColorButton.setBackground(new java.awt.Color(255, 0, 0));
         fourWeekColorButton.setToolTipText("fourWeek");
 
         expiredColorButton.setBackground(java.awt.Color.RED);
-        expiredColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         expiredColorButton.setToolTipText("expired");
 
         afterFourWeekColorLabel.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         afterFourWeekColorLabel.setText("~4  Week");
 
         afterFourWeekColorButton.setBackground(java.awt.Color.RED);
-        afterFourWeekColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         afterFourWeekColorButton.setToolTipText("afterFourWeek");
 
         searchByCategoryTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -484,7 +480,6 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         searchByModelLabel.setText("Search Model");
 
         remainZeroColorButton.setBackground(java.awt.Color.RED);
-        remainZeroColorButton.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
         remainZeroColorButton.setToolTipText("remainZero");
 
         remainZeroColorLabel.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
@@ -725,7 +720,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 
     private void nameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_nameListValueChanged
         // TODO add your handling code here:
-        if(evt.getSource() instanceof javax.swing.JList)
+       if(evt.getSource() instanceof javax.swing.JList)
             this.listChanged(((javax.swing.JList)evt.getSource()).getSelectedIndex()); 
     }//GEN-LAST:event_nameListValueChanged
 
@@ -790,7 +785,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
+      inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
         p.setElements(0,null,"","","","");
 
         if(inventory.core.ProjectBOMStockMain.display != null)
@@ -800,11 +795,12 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         //((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setElements(0,"","","","");
         //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"));
         //((inventory.itemPage.ItemUpdate)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemUpdate"))).setChangeConfig(null,"",null,"Register");
+
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        if(inventory.core.MainFrame.role == 1){
+     if(inventory.core.MainFrame.role == 1){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
         }else{
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("Login"));
@@ -827,7 +823,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
-        if(this.nameList.getSelectedIndex()>=0){
+      if(this.nameList.getSelectedIndex()>=0){
             if(JOptionPane.showConfirmDialog(this, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
                 String name = this.nameList.getSelectedValue().toString();
                 
@@ -838,16 +834,11 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                         //INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('desc', 'user_id', 'tabld_id', 'table_type');
                         String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+this.id.get(this.nameList.getSelectedIndex())+"', '"+inventory.core.ProjectBOMStockMain.table_type.indexOf("Item")+"');";
                         ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
-                        
-                        System.out.println("____    " + sql);
-                        
+
                         if(rs.next()){
                             sql = "UPDATE `inventory`.`item` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+this.id.get(this.nameList.getSelectedIndex())+"';";
                             inventory.core.DBConnection.updateQuery(sql);
-                        
-                            System.out.println("____ddddd    " + sql);
-                     
-                        
+       
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(ItemManage.class.getName()).log(Level.SEVERE, null, ex);
@@ -950,7 +941,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        if(this.nameList.getSelectedIndex() >= 0){
+    if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Add");
             if(inventory.core.ProjectBOMStockMain.display != null){
@@ -963,7 +954,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 
     private void categoryListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==2){
+       if(evt.getClickCount()==2){
             try {
                 //this.categoryList.getSelectedValue().toString()
                 String sql = "SELECT name, description FROM inventory.category where name = '"+this.categoryList.getSelectedValue().toString()+"';";
@@ -1027,7 +1018,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
 
     private void swapButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_swapButtonActionPerformed
         // TODO add your handling code here:
-        ((inventory.itemPage.ItemManageSwap)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManageSwap"))).LoadData();
+     ((inventory.itemPage.ItemManageSwap)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManageSwap"))).LoadData();
         
         inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManageSwap"));
         
@@ -1091,7 +1082,6 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
                         break;
                 }
             }
-            
             this.expiredColorButton.setBackground(expired);
             this.oneWeekColorButton.setBackground(oneWeek);
             this.twoWeekColorButton.setBackground(twoWeek);
@@ -1104,7 +1094,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     }
 
     public final void loadDataByName(String name) {
-        if(inventory.core.MainFrame.role == 1){
+          if(inventory.core.MainFrame.role == 1){
             this.registerButton.setVisible(true);
             this.dropButton.setVisible(true);
             this.editButton.setVisible(true);
@@ -1145,14 +1135,13 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         try {
-            String sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
+            String sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and variety.disable_id = 1 where "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";";
             
             if(sql.toString().contains("null")){
-                sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
+                sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and variety.disable_id = 1 where "+this.searchSubject+" like '%"+name+"%' order by categoryname DESC;";
             }
             
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
-                System.out.println("Load Data    ====="+sql);
 
             this.pastName = name;
 
@@ -1230,7 +1219,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     }
     
     public final void reLoadDataByName() {
-        this.id = new ArrayList<>();
+  this.id = new ArrayList<>();
         this.itemNameArrayList = new ArrayList<>();
         this.categoryNameArrayList = new ArrayList<>();
         this.categoryCodeArrayList = new ArrayList<>();
@@ -1253,7 +1242,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         
-        String sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
+        String sql = "SELECT item.id as id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and variety.disable_id = 1 where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
         
         try {
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
@@ -1332,7 +1321,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     }
 
     private void editPerform(){
-        if(this.nameList.getSelectedIndex() >= 0){
+      if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),null,this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
             
@@ -1357,7 +1346,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     }
     
     private void deductPerformed(){
-        if(this.nameList.getSelectedIndex() >= 0){
+       if(this.nameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
             p.setElements(this.id.get(this.nameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
             if(inventory.core.ProjectBOMStockMain.display != null){
@@ -1382,7 +1371,7 @@ public class ItemManage extends inventory.myClasses.MyJPanel {
     }
     
     private void listChanged(Integer index){
-        if(index < 0)
+         if(index < 0)
             return;
         this.nameList.setSelectedIndex(index);
         this.categoryList.setSelectedIndex(index);
