@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
  * @author Kind
  */
 public class ItemUpdate extends inventory.myClasses.MyJPanel {
-    private String originalName = null;
+   private String originalName = null;
     private Integer variety_id = null;
     private Integer category_id = null;
     private Integer model_id = null;
@@ -45,8 +45,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private Integer id = 0;
     private Integer originalCurrent = 0;
     
-    private int imageWidth = 491;
-    private int imageHeight = 328;
+    private int imageWidth = 200;
+    private int imageHeight = 300;
     
     private ArrayList<String> possibilities = null;
     private ArrayList<Integer> ids = null;
@@ -57,7 +57,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
      */
     public void setElements(Integer id, Integer variety_id, String categoryName, String modelName, String nationName, String packageNumber){
         //set this values
-        this.id = id;
+         this.id = id;
         
         String sql = null;
         ResultSet rs = null;
@@ -66,14 +66,12 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         
         if(id == 0){
             this.clearElements();
-            if(variety_id != null){
-//                sql = "SELECT item.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname "
-//                        + "FROM inventory.variety as variety "
-//                        + "JOIN inventory.category as category "
-//                        + "ON variety.category_id = category.id "
-//                        + "WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
+            if(variety_id != null){        
+                sql = "SELECT variety.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname FROM inventory.variety as variety "
+                        + "JOIN inventory.category as category "
+                        + "ON variety.category_id = category.id  "
+                        + "WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
                 
-                sql = "SELECT variety.id as id, variety.category_id as category_id, category.name as cname, variety.name as vname FROM inventory.variety as variety join inventory.category as category on variety.category_id = category.id  WHERE variety.id = "+variety_id+" and variety.disable_id = 1;";
                 rs = inventory.core.DBConnection.executeQuery(sql);
             
                 try {
@@ -91,14 +89,13 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         }else if(id > 0){
             this.updateButton.setText("Edit");
             try {
-//               String sql2 ="SELECT * FROM inventory.item WHERE id = "+id+";";
-//                rs = inventory.core.DBConnection.executeQuery(sql2);
-            String sql2 ="select variety.name as vname, variety.category_id, variety.varietyNumber,item.package_id,item.nation_id,item.expiredate,item.variety_id,item.itemNumber,item.price,item.description, item.current from inventory.variety join inventory.item on variety.id = item.variety_id WHERE item.id ="+id+";";
+                String sql2 ="SELECT variety.name as vname, variety.category_id, variety.varietyNumber,item.package_id,item.nation_id,item.expiredate,item.variety_id,item.itemNumber,item.price,item.description, item.current from inventory.variety "
+                        + "JOIN inventory.item "
+                        + "ON variety.id = item.variety_id "
+                        + "WHERE item.id ="+id+";";
                     
                 rs =inventory.core.DBConnection.executeQuery(sql2);
-          
-           System.out.println("nonononherle   " +sql2);
-           
+  
            if(rs.next()){
                     originalName = rs.getString("vname");
                     category_id = rs.getInt("category_id");
@@ -141,10 +138,11 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         this.imageLabel.repaint();
         this.repaint();
         this.updateUI();
+
     }
     
     public void clearElements(){
-        originalName = null;
+           originalName = null;
         category_id = null;
         model_id = null;
         package_id = null;
@@ -169,14 +167,14 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     }
     
     public ItemUpdate() {
-        super();
+          super();
         Font ft = updateButton.getFont().deriveFont(Font.ITALIC,26.0f);
         this.updateButton.setForeground(Color.red);
         this.updateButton.setFont(ft);
     }
     
     protected ImageIcon getItemImage(String name){
-        try {
+            try {
             InputStream is = null;
             /*
             if(inventory.core.ProjectBOMStockMain.destIp != null && (!inventory.core.ProjectBOMStockMain.destIp.equals("localhost") && !inventory.core.ProjectBOMStockMain.destIp.split("\\.")[0].equals("192"))){
@@ -192,8 +190,8 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                 src = name.substring(0, name.length()-1);
             }
             
-            this.imageWidth = 368;
-            this.imageHeight = 459;
+//            this.imageWidth = 368;
+//            this.imageHeight = 459;
             
             String sql = "SELECT * FROM inventory.item_image WHERE name = '"+src+"';";
             
@@ -547,7 +545,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
+    ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).loadDataByName("");
         //inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"));
         if(this.originalName != null && !this.originalName.trim().equals("")){
             ((inventory.itemPage.ItemManage)inventory.core.ProjectBOMStockMain.getPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("ItemManage"))).setSelectedListItem(originalName);
@@ -556,6 +554,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
            ((inventory.core.ShowingFrame)javax.swing.SwingUtilities.getWindowAncestor(this)).dispose();
         }
         //this.clearElements();    
+
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void currentTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_currentTextFieldKeyTyped
@@ -575,7 +574,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
         
-        String s = null;
+         String s = null;
 //        s = JOptionPane.showInputDialog(this, "Please Type a Reciept # or Register Key", "Reciept",JOptionPane.OK_CANCEL_OPTION);
         
         s = "A01";
@@ -669,6 +668,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         }
         //if(id == 0)
             //this.clearElements();
+
     }//GEN-LAST:event_updateButtonActionPerformed
     
     private void updateItemImage(){
@@ -730,10 +730,11 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
                 Logger.getLogger(ItemUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
     }
     
     private boolean edit() throws SQLException{
-        boolean validation = false;
+      boolean validation = false;
         
         if(JOptionPane.showConfirmDialog(this, "This will be saved. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             return validation;
@@ -773,7 +774,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     }
     
     private boolean validations(){
-        boolean validatation = false;
+         boolean validatation = false;
         
         if(this.category_id == null || this.category_id == 0){
             JOptionPane.showMessageDialog(this, "Category is empty.","Warning",JOptionPane.OK_OPTION);
@@ -837,10 +838,11 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
         
         validatation = true;
         return validatation;
+
     }
     
     private boolean register() throws SQLException{
-        boolean validation = false;
+         boolean validation = false;
         if(JOptionPane.showConfirmDialog(this, "This will be saved. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.CANCEL_OPTION){
             return validation;
         }
@@ -904,7 +906,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     
     private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Category Select", "Please Check a Category","SELECT * FROM inventory.category where disable_id = 1 ORDER BY name;","name");
+         String s = selectDialog("Category Select", "Please Check a Category","SELECT * FROM inventory.category where disable_id = 1 ORDER BY name;","name");
         if ((s != null) && (s.length() > 0)) {
             this.category_id = ids.get(possibilities.indexOf(s));
             this.categoryTextField.setText(s);
@@ -914,7 +916,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void modelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Model Select", "Please Select a Model","SELECT * FROM inventory.model where disable_id = 1 ORDER BY name;","name");
+    String s = selectDialog("Model Select", "Please Select a Model","SELECT * FROM inventory.model where disable_id = 1 ORDER BY name;","name");
         if ((s != null) && (s.length() > 0)) {
             this.model_id = ids.get(possibilities.indexOf(s));
             this.modelTextField.setText(s);
@@ -934,7 +936,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void nationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nationButtonActionPerformed
         // TODO add your handling code here:
-        String s = selectDialog("Nation Select", "Please Select a Nation","SELECT * FROM inventory.nation where disable_id = 1 ORDER BY name DESC;","name");
+    String s = selectDialog("Nation Select", "Please Select a Nation","SELECT * FROM inventory.nation where disable_id = 1 ORDER BY name DESC;","name");
         if ((s != null) && (s.length() > 0)) {
             this.nation_id = ids.get(possibilities.indexOf(s));
             this.nationTextField.setText(s);
@@ -944,7 +946,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void expireDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expireDateButtonActionPerformed
         // TODO add your handling code here:
-        Date utilDate = null;
+     Date utilDate = null;
         if(this.expiredate != null){
             inventory.core.DateChooser dc = new inventory.core.DateChooser(new JDialog());
             utilDate = dc.select(this.expiredate);
@@ -997,7 +999,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     }//GEN-LAST:event_expireDateButtonKeyTyped
 
     private void imageEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageEditButtonActionPerformed
-        try {
+     try {
             // TODO add your handling code here:
             File a = null;
             a = inventory.core.ProjectBOMStockMain.openImageFile();
@@ -1016,7 +1018,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     private void varietyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_varietyButtonActionPerformed
         // TODO add your handling code here:
-        if(category_id ==null || category_id == 0){
+       if(category_id ==null || category_id == 0){
             JOptionPane.showMessageDialog(this, "Category is empty.","Warning",JOptionPane.OK_OPTION);
             return;
         }
@@ -1040,7 +1042,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
     }//GEN-LAST:event_expiredateTextFieldActionPerformed
 
     private String selectDialog(String Title, String Message, String sql, String possibleTarget){
-        try {
+       try {
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
             
             possibilities = new ArrayList<String>();
@@ -1115,7 +1117,7 @@ public class ItemUpdate extends inventory.myClasses.MyJPanel {
 
     @Override
     public void setComponetsColor(Color transparent) {
-        this.backButton.setBackground(transparent);
+     this.backButton.setBackground(transparent);
         this.categoryButton.setBackground(transparent);
         this.categoryTextField.setBackground(transparent);
         this.currentTextField.setBackground(transparent);
