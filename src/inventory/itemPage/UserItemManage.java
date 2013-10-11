@@ -333,7 +333,7 @@ public class UserItemManage extends javax.swing.JPanel {
                 + "FROM inventory.item as item "
                 + "JOIN inventory.category "
                 + "JOIN inventory.variety "
-                + "ON inventory.item.category_id = inventory.category.id and item.variety_id = variety.id "
+                + "ON inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and variety.disable_id = 1 "
                 + "WHERE item.disable_id = 1;";
          try{
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
@@ -365,6 +365,7 @@ public class UserItemManage extends javax.swing.JPanel {
         this.nameArrayList = new ArrayList<>();
         this.codeArrayList = new ArrayList<>();
         this.currentArrayList = new ArrayList<>();
+        this.idArrayList = new ArrayList<>();
         
        try{
            String sql = "SELECT item.id, category.name as cname, variety.name as vname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode,item.current "
@@ -372,7 +373,7 @@ public class UserItemManage extends javax.swing.JPanel {
                    + "JOIN inventory.category "
                    + "JOIN inventory.variety "
                    + "ON inventory.item.category_id = inventory.category.id "
-                   + "AND item.variety_id = variety.id "
+                   + "AND item.variety_id = variety.id and variety.disable_id = 1 "
                    + "WHERE item.disable_id = 1 "
                    + "AND "+this.searchSubject+" like '%"+name+"%' order by "+order_by+" "+order+";" ;
            
@@ -383,7 +384,7 @@ public class UserItemManage extends javax.swing.JPanel {
                      + "JOIN inventory.category "
                      + "JOIN inventory.variety "
                      + "ON inventory.item.category_id = inventory.category.id "
-                     + "AND item.variety_id = variety.id "
+                     + "AND item.variety_id = variety.id and variety.disable_id = 1 "
                      + "WHERE item.disable_id = 1";
         }
         
