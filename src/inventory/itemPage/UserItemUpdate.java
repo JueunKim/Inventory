@@ -102,9 +102,7 @@ public class UserItemUpdate extends javax.swing.JPanel {
                     + "ON category.id = item.category_id AND item.variety_id = variety.id where item.id = '"+this.IdArrayList.get(i)+"';";
 
                  ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
-           
-                 System.out.println("     "+sql);
-                 
+
                  if(rs != null){
                      while(rs.next()){
                         if(UserItemUpdate.QtyArrayList.size()<=i){
@@ -240,7 +238,7 @@ public class UserItemUpdate extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
-        if(this.deductTable != null && this.deductTable.getSelectedRow() >= 0 && this.deductTable.getSelectedRow() < this.IdArrayList.size()){
+     if(this.deductTable != null && this.deductTable.getSelectedRow() >= 0 && this.deductTable.getSelectedRow() < this.IdArrayList.size()){
             this.IdArrayList.remove(this.deductTable.getSelectedRow());
             UserItemUpdate.QtyArrayList.remove(this.deductTable.getSelectedRow());
             this.reloadDataProcess();
@@ -249,7 +247,7 @@ public class UserItemUpdate extends javax.swing.JPanel {
 
     private void DeductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeductButtonActionPerformed
         // TODO add your handling code here:
-        String sql = null;
+     String sql = null;
 
         for(int i=0; i< this.IdArrayList.size(); i++){
             try {
