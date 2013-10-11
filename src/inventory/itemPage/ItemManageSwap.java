@@ -22,7 +22,7 @@ import javax.swing.text.Position;
  * @author paul
  */
 public class ItemManageSwap extends inventory.myClasses.MyJPanel {
-    private ArrayList<Integer> item_ids;
+     private ArrayList<Integer> item_ids;
     private ArrayList<Integer> variety_id;
     private ArrayList<String> varietyNameArrayList;
     private ArrayList<Integer> category_id;
@@ -63,7 +63,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     }
 
     private void setDefaultExpireDateColor(){
-        try {
+    try {
             ResultSet rs = inventory.core.DBConnection.executeQuery("SELECT * FROM inventory.weekAndColor;");
             while(rs.next()){
                 switch(rs.getInt("week")){
@@ -120,11 +120,12 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
         } catch (SQLException ex) {
             Logger.getLogger(ItemManageSwap.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
     
     
     public final void reLoadDataByName() {
-        this.item_ids = new ArrayList<>();
+     this.item_ids = new ArrayList<>();
         this.modelNameArrayList =  new ArrayList<>();
         this.packageArrayList =  new ArrayList<>();
         this.priceArrayList = new ArrayList<>();
@@ -148,7 +149,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
         
         //SELECT item.id,item.name as itemname, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description FROM inventory.item as item inner join inventory.nation as nation inner join inventory.package as package inner join inventory.model as model inner join inventory.category as category ON item.category_id = nation.id and item.model_id = model.id and item.package_id = package.id and item.category_id = category.id where item.name like '%%' order by item.name;
         
-        String sql = "SELECT item.id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and item.variety_id = "+id+" and item.disable_id = 1 where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
+        String sql = "SELECT item.id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and item.variety_id = "+id+" and item.disable_id = 1 and variety.disable_id = 1 where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
         
         try {
             ResultSet rs = inventory.core.DBConnection.executeQuery(sql);  
@@ -214,16 +215,17 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
         this.codeList.setListData(this.categoryCodeArrayList.toArray());
         
         this.expireDateList.setCellRenderer(new MyExpireDateCellRenderer());
+
     }
     
     
     public void setSelectedListItem(String name){
         //System.out.println(this.itemNameList.getNextMatch(name, 0, Position.Bias.Forward));
-        listChanged(this.varietyNameList.getNextMatch(name, 0, Position.Bias.Forward));
-    }
+      listChanged(this.varietyNameList.getNextMatch(name, 0, Position.Bias.Forward));
+     }
     
     private void listChanged(Integer index){
-        if(index < 0)
+         if(index < 0)
             return;
         this.modelList.setSelectedIndex(index);
         this.packageList.setSelectedIndex(index);
@@ -262,7 +264,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     @Override
     public void setComponetsColor(Color transparent) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        this.addButton.setBackground(transparent);
+    this.addButton.setBackground(transparent);
         this.backButton.setBackground(transparent);
         this.categoryList.setBackground(transparent);
         this.categoryScrollPane.setBackground(transparent);
@@ -292,7 +294,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     }
     
     private void doubleClickOnListExceptModelAndCategory(java.awt.event.MouseEvent evt){
-        if(evt.getClickCount()==2){
+      if(evt.getClickCount()==2){
             if(this.varietyNameList.getSelectedIndex()>=0){
                 if(inventory.core.MainFrame.role == inventory.core.ProjectBOMStockMain.roles.indexOf("Admin")){
                     editPerform();
@@ -304,7 +306,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     }
     
     private void editPerform(){
-        if(this.modelList.getSelectedIndex() >= 0){
+       if(this.modelList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemUpdate p = new inventory.itemPage.ItemUpdate();
             p.setElements(this.item_ids.get(this.modelList.getSelectedIndex()),this.variety_id.get(this.varietyNameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString());
             
@@ -317,7 +319,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     }
     
     private void deductPerformed(){
-        if(this.varietyNameList.getSelectedIndex() >= 0){
+     if(this.varietyNameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
             p.setElements(this.item_ids.get(this.varietyNameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Deduct");
             if(inventory.core.ProjectBOMStockMain.display != null){
@@ -338,11 +340,17 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     
     private void categorySingleClicked(java.awt.event.MouseEvent evt){
         if(evt.getSource() instanceof javax.swing.JList){
-            try {
-                if(((javax.swing.JList)evt.getSource()).getSelectedIndex() < 0){
+            if(((javax.swing.JList)evt.getSource()).getSelectedIndex() < 0){
                     return;
-                }
-                Integer id = this.category_id.get(((javax.swing.JList)evt.getSource()).getSelectedIndex());
+            }else{
+                
+                this.categoryChanged(this.category_id.get(((javax.swing.JList)evt.getSource()).getSelectedIndex()));
+            }
+        }
+    }
+    private void categoryChanged(Integer i){
+        try {
+                Integer id = i;
                 
                 this.variety_id = new ArrayList<Integer>();
                 this.varietyNameArrayList = new ArrayList<String>();
@@ -368,12 +376,10 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
             } catch (SQLException ex) {
                 Logger.getLogger(ItemManageSwap.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        }
     }
     
     private void varietyNameSingleClicked(){
-        if(true){
+      if(true){
             try {
                 this.item_ids = new ArrayList<>();
                 this.modelNameArrayList =  new ArrayList<>();
@@ -396,7 +402,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
                 String sql = null;
                 
                 sql = "SELECT item.id,variety.name as itemname, CONCAT(category.code, LPAD(variety.varietyNumber,2,'0'), LPAD(item.itemNumber,3,'0')) as wcode, category.name as categoryname, model.name as modelname, package.count, item.price, nation.name as nationname, item.current, item.price*item.current as total, item.expiredate, item.description, item.disable_id FROM inventory.item as item join inventory.nation as nation join inventory.package as package join inventory.model as model join inventory.category as category join inventory.variety ON item.nation_id = nation.id and item.model_id = model.id and item.package_id = package.id and inventory.item.category_id = inventory.category.id and item.variety_id = variety.id and item.variety_id"
-                        + " = "+id+" and item.disable_id = 1 where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
+                        + " = "+id+" and item.disable_id = 1 and variety.disable_id = 1 where "+this.searchSubject+" like '%"+this.pastName+"%' order by "+order_by+" "+order+";";
                 
                 ResultSet rs = inventory.core.DBConnection.executeQuery(sql);
                 
@@ -464,7 +470,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     }
     
     private void changeCategory(){
-        String empty[] = {};
+         String empty[] = {};
         this.modelList.setListData(empty);
         this.packageList.setListData(empty);
         this.priceList.setListData(empty);
@@ -1051,7 +1057,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
     private void modelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modelListMouseClicked
         // TODO add your handling code here:
         //System.out.println(evt.getClickCount());
-        if(evt.getClickCount()==2){
+       if(evt.getClickCount()==2){
             try {
                 //this.categoryList.getSelectedValue().toString()
                 String sql = "SELECT name, contact FROM inventory.model where name = '"+this.modelList.getSelectedValue().toString()+"';";
@@ -1147,7 +1153,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        if(inventory.core.MainFrame.role == 1){
+     if(inventory.core.MainFrame.role == 1){
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("AdminMain"));
         }else{
             inventory.core.ProjectBOMStockMain.setPage(inventory.core.ProjectBOMStockMain.PageList.indexOf("Login"));
@@ -1166,20 +1172,25 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
 
     private void dropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropButtonActionPerformed
         // TODO add your handling code here:
-        if(this.varietyNameList.getSelectedIndex()>=0){
+     if(this.codeList.getSelectedIndex()>=0){
             if(JOptionPane.showConfirmDialog(this, "This will be Deleted!!!. Are you Sure?!","Confirm",JOptionPane.OK_CANCEL_OPTION)==JOptionPane.OK_OPTION){
-                String name = this.varietyNameList.getSelectedValue().toString();
+                String name = this.varietyNameList.getSelectedValue().toString() +" /code : "+this.codeList.getSelectedValue().toString();
 
                 String s = JOptionPane.showInputDialog(this, "Please Type a Reason", "Drop",JOptionPane.OK_CANCEL_OPTION);
 
                 if(s != null && !s.trim().equals("")){
                     try {
                         //INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('desc', 'user_id', 'tabld_id', 'table_type');
-                        String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+this.item_ids.get(this.varietyNameList.getSelectedIndex())+"', '"+inventory.core.ProjectBOMStockMain.table_type.indexOf("Item")+"');";
+                        System.out.println();
+                        
+                        String sql = "INSERT INTO `inventory`.`disable` (`description`, `user_id`, `table_id`, `table_type`) VALUES ('"+s+"', '"+inventory.core.MainFrame.user_id+"', '"+this.item_ids.get(this.codeList.getSelectedIndex())+"', '"+inventory.core.ProjectBOMStockMain.table_type.indexOf("Item")+"');";
+                        
+                        
+                        
                         ResultSet rs = inventory.core.DBConnection.updateQueryGetID(sql);
 
                         if(rs.next()){
-                            sql = "UPDATE `inventory`.`item` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+this.item_ids.get(this.varietyNameList.getSelectedIndex())+"';";
+                            sql = "UPDATE `inventory`.`item` SET `disable_id`='"+rs.getLong(1)+"' WHERE `id`='"+this.item_ids.get(this.codeList.getSelectedIndex())+"';";
                             inventory.core.DBConnection.updateQuery(sql);
                         }
                     } catch (SQLException ex) {
@@ -1188,7 +1199,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
                 }
 
                 //inventory.core.DBConnection.updateQuery("DELETE FROM `inventory`.`item` WHERE `id`='"+this.id.get(this.itemNameList.getSelectedIndex())+"';");
-                this.loadDataByName("");
+                this.reLoadDataByName();
                 JOptionPane.showMessageDialog(this, name + " was Deleted.","Alert",JOptionPane.OK_OPTION);
             }
         }
@@ -1215,7 +1226,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         // TODO add your handling code here:
-        if(this.varietyNameList.getSelectedIndex() < 0){
+ if(this.varietyNameList.getSelectedIndex() < 0){
             JOptionPane.showMessageDialog(this, "Please Select Category and Variety", "Alert", JOptionPane.OK_OPTION);
             return;
         }
@@ -1268,7 +1279,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
 
     private void categoryListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount()==1){
+      if(evt.getClickCount()==1){
             this.categorySingleClicked(evt);
         }else if(evt.getClickCount()==2){
             try {
@@ -1292,10 +1303,14 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
 
     private void categoryListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_categoryListValueChanged
         // TODO add your handling code here:
-        if(evt.getSource() instanceof javax.swing.JList){
+       if(evt.getSource() instanceof javax.swing.JList){
             this.updateUI();
             changeCategory();
-            
+            if(((javax.swing.JList)evt.getSource()).getSelectedIndex() < 0){
+                    return;
+            }else{
+                this.categoryChanged(this.category_id.get(((javax.swing.JList)evt.getSource()).getSelectedIndex()));
+            }
             //this.listChanged(((javax.swing.JList)evt.getSource()).getSelectedIndex());
         }
     }//GEN-LAST:event_categoryListValueChanged
@@ -1309,7 +1324,7 @@ public class ItemManageSwap extends inventory.myClasses.MyJPanel {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        if(this.varietyNameList.getSelectedIndex() >= 0){
+       if(this.varietyNameList.getSelectedIndex() >= 0){
             inventory.itemPage.ItemChange p = new inventory.itemPage.ItemChange();
             p.setElements(this.item_ids.get(this.varietyNameList.getSelectedIndex()),this.categoryList.getSelectedValue().toString(),this.modelList.getSelectedValue().toString(),this.nationArrayList.get(this.priceList.getSelectedIndex()),this.packageList.getSelectedValue().toString(),"Add");
             if(inventory.core.ProjectBOMStockMain.display != null){
