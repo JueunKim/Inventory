@@ -5,6 +5,8 @@
 package inventory.core;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -71,10 +73,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         
-        this.setLocation(0, 0);
         //this.setLocation(-1600, 100);
         
         pack();
+        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((dim.width-this.getWidth())/2, (dim.height-this.getHeight())/2);
     }
     
     public void setPage(int i){
