@@ -77,8 +77,12 @@ public class MainFrame extends javax.swing.JFrame {
         
         pack();
         
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((dim.width-this.getWidth())/2, (dim.height-this.getHeight())/2);
+        if(!(myPanel instanceof inventory.itemPage.UserItemManage)){
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation((dim.width-this.getWidth())/2, (dim.height-this.getHeight())/2);
+        }else{
+            this.setLocation(0, 0);
+        }
     }
     
     public void setPage(int i){
