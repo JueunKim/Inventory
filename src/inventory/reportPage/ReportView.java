@@ -15,6 +15,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.table.TableModel;
+import jxl.*;
+import jxl.write.*;
+import jxl.write.biff.RowsExceededException;
 
 // Variables declaration - do not modify                     
 /**
@@ -63,6 +72,7 @@ public class ReportView extends javax.swing.JPanel {
         printButton = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
+        exportExcelButton = new javax.swing.JButton();
 
         reportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -161,6 +171,13 @@ public class ReportView extends javax.swing.JPanel {
             }
         });
 
+        exportExcelButton.setText("Export Excel");
+        exportExcelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportExcelButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,7 +212,8 @@ public class ReportView extends javax.swing.JPanel {
                                     .add(org.jdesktop.layout.GroupLayout.LEADING, applyButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(printButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(jSeparator4)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, jSeparator5))
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, jSeparator5)
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, exportExcelButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .add(3, 3, 3)))
                         .add(12, 12, 12))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
@@ -217,9 +235,11 @@ public class ReportView extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(todayButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 53, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 49, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(exportExcelButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+                        .add(18, 18, 18)
                         .add(printButton)
                         .add(2, 2, 2)
                         .add(jSeparator4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -429,10 +449,69 @@ public class ReportView extends javax.swing.JPanel {
       }
     }//GEN-LAST:event_printButtonMouseClicked
 
+    private void exportExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            
+            String fileFilters [][] = {{".xls", "xls"}};
+        
+            javax.swing.JFileChooser jfc = new JFileChooser();
+
+            jfc.removeChoosableFileFilter(jfc.getFileFilter());
+            if(fileFilters != null){
+                for(int i = 0; i < fileFilters.length; i++){
+                    jfc.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(fileFilters[i][0],fileFilters[i][1]));
+                }
+            }
+
+            jfc.setFileSelectionMode(javax.swing.JFileChooser.FILES_ONLY);
+            jfc.showSaveDialog(jfc);
+            
+            if(jfc.getSelectedFile() != null){
+                String path  = jfc.getSelectedFile().getPath();
+                
+                String extension = path.substring(path.lastIndexOf(".") + 1, path.length());
+                
+                if(!extension.equals("xls")){
+                    path  = jfc.getSelectedFile().getPath() + jfc.getFileFilter().getDescription();
+                }
+                WritableWorkbook workbook = Workbook.createWorkbook(new File(path)); 
+                WritableSheet sheet = workbook.createSheet("Report Sheet", 0); 
+                
+                TableModel model = this.reportTable.getModel();
+                
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    Label column = new Label(i, 0, model.getColumnName(i));
+                    sheet.addCell(column);
+                }
+                int j = 0;
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (j = 0; j < model.getColumnCount(); j++) {
+                        Label row = new Label(j, i + 1, 
+                                model.getValueAt(i, j).toString());
+                        sheet.addCell(row);
+                    }
+                }
+                workbook.write(); 
+                workbook.close();
+                
+                JOptionPane.showMessageDialog(this, "Save Done!", "Success", JOptionPane.OK_OPTION);
+            }else{
+                JOptionPane.showMessageDialog(this, "Fail", "Fail", JOptionPane.OK_OPTION);
+            }
+            // TODO code application logic here
+        } catch (IOException ex) {
+            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WriteException ex) {
+            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_exportExcelButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton1;
     private javax.swing.JButton backButton;
     private javax.swing.JLabel dateLabel;
+    private javax.swing.JButton exportExcelButton;
     private javax.swing.JTextField fromTextField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
