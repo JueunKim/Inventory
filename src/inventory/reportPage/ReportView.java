@@ -390,7 +390,7 @@ public class ReportView extends javax.swing.JPanel {
     private void applyButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButton1ActionPerformed
         // TODO add your handling code here:      
        
-        if (fromDate.getTime() - toDate.getTime() < 0) {
+        if (fromDate.getTime() - toDate.getTime() <= 0) {
               setElements(fromDate, toDate);
         }
         else {
@@ -416,6 +416,7 @@ public class ReportView extends javax.swing.JPanel {
             java.sql.Date date = new java.sql.Date(toDate.getTime());
             if (date != null) {
                 this.fromDate = date;
+                this.toDate = date;
             }
         }
 
