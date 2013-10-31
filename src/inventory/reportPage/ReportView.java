@@ -389,7 +389,10 @@ public class ReportView extends javax.swing.JPanel {
 
     private void applyButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButton1ActionPerformed
         // TODO add your handling code here:      
-       
+       if(fromDate == null || toDate == null){
+           return;
+       }
+        
         if (fromDate.getTime() - toDate.getTime() <= 0) {
               setElements(fromDate, toDate);
         }
