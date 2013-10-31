@@ -165,9 +165,9 @@ public class ReportView extends javax.swing.JPanel {
         });
 
         printButton.setText("Print");
-        printButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                printButtonMouseClicked(evt);
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
             }
         });
 
@@ -440,19 +440,6 @@ public class ReportView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_totalTextFieldActionPerformed
 
-    private void printButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printButtonMouseClicked
-        // TODO add your handling code here:
-    PrinterJob printJob = PrinterJob.getPrinterJob();
-    printJob.setCopies(1);
-    
-    if (printJob.printDialog())
-      try { 
-        printJob.print();
-      } catch(PrinterException pe) {
-        System.out.println("Error printing: " + pe);
-      }
-    }//GEN-LAST:event_printButtonMouseClicked
-
     private void exportExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelButtonActionPerformed
         // TODO add your handling code here:
         try {
@@ -510,6 +497,18 @@ public class ReportView extends javax.swing.JPanel {
             Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_exportExcelButtonActionPerformed
+
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        if(this.reportTable == null){
+            return;
+        }
+        
+        try {
+            this.reportTable.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_printButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyButton1;
